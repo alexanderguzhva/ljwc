@@ -1,5 +1,13 @@
 package com.gschw.ljwc.hbasewriter;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gschw.ljwc.hbaselib.core.HBaseSettings;
+import io.dropwizard.Configuration;
+import io.dropwizard.client.JerseyClientConfiguration;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by nop on 6/22/15.
  */

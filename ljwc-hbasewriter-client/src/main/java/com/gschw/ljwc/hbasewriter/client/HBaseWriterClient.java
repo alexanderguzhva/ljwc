@@ -2,9 +2,12 @@ package com.gschw.ljwc.hbasewriter.client;
 
 import java.net.URI;
 import com.gschw.ljwc.hbaselib.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.core.MediaType;
 
 /**
  * Created by nop on 6/22/15.

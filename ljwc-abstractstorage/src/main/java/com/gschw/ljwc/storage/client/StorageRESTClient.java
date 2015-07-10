@@ -35,7 +35,7 @@ public class StorageRESTClient implements IAbstractStorage {
     public StorageWriteOperationResult write(StorageElementCollection elements) {
         ////
         try {
-            Invocation invocation = client.target(parameters.getRESTServiceURI())
+            Invocation invocation = client.target(parameters.getServiceURI())
                     .request()
                     .buildPost(Entity.entity(elements, MediaType.APPLICATION_JSON_TYPE));
 
@@ -60,7 +60,7 @@ public class StorageRESTClient implements IAbstractStorage {
 
         ////
         try {
-            Response response = client.target(parameters.getRESTServiceURI())
+            Response response = client.target(parameters.getServiceURI())
                     .path(String.format("/%s", keyUri))
                     .request(MediaType.APPLICATION_JSON_TYPE)
                     .buildGet()

@@ -3,11 +3,15 @@ package com.gschw.ljwc.grabber.datagrabber.api;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by nop on 6/29/15.
  */
 public class DataGrabberResult {
+    @NotNull
     private String url;
+
     private byte[] data;
     private boolean success;
 
@@ -22,7 +26,7 @@ public class DataGrabberResult {
     }
 
     @JsonProperty("success")
-    public boolean getSuccess() { return success; }
+    public boolean isSuccess() { return success; }
 
     public DataGrabberResult(String url, byte[] data, boolean success) {
         this.url = url;
@@ -36,5 +40,10 @@ public class DataGrabberResult {
 
     public static DataGrabberResult createSuccess(String url, byte[] data) {
         return new DataGrabberResult(url, data, true);
+    }
+
+    //
+    public DataGrabberRequest extractRequest() {
+        return new DataGrabberRequest(url);
     }
 }

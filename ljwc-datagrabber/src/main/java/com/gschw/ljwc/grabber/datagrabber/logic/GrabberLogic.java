@@ -9,6 +9,8 @@ import com.gschw.ljwc.grabber.datagrabber.core.GrabberResult;
 import com.gschw.ljwc.lj.ljscheduler.client.LJSchedulerClient;
 import com.gschw.ljwc.grabber.datagrabber.api.*;
 
+import com.gschw.ljwc.lj.dbwriter.client.LJDBWriterClient;
+
 import java.util.UUID;
 
 /**
@@ -23,13 +25,16 @@ public class GrabberLogic {
 
     private LJSchedulerClient schedulerClient;
 
+    private LJDBWriterClient dbWriterClient;
+
     private GrabberState state = GrabberState.UNINITIALIZED;
 
     //
-    public GrabberLogic(GrabberLogicParameters parameters, Grabber grabber, LJSchedulerClient schedulerClient) {
+    public GrabberLogic(GrabberLogicParameters parameters, Grabber grabber, LJSchedulerClient schedulerClient, LJDBWriterClient dbWriterClient) {
         this.parameters = parameters;
         this.grabber = grabber;
         this.schedulerClient = schedulerClient;
+        this.dbWriterClient = dbWriterClient;
     }
 
     //
@@ -126,6 +131,22 @@ public class GrabberLogic {
 
     //
     private void stepPushAReply() {
+        DataGrabberPushRequest pushRequest = new DataGrabberPushRequest();
+        pushRequest.addRequests(currentPortion.getResults());
+
+        DataGrabberPushReply pushReply = dbWriterClient.pushReply(myIdentity, pushRequest);
+
+        ////
+        state = GrabberState.COMPLETE_PORTION;
+    }
+
+    //
+    private void stepCompletePortion() {
+        //// clear everything
+        currentPortion = new GrabberPortion();
+
+        ////
+        state = GrabberState.SHOULD_GRAB_AN_URL;
     }
 
     //
@@ -149,6 +170,10 @@ public class GrabberLogic {
 
             case SLEEPING:
                 stepSleeping();
+                break;
+
+            case COMPLETE_PORTION:
+                stepCompletePortion();
                 break;
 
             case NEED_TO_TERMINATE:

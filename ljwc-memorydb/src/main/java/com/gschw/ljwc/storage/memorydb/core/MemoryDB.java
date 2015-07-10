@@ -59,7 +59,6 @@ public class MemoryDB implements IAbstractStorage {
         ////
         StorageElementCollection elements = new StorageElementCollection(bucket.getElements());
         return new StorageReadOperationResult(key, elements);
-
     }
 
 }

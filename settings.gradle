@@ -15,4 +15,5 @@ include 'ljwc-httprnggenerator'
 include 'ljwc-auth'
 include 'ljwc-ljdbwriter'
 include 'ljwc-ljdbwriter-client'
+include 'ljwc-ljdbconvert'
 

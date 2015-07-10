@@ -22,6 +22,12 @@ public class GrabberPortion {
 
     private List<DataGrabberResult> results;
 
+    //
+    public GrabberPortion() {
+        results = new ArrayList<>();
+        requestsToProcess = new ArrayDeque<>();
+    }
+
     public GrabberPortion(DataGrabberPullReply reply) {
         results = new ArrayList<>();
         requestsToProcess = new ArrayDeque<>();

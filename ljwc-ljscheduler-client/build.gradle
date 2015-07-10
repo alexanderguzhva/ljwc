@@ -19,4 +19,7 @@ dependencies {
 
     compile 'com.google.guava:guava:18.0'
 
+    compile 'io.dropwizard:dropwizard-core:0.8.1'
+    compile 'io.dropwizard:dropwizard-client:0.8.1'
+
 }

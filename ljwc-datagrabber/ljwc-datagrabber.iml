@@ -97,11 +97,11 @@
     <orderEntry type="library" exported="" name="Gradle: commons-codec:commons-codec:1.6" level="project" />
     <orderEntry type="library" exported="" name="Gradle: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.slf4j:slf4j-api:1.7.10" level="project" />
-    <orderEntry type="module" module-name="ljwc-abstractstorage" exported="" />
     <orderEntry type="module" module-name="ljwc-ljscheduler-client" exported="" />
-    <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.5.3" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.5.3" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.5.3" level="project" />
     <orderEntry type="module" module-name="ljwc-datagrabber-client" exported="" />
+    <orderEntry type="module" module-name="ljwc-ljdbwriter-client" exported="" />
+    <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.5.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.5.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.5.1" level="project" />
   </component>
 </module>

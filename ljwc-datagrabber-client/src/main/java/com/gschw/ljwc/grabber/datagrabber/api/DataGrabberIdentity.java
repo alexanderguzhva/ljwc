@@ -2,10 +2,13 @@ package com.gschw.ljwc.grabber.datagrabber.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by nop on 5/11/15.
  */
 public class DataGrabberIdentity implements Comparable<DataGrabberIdentity> {
+    @NotNull
     public String uuid;
 
     @JsonProperty("uuid")

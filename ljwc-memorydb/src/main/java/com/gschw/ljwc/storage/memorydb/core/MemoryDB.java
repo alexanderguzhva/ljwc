@@ -1,16 +1,19 @@
 package com.gschw.ljwc.storage.memorydb.core;
 
 import com.gschw.ljwc.storage.*;
+import org.joda.time.DateTime;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
 /**
  * Created by nop on 6/24/15.
  */
-public class MemoryDB implements IAbstractStorage {
+public class MemoryDB implements IDBStorage {
 
-    private final Map<byte[], KeyBucket> buckets;
+    private final Map<String, KeyBucket> buckets;
 
     private MemoryDBSettings settings;
 
@@ -20,19 +23,19 @@ public class MemoryDB implements IAbstractStorage {
         buckets = new HashMap<>();
     }
 
-    //
-    public StorageWriteOperationResult write(StorageElementCollection elements) {
-        if (elements == null)
-            return StorageWriteOperationResult.createSuccess();
+    @Override
+    public void write(DBStorageElement element) {
+        List<DBStorageElement> elements = new ArrayList<>();
+        elements.add(element);
+    }
+
+    @Override
+    public void write(List<DBStorageElement> elements) {
+        if (elements == null || elements.size() == 0)
+            return;
 
         ////
-        if (elements.getElements() == null ||
-            elements.getElements().size() == 0) {
-            return StorageWriteOperationResult.createSuccess();
-        }
-
-        ////
-        for (StorageElement element : elements.getElements()) {
+        for (DBStorageElement element : elements) {
             KeyBucket bucket = buckets.get(element.getKey());
             if (bucket == null) {
                 bucket = new KeyBucket(element.getKey());
@@ -41,24 +44,48 @@ public class MemoryDB implements IAbstractStorage {
 
             bucket.addElement(element);
         }
-
-        ////
-        return StorageWriteOperationResult.createSuccess();
     }
 
-    //
-    public StorageReadOperationResult read(byte[] key) {
-        if (key == null)
-            return StorageReadOperationResult.createFailed();
+    @Override
+    public List<DBStorageElement> read(String key) {
 
-        ////
         KeyBucket bucket = buckets.get(key);
-        if (key == null)
-            return StorageReadOperationResult.createFailed();
+        if (bucket == null)
+            return null;
 
-        ////
-        StorageElementCollection elements = new StorageElementCollection(bucket.getElements());
-        return new StorageReadOperationResult(key, elements);
+        return bucket.getElements();
     }
 
+    @Override
+    public DBStorageElement read(String key, DateTime timestamp) {
+        KeyBucket bucket = buckets.get(key);
+        if (bucket == null)
+            return null;
+
+        return bucket.getElement(timestamp);
+    }
+
+    @Override
+    public boolean existsAny(String key) {
+        return buckets.containsKey(key);
+    }
+
+    @Override
+    public boolean exists(String key, DateTime timestamp) {
+        KeyBucket bucket = buckets.get(key);
+        if (bucket == null)
+            return false;
+
+        return bucket.contains(timestamp);
+    }
+
+    @Override
+    public boolean remove(String key) {
+        return (buckets.remove(key) != null);
+    }
+
+    @Override
+    public void clear() {
+        buckets.clear();
+    }
 }

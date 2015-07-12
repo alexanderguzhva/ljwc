@@ -90,6 +90,23 @@ public class MemoryDB implements IDBStorage {
     }
 
     @Override
+    public boolean remove(String key, DateTime timestamp) {
+        KeyBucket bucket = buckets.get(key);
+        if (bucket == null)
+            return false;
+
+        if (bucket.remove(timestamp) == null)
+            return false;
+
+        ////
+        if (bucket.getElements().size() == 0)
+            buckets.remove(key);
+
+        return true;
+    }
+
+
+    @Override
     public boolean clear() {
         buckets.clear(); return true;
     }

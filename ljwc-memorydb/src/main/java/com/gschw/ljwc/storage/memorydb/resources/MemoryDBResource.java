@@ -156,4 +156,22 @@ public class MemoryDBResource implements IDBStorageResource {
 
         return Response.status(Response.Status.NOT_FOUND).build();
     }
+
+    //
+    @Override
+    @Path("{key}/{timestamp}")
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response remove(@PathParam("key") @NotBlank String key, @PathParam("timestamp") @NotBlank String timestamp) {
+        DateTime dt = parseDTFromString(timestamp);
+        if (dt == null)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        if (memoryDB.remove(key, dt))
+            return Response.ok().build();
+
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
 }

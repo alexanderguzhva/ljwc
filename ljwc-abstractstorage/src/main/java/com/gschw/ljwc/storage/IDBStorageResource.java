@@ -45,6 +45,13 @@ public interface IDBStorageResource {
     @Produces(MediaType.APPLICATION_JSON)
     Response remove(@PathParam("key") @NotBlank String key);
 
+    //boolean remove(String key, Datetime timestamp);
+    @Path("{key}/{timestamp}")
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    Response remove(@PathParam("key") @NotBlank String key, @PathParam("timestamp") @NotBlank String timestamp);
+
     //List<DBStorageElement> read(String key);
     @Path("{key}/data")
     @GET

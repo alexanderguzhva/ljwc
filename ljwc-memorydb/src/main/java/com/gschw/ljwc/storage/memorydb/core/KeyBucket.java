@@ -69,4 +69,9 @@ public class KeyBucket {
     public List<DBStorageElement> getElements() {
         return new ArrayList<DBStorageElement>(elements.values());
     }
+
+    //
+    public DBStorageElement remove(DateTime timestamp) {
+        return elements.remove(timestamp);
+    }
 }

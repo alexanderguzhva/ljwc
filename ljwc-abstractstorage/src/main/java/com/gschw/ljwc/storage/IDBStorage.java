@@ -18,6 +18,7 @@ public interface IDBStorage {
     boolean exists(String key, DateTime timestamp);
 
     boolean remove(String key);
+    boolean remove(String key, DateTime timestamp);
 
     boolean clear();
 }

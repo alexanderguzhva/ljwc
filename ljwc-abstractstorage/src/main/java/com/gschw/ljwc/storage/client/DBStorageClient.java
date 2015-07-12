@@ -229,6 +229,34 @@ public class DBStorageClient implements IDBStorage {
         }
     }
 
+
+    @Override
+    public boolean remove(String key, DateTime timestamp) {
+        if (key == null || key.isEmpty())
+            return false;
+
+        ////
+        String url = parameters.getServiceUrl();
+        String sTimestamp = new Long(timestamp.getMillis()).toString();
+
+        try {
+            Response response =
+                    client
+                            .target(url)
+                            .path(String.format("/%s/%s", key, sTimestamp))
+                            .request(MediaType.APPLICATION_JSON_TYPE)
+                            .buildDelete()
+                            .invoke();
+
+            logger.info("%s returned %d", url, response.getStatusInfo());
+            return (response.getStatusInfo() == Response.Status.OK);
+
+        } catch (Exception e) {
+            logger.error(Throwables.getStackTraceAsString(e));
+            return false;
+        }
+    }
+
     @Override
     public boolean clear() {
         String url = parameters.getServiceUrl();

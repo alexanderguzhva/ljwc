@@ -1,0 +1,16 @@
+{
+  "elements": [
+    {
+      "key": "meow",
+      "timestamp": 0,
+      "data": {},
+      "meta": {}
+    },
+    {
+      "key": "woof",
+      "timestamp": 0,
+      "data": {},
+      "meta": {}
+    }
+  ]
+}

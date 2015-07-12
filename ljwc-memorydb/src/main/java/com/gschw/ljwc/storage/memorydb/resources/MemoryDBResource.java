@@ -55,6 +55,10 @@ public class MemoryDBResource implements IDBStorageResource {
 
 
     @Override
+    @POST
+    //@Path("/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response write(DBStorageElementsCollection elementsCollection) {
         if (elementsCollection == null)
             return Response.status(Response.Status.BAD_REQUEST).build();

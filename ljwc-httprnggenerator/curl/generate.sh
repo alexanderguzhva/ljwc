@@ -1,0 +1,1 @@
+curl -X GET -H "Accept: application/json" http://localhost:11210/generate/meow

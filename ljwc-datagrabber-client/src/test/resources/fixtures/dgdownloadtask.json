@@ -1,0 +1,7 @@
+{
+  "taskIdentity": {
+    "id": "meow"
+  },
+  "url": "http://localhost:123",
+  "uploadServiceURL": "http://otherhost:80"
+}

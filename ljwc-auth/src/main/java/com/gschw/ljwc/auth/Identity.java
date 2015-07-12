@@ -24,9 +24,7 @@ public class Identity {
 
     @Override
     public String toString() {
-        return "Identity{" +
-                "id='" + id + '\'' +
-                '}';
+        return id;
     }
 
     @Override

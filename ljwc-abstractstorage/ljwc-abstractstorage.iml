@@ -101,6 +101,16 @@
     <orderEntry type="library" scope="TEST" name="Gradle: org.testng:testng:6.9.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.beanshell:bsh:2.0b4" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.beust:jcommander:1.48" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: io.dropwizard:dropwizard-testing:0.8.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: junit:junit:4.12" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.mockito:mockito-core:1.10.17" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.objenesis:objenesis:2.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.assertj:assertj-core:2.0.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-inmemory:2.17" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.github.marschall:memoryfilesystem:0.6.4" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.glassfish.jersey.test-framework:jersey-test-framework-core:2.17" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.ow2.asm:asm-debug-all:5.0.2" level="project" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

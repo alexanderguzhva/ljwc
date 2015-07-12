@@ -21,6 +21,7 @@ dependencies {
 
     compile 'io.dropwizard:dropwizard-core:0.8.1'
     compile 'io.dropwizard:dropwizard-client:0.8.1'
+    compile 'io.dropwizard:dropwizard-testing:0.8.1'
 }
 
 test {

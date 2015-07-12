@@ -1,5 +1,6 @@
 package com.gschw.ljwc.storage.memorydb;
 
+import com.gschw.ljwc.storage.memorydb.resources.MemoryDBResource;
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
@@ -51,8 +52,9 @@ public class DWApplication extends Application<DWConfiguration> {
         ////
         MemoryDBSettings memoryDBSettings = configuration.getMemoryDBSettings();
         MemoryDB memoryDB = new MemoryDB(memoryDBSettings);
+        MemoryDBResource memoryDBResource = new MemoryDBResource(memoryDB);
 
-        environment.jersey().register(memoryDB);
+        environment.jersey().register(memoryDBResource);
     }
 
 }

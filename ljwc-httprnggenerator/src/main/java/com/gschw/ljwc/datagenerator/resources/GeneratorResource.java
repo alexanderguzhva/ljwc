@@ -1,6 +1,7 @@
 package com.gschw.ljwc.datagenerator.resources;
 
 import com.gschw.ljwc.datagenerator.core.DataGenerator;
+import org.hibernate.validator.constraints.NotBlank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +26,7 @@ public class GeneratorResource {
 
     @GET
     @Path("{filename}")
-    public Response generate(@PathParam("filename") String filename) {
+    public Response generate(@PathParam("filename") @NotBlank String filename) {
         byte[] generated = generator.generate();
 
         logger.debug("Generated %s, %d bytes", filename, generated.length);

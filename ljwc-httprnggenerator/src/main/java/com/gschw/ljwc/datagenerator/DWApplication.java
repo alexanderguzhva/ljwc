@@ -2,7 +2,7 @@ package com.gschw.ljwc.datagenerator;
 
 import com.gschw.ljwc.datagenerator.core.DataGenerator;
 import com.gschw.ljwc.datagenerator.core.DataGeneratorParameters;
-import com.gschw.ljwc.datagenerator.core.GeneratorResource;
+import com.gschw.ljwc.datagenerator.resources.GeneratorResource;
 
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;

@@ -1,5 +1,6 @@
-package com.gschw.ljwc.datagenerator.core;
+package com.gschw.ljwc.datagenerator.resources;
 
+import com.gschw.ljwc.datagenerator.core.DataGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -24,15 +24,17 @@ public class MemoryDB implements IDBStorage {
     }
 
     @Override
-    public void write(DBStorageElement element) {
+    public boolean write(DBStorageElement element) {
         List<DBStorageElement> elements = new ArrayList<>();
         elements.add(element);
+
+        return true;
     }
 
     @Override
-    public void write(List<DBStorageElement> elements) {
+    public boolean write(List<DBStorageElement> elements) {
         if (elements == null || elements.size() == 0)
-            return;
+            return true;
 
         ////
         for (DBStorageElement element : elements) {
@@ -44,6 +46,9 @@ public class MemoryDB implements IDBStorage {
 
             bucket.addElement(element);
         }
+
+        ////
+        return true;
     }
 
     @Override
@@ -85,7 +90,7 @@ public class MemoryDB implements IDBStorage {
     }
 
     @Override
-    public void clear() {
-        buckets.clear();
+    public boolean clear() {
+        buckets.clear(); return true;
     }
 }

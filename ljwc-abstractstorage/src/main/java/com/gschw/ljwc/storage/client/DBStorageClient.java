@@ -148,7 +148,7 @@ public class DBStorageClient implements IDBStorage {
     }
 
     @Override
-    public boolean existsAny(String key) {
+    public boolean exists(String key) {
         if (key == null || key.isEmpty())
             return false;
 

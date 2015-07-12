@@ -120,7 +120,7 @@ public class MemoryDBResource implements IDBStorageResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response existsAny(@PathParam("key") @NotBlank String key) {
-        if (memoryDB.existsAny(key))
+        if (memoryDB.exists(key))
             return Response.ok().build();
 
         return Response.status(Response.Status.NOT_FOUND).build();

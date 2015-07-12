@@ -14,7 +14,7 @@ public interface IDBStorage {
     List<DBStorageElement> read(String key);
     DBStorageElement read(String key, DateTime timestamp);
 
-    boolean existsAny(String key);
+    boolean exists(String key);
     boolean exists(String key, DateTime timestamp);
 
     boolean remove(String key);

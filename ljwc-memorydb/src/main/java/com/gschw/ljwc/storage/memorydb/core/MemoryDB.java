@@ -71,7 +71,7 @@ public class MemoryDB implements IDBStorage {
     }
 
     @Override
-    public boolean existsAny(String key) {
+    public boolean exists(String key) {
         return buckets.containsKey(key);
     }
 

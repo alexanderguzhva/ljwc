@@ -66,7 +66,7 @@ public interface IDBStorageResource {
     @Produces(MediaType.APPLICATION_JSON)
     Response readElement(@PathParam("key") @NotBlank String key, @PathParam("timestamp") @NotBlank String timestamp);
 
-    //boolean existsAny(String key);
+    //boolean exists(String key);
     @Path("{key}")
     @GET
     @Consumes(MediaType.APPLICATION_JSON)

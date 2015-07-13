@@ -13,12 +13,12 @@ import com.gschw.ljwc.storage.memorydb.core.MemoryDBSettings;
  * Created by nop on 6/22/15.
  */
 public class DWConfiguration extends Configuration {
-    @Valid
-    @NotNull
-    private JerseyClientConfiguration httpClient = new JerseyClientConfiguration();
+    //@Valid
+    //@NotNull
+    //private JerseyClientConfiguration httpClient = new JerseyClientConfiguration();
 
-    @JsonProperty("httpClient")
-    public JerseyClientConfiguration getJerseyClientConfiguration() {
+    //@JsonProperty("httpClient")
+    //public JerseyClientConfiguration getJerseyClientConfiguration() {
         return httpClient;
     }
 

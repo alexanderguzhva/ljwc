@@ -42,12 +42,12 @@ public class DWApplication extends Application<DWConfiguration> {
     public void run(DWConfiguration configuration,
                     Environment environment) {
 
-        final Client client = new JerseyClientBuilder(environment)
-                .using(configuration.getJerseyClientConfiguration())
-                .build(getName());
+        //final Client client = new JerseyClientBuilder(environment)
+        //        .using(configuration.getJerseyClientConfiguration())
+        //        .build(getName());
 
-        client.property(ClientProperties.CONNECT_TIMEOUT, 10000);
-        client.property(ClientProperties.READ_TIMEOUT, 10000);
+        //client.property(ClientProperties.CONNECT_TIMEOUT, 10000);
+        //client.property(ClientProperties.READ_TIMEOUT, 10000);
 
         ////
         MemoryDBSettings memoryDBSettings = configuration.getMemoryDBSettings();

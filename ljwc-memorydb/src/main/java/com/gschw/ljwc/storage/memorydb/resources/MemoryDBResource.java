@@ -67,7 +67,7 @@ public class MemoryDBResource implements IDBStorageResource {
             return Response.ok().build();
         }
 
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
 
@@ -77,7 +77,7 @@ public class MemoryDBResource implements IDBStorageResource {
         if (memoryDB.clear())
             return Response.ok().build();
 
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
 

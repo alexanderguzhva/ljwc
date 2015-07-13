@@ -16,4 +16,5 @@ include 'ljwc-auth'
 include 'ljwc-ljdbwriter'
 include 'ljwc-ljdbwriter-client'
 include 'ljwc-ljdbconvert'
+include 'ljwc-uploaderclient'
 

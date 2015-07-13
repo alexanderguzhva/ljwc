@@ -19,8 +19,8 @@ public class DWConfiguration extends Configuration {
 
     //@JsonProperty("httpClient")
     //public JerseyClientConfiguration getJerseyClientConfiguration() {
-        return httpClient;
-    }
+    //    return httpClient;
+    //}
 
 
     @Valid

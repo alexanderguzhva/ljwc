@@ -6,5 +6,5 @@ import com.gschw.ljwc.uploader.api.DGUploadTask;
  * Created by nop on 7/12/15.
  */
 public interface IDGUploaderClient {
-    boolean uploadResult(String uploadServiceURL, DGUploadTask uploadTask);
+    boolean upload(String uploadServiceURL, DGUploadTask uploadTask);
 }

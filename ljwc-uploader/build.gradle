@@ -2,6 +2,7 @@ group 'com.gschw'
 version '0.01'
 
 apply plugin: 'java'
+apply plugin: 'application'
 
 sourceCompatibility = 1.8
 
@@ -12,11 +13,19 @@ repositories {
 dependencies {
     testCompile 'org.testng:testng:6.9.4'
 
-    compile project (':ljwc-auth')
+    compile project(':ljwc-uploaderclient')
+
+    compile 'ch.qos.logback:logback-core:1.1.2'
+    compile 'ch.qos.logback:logback-classic:1.1.2'
+
+    compile 'com.google.guava:guava:18.0'
 
     compile 'io.dropwizard:dropwizard-core:0.8.1'
     compile 'io.dropwizard:dropwizard-client:0.8.1'
+
 }
+
+mainClassName = 'com.gschw.ljwc.uploader.Main';
 
 test {
     useTestNG()

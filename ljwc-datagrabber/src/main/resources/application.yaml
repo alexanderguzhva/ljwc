@@ -1,0 +1,16 @@
+server:
+    applicationConnectors:
+        - type: http
+          port: 11250
+    adminConnectors:
+        - type: http
+          port: 11251
+
+grabberParameters:
+    userAgentString: "mr. firefox"
+    timeoutMSec: 10000
+    gracefulSleepMSec: 0
+    socketTimeoutMSec: 1000
+
+grabbersKeeperParameters:
+    maximumNumberOfSessions: 100

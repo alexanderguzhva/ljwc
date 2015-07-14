@@ -36,7 +36,7 @@ public class GrabbersKeeper {
             Identity identity;
             do {
                  identity = IdentityRandomGenerator.generate();
-            } while (!sessions.containsKey(identity));
+            } while (sessions.containsKey(identity));
 
             GrabberSession grabberSession = GrabberSession.createSession(grabberParameters);
             Grabber grabber = new Grabber(grabberParameters);

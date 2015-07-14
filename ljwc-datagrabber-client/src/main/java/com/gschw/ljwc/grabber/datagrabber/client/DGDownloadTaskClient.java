@@ -43,8 +43,8 @@ public class DGDownloadTaskClient implements IDGDownloadTaskClient {
                             .buildGet()
                             .invoke();
 
-            logger.info("%s returned %d", url, response.getStatusInfo());
-            if (response.getStatusInfo() != Response.Status.OK)
+            logger.info("{} returned {}", url, response.getStatusInfo());
+            if (response.getStatus() != Response.Status.OK.getStatusCode())
                 return null;
 
             return response.readEntity(DGDownloadResult.class);
@@ -69,8 +69,8 @@ public class DGDownloadTaskClient implements IDGDownloadTaskClient {
                             .buildGet()
                             .invoke();
 
-            logger.info("%s returned %d", url, response.getStatusInfo());
-            if (response.getStatusInfo() != Response.Status.OK)
+            logger.info("{} returned {}", url, response.getStatusInfo());
+            if (response.getStatus() != Response.Status.OK.getStatusCode())
                 return null;
 
             return response.readEntity(Identity.class);
@@ -98,8 +98,8 @@ public class DGDownloadTaskClient implements IDGDownloadTaskClient {
                             .buildDelete()
                             .invoke();
 
-            logger.info("%s returned %d", url, response.getStatusInfo());
-            return (response.getStatusInfo() == Response.Status.OK);
+            logger.info("{} returned {}", url, response.getStatusInfo());
+            return (response.getStatus() == Response.Status.OK.getStatusCode());
 
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));

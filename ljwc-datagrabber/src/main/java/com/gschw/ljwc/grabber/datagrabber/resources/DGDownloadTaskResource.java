@@ -7,6 +7,8 @@ import com.gschw.ljwc.grabber.datagrabber.core.GrabberResult;
 import com.gschw.ljwc.grabber.datagrabber.core.GrabbersKeeper;
 import com.gschw.ljwc.uploader.api.DGUploadTask;
 import com.gschw.ljwc.uploader.client.DGUploaderClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
@@ -16,7 +18,10 @@ import javax.ws.rs.core.Response;
 /**
  * Created by nop on 7/12/15.
  */
+@Path("/")
 public class DGDownloadTaskResource implements IDGDownloadTaskResource {
+    private static Logger logger = LoggerFactory.getLogger(DGDownloadTaskResource.class);
+
     private GrabbersKeeper keeper;
 
     private DGUploaderClient uploaderClient;
@@ -34,13 +39,12 @@ public class DGDownloadTaskResource implements IDGDownloadTaskResource {
         if (identity == null)
             return Response.status(Response.Status.BAD_REQUEST).build();
 
-        return Response.ok().build();
+        return Response.ok().entity(identity).build();
     }
 
     @Path("/session/{sessionIdentity}/download")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response download(@PathParam("sessionIdentity") @NotNull Identity sessionIdentity, @NotNull DGDownloadTask task) {
         Grabber grabber = keeper.getBySession(sessionIdentity);
         if (grabber == null)
@@ -57,7 +61,9 @@ public class DGDownloadTaskResource implements IDGDownloadTaskResource {
                         task.getTaskIdentity(),
                         task.getUrl(),
                         result.getData());
-        boolean uploadResult = uploaderClient.uploadResult(task.getUploadServiceURL(), uploadTask);
+        boolean uploadResult = uploaderClient.upload(task.getUploadServiceURL(), uploadTask);
+
+        logger.info("uploadClient returned {}", uploadResult);
 
         if (uploadResult)
             return Response.ok().build();

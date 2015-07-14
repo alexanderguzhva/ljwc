@@ -1,0 +1,1 @@
+curl -X GET -H "Accept: application/json" http://localhost:11250/sessiongenerator

@@ -1,1 +1,1 @@
-curl -H "Content-Type: application/json" -X POST -d '{"taskIdentity":{"id": "taskid"},"url": "http://localhost:11210/generate/meowth","uploadServiceURL": "http://localhost:11240/"}' http://localhost:11250/session/5a20fc3a-3a9a-4bd6-aecc-279de6027dd7/download
+curl -H "Content-Type: application/json" -X POST -d '{"taskIdentity":{"id": "taskid"},"url": "http://localhost:11210/generate/meowth","uploadServiceURL": "http://localhost:11240/"}' http://localhost:11250/session/47da90de-93db-4c26-8b67-17dea32d588e/download

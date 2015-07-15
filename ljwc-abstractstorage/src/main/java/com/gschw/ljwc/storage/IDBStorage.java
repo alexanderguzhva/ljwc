@@ -11,6 +11,7 @@ public interface IDBStorage {
     boolean write(DBStorageElement element);
     boolean write(List<DBStorageElement> elements);
 
+    List<DBStorageElement> read();
     List<DBStorageElement> read(String key);
     DBStorageElement read(String key, DateTime timestamp);
 

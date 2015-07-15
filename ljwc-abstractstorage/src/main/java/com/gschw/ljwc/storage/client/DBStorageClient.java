@@ -77,6 +77,38 @@ public class DBStorageClient implements IDBStorage {
     }
 
     @Override
+    public List<DBStorageElement> read() {
+        ////
+        String url = parameters.getServiceUrl();
+
+        try {
+            Response response =
+                    client
+                            .target(url)
+                            .path("/")
+                            .request(MediaType.APPLICATION_JSON_TYPE)
+                            .buildGet()
+                            .invoke();
+
+            logger.info("{} returned {}", url, response.getStatusInfo());
+            if (response.getStatus() != Response.Status.OK.getStatusCode())
+                return null;
+
+            ////
+            DBStorageElementsCollection elements = response.readEntity(DBStorageElementsCollection.class);
+            if (elements == null)
+                return null;
+
+            return elements.getElements();
+
+        } catch (Exception e) {
+            logger.error(Throwables.getStackTraceAsString(e));
+            return null;
+        }
+    }
+
+
+    @Override
     public List<DBStorageElement> read(String key) {
         if (key == null || key.isEmpty())
             return null;

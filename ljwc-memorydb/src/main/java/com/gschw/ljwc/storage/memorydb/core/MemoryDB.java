@@ -52,8 +52,23 @@ public class MemoryDB implements IDBStorage {
     }
 
     @Override
-    public List<DBStorageElement> read(String key) {
+    public List<DBStorageElement> read() {
+        List<DBStorageElement> elements = new ArrayList<>();
+        for (KeyBucket bucket : buckets.values()) {
+            List<DBStorageElement> localElements = bucket.getElements();
+            if (localElements != null)
+                elements.addAll(localElements);
+        }
 
+        if (elements.size() == 0)
+            return null;
+
+        return elements;
+    }
+
+
+    @Override
+    public List<DBStorageElement> read(String key) {
         KeyBucket bucket = buckets.get(key);
         if (bucket == null)
             return null;

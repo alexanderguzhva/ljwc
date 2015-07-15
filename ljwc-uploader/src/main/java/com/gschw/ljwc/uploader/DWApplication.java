@@ -1,5 +1,7 @@
 package com.gschw.ljwc.uploader;
 
+import com.gschw.ljwc.storage.client.DBStorageClient;
+import com.gschw.ljwc.storage.client.DBStorageClientParameters;
 import com.gschw.ljwc.uploader.resources.UploaderResource;
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
@@ -38,14 +40,18 @@ public class DWApplication extends Application<DWConfiguration> {
     @Override
     public void run(DWConfiguration configuration,
                     Environment environment) {
-        //final Client client = new JerseyClientBuilder(environment)
-        //        .using(configuration.getJerseyClientConfiguration())
-        //        .build(getName());
+        final Client client = new JerseyClientBuilder(environment)
+                .using(configuration.getJerseyClientConfiguration())
+                .build(getName());
 
-        //client.property(ClientProperties.CONNECT_TIMEOUT, 10000);
-        //client.property(ClientProperties.READ_TIMEOUT, 10000);
+        client.property(ClientProperties.CONNECT_TIMEOUT, 10000);
+        client.property(ClientProperties.READ_TIMEOUT, 10000);
 
-        UploaderResource uploaderResource = new UploaderResource();
+        DBStorageClientParameters dbStorageClientParameters =
+                configuration.getDbStorageClientParameters();
+        DBStorageClient dbStorageClient = new DBStorageClient(client, dbStorageClientParameters);
+
+        UploaderResource uploaderResource = new UploaderResource(dbStorageClient);
         environment.jersey().register(uploaderResource);
 
     }

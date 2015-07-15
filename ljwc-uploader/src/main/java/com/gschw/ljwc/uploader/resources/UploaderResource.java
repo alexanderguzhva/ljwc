@@ -1,5 +1,7 @@
 package com.gschw.ljwc.uploader.resources;
 
+import com.gschw.ljwc.storage.DBStorageElement;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +15,8 @@ import javax.validation.constraints.NotNull;
 
 import com.gschw.ljwc.uploader.api.DGUploadTask;
 
+import com.gschw.ljwc.storage.client.DBStorageClient;
+
 /**
  * Created by nop on 7/13/15.
  */
@@ -20,7 +24,10 @@ import com.gschw.ljwc.uploader.api.DGUploadTask;
 public class UploaderResource implements IDGUploaderResource {
     private static Logger logger = LoggerFactory.getLogger(UploaderResource.class);
 
-    public UploaderResource() {
+    private DBStorageClient dbStorageClient;
+
+    public UploaderResource(DBStorageClient dbStorageClient) {
+        this.dbStorageClient = dbStorageClient;
     }
 
     @Override
@@ -32,6 +39,15 @@ public class UploaderResource implements IDGUploaderResource {
                 uploadTask.getUrl(),
                 uploadTask.getTaskIdentity(),
                 uploadTask.getData().length);
+
+        DBStorageElement dbStorageElement = new DBStorageElement(uploadTask.getUrl());
+        dbStorageElement.setTimestamp(DateTime.now());
+        dbStorageElement.getData().put("d", uploadTask.getData());
+
+        boolean result = dbStorageClient.write(dbStorageElement);
+        if (!result)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
         return Response.ok().build();
     }
 }

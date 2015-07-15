@@ -80,6 +80,17 @@ public class MemoryDBResource implements IDBStorageResource {
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response read() {
+        List<DBStorageElement> dbStorageElements = memoryDB.read();
+        if (dbStorageElements == null)
+            return Response.status(Response.Status.NOT_FOUND).build();
+
+        return Response.ok().entity(dbStorageElements).build();
+    }
+
+
 
     //List<DBStorageElement> read(String key);
     @Override

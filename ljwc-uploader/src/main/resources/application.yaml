@@ -5,3 +5,6 @@ server:
     adminConnectors:
         - type: http
           port: 11241
+
+dbStorageClientParameters:
+    serviceUrl: "http://localhost:11010/"

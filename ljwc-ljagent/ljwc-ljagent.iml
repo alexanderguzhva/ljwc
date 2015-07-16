@@ -102,6 +102,7 @@
     <orderEntry type="module" module-name="ljwc-auth" exported="" />
     <orderEntry type="module" module-name="ljwc-datagrabber-client" exported="" />
     <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.12" level="project" />
+    <orderEntry type="module" module-name="ljwc-ljscheduler-client" exported="" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

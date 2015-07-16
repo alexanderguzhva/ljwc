@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Created by nop on 7/15/15.
+ * This is an active element that periodically pulls tasks from
+ *   ljscheduler and coordinates datagrabbers to download them.
  */
 public class Processor {
     private static Logger logger = LoggerFactory.getLogger(Processor.class);
@@ -14,6 +16,11 @@ public class Processor {
 
     private ProcessorParameters parameters;
 
+    // note: this procedre should be able to process errors from
+    //  datagrabbers (as they may go down or limit the number
+    //  of cncurrent HTTP connections.
+    private void process() {
 
+    }
 
 }

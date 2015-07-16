@@ -1,0 +1,25 @@
+{
+  "_comment" : "FOR DETAILED FORMAT LOOK AT https://docs.docker.com/reference/api/docker_remote_api_v1.16/#create-a-container",
+  "HostConfig": {
+    "PortBindings": {
+      "11240/tcp": [
+        {
+          "HostIp": "0.0.0.0",
+          "HostPort": "11240"
+        }
+      ],
+      "11241/tcp": [
+        {
+          "HostIp": "0.0.0.0",
+          "HostPort": "11241"
+        }
+      ],
+      "19240/tcp": [
+        {
+          "HostIp": "0.0.0.0",
+          "HostPort": "19240"
+        }
+      ]
+    }
+  }
+}

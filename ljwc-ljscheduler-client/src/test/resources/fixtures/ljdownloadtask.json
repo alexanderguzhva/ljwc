@@ -1,0 +1,20 @@
+{
+  "identity":{
+    "id": "quack"},
+  "elements":[
+    {
+      "identity":{
+        "id":"meow"},
+      "url":"http://localhost:666/meow"
+    },
+    {
+      "identity":{
+        "id":"woof"},
+      "url":"http://localhost:666/woof"
+    }
+  ],
+  "assignedTo":{
+    "id":"roar"
+  }
+
+}

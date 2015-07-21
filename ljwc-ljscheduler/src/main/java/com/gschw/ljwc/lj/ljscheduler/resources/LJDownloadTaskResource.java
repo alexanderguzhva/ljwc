@@ -7,6 +7,7 @@ import com.gschw.ljwc.lj.ljscheduler.scheduler.TasksKeeper;
 
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.POST;
 import javax.ws.rs.GET;
@@ -17,7 +18,7 @@ import javax.ws.rs.core.MediaType;
 /**
  * Created by nop on 7/19/15.
  */
-@Path("/task")
+@Path("/")
 public class LJDownloadTaskResource implements ILJDownloadTaskResource {
 
     private TasksKeeper tasksKeeper;
@@ -28,9 +29,9 @@ public class LJDownloadTaskResource implements ILJDownloadTaskResource {
 
     @Override
     @GET
-    @Path("{clientIdentity}")
+    @Path("taskgenerator")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response acquireTask(@PathParam("clientIdentity") @NotNull Identity clientIdentity) {
+    public Response acquireTask(@QueryParam("clientIdentity") @NotNull Identity clientIdentity) {
         LJDownloadTask task = tasksKeeper.acquireTask(clientIdentity);
         if (task == null)
             return Response.noContent().build();
@@ -40,7 +41,7 @@ public class LJDownloadTaskResource implements ILJDownloadTaskResource {
 
     @Override
     @POST
-    @Path("{elementIdentity}")
+    @Path("element/{elementIdentity}")
     public Response completeElement(@PathParam("elementIdentity") @NotNull Identity elementIdentity, boolean success) {
         return null;
     }

@@ -1,0 +1,18 @@
+server:
+    applicationConnectors:
+        - type: http
+          port: 11270
+    adminConnectors:
+        - type: http
+          port: 11271
+
+processorParameters:
+    uploaderServiceUrl: "http://localhost:11240/"
+    processorIdentity:
+        id: "ljagent"
+
+downloadTaskClientParameters:
+    serviceUrl: "http://localhost:11250/"
+
+ljDownloadTaskClientParameters:
+    serviceUrl: "http://localhost:11260/"

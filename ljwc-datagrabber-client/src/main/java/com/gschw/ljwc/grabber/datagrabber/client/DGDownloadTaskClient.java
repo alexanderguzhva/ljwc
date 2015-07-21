@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -40,7 +41,7 @@ public class DGDownloadTaskClient implements IDGDownloadTaskClient {
                             .target(url)
                             .path(String.format("/session/%s/download", sessionIdentity.toString()))
                             .request(MediaType.APPLICATION_JSON_TYPE)
-                            .buildGet()
+                            .buildPost(Entity.entity(dgDownloadTask, MediaType.APPLICATION_JSON_TYPE))
                             .invoke();
 
             logger.info("{} returned {}", url, response.getStatusInfo());

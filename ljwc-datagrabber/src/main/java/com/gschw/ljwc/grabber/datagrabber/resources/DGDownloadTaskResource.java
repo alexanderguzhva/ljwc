@@ -1,6 +1,7 @@
 package com.gschw.ljwc.grabber.datagrabber.resources;
 
 import com.gschw.ljwc.auth.Identity;
+import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadResult;
 import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadTask;
 import com.gschw.ljwc.grabber.datagrabber.core.Grabber;
 import com.gschw.ljwc.grabber.datagrabber.core.GrabberResult;
@@ -55,7 +56,7 @@ public class DGDownloadTaskResource implements IDGDownloadTaskResource {
         if (result == null)
             return Response.status(Response.Status.BAD_REQUEST).build();
 
-        //// todo
+        ////
         DGUploadTask uploadTask =
                 new DGUploadTask(
                         task.getTaskIdentity(),
@@ -65,10 +66,8 @@ public class DGDownloadTaskResource implements IDGDownloadTaskResource {
 
         logger.info("uploadClient returned {}", uploadResult);
 
-        if (uploadResult)
-            return Response.ok().build();
-
-        return Response.status(Response.Status.BAD_REQUEST).build();
+        DGDownloadResult downloadResult = new DGDownloadResult(task.getTaskIdentity(), uploadResult);
+        return Response.ok().entity(downloadResult).build();
     }
 
     @Path("/session/{sessionIdentity}")

@@ -29,7 +29,7 @@ public class GeneratorResource {
     public Response generate(@PathParam("filename") @NotBlank String filename) {
         byte[] generated = generator.generate();
 
-        logger.debug("Generated %s, %d bytes", filename, generated.length);
+        logger.debug("Generated {}, {} bytes", filename, generated.length);
 
         return Response
                 .ok(generated, MediaType.APPLICATION_OCTET_STREAM_TYPE)

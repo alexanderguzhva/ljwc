@@ -179,6 +179,43 @@ public class DBStorageClient implements IDBStorage {
         }
     }
 
+
+    @Override
+    public DBStorageElement readLast(String key) {
+        if (key == null || key.isEmpty())
+            return null;
+
+        ////
+        if (key == null || key.isEmpty())
+            return null;
+
+        ////
+        String url = parameters.getServiceUrl();
+
+        try {
+            Response response =
+                    client
+                            .target(url)
+                            .path(String.format("/%s/lastdata", key))
+                            .request(MediaType.APPLICATION_JSON_TYPE)
+                            .buildGet()
+                            .invoke();
+
+            logger.info("{} returned {}", url, response.getStatusInfo());
+            if (response.getStatus() != Response.Status.OK.getStatusCode())
+                return null;
+
+            ////
+            DBStorageElement element = response.readEntity(DBStorageElement.class);
+            return element;
+
+        } catch (Exception e) {
+            logger.error(Throwables.getStackTraceAsString(e));
+            return null;
+        }
+    }
+
+
     @Override
     public boolean exists(String key) {
         if (key == null || key.isEmpty())

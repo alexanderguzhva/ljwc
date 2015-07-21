@@ -1,10 +1,10 @@
 package com.gschw.ljwc.storage.memorydb.core;
 
 import java.util.Map;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.TreeMap;
 
 import com.gschw.ljwc.storage.DBStorageElement;
 
@@ -15,16 +15,16 @@ import org.joda.time.DateTime;
  */
 public class KeyBucket {
     private String key;
-    private final Map<DateTime, DBStorageElement> elements;
+    private final TreeMap<DateTime, DBStorageElement> elements;
 
     public KeyBucket(String key) {
         this.key = key;
-        this.elements = new HashMap<>();
+        this.elements = new TreeMap<>();
     }
 
     public KeyBucket(String key, List<DBStorageElement> elements) {
         this.key = key;
-        this.elements = new HashMap<>();
+        this.elements = new TreeMap<>();
 
         addElements(elements);
     }
@@ -68,6 +68,14 @@ public class KeyBucket {
     //
     public List<DBStorageElement> getElements() {
         return new ArrayList<DBStorageElement>(elements.values());
+    }
+
+    //
+    public DBStorageElement getLastElement() {
+        if (elements.size() == 0)
+            return null;
+
+        return elements.lastEntry().getValue();
     }
 
     //

@@ -85,6 +85,16 @@ public class MemoryDB implements IDBStorage {
         return bucket.getElement(timestamp);
     }
 
+
+    @Override
+    public DBStorageElement readLast(String key) {
+        KeyBucket bucket = buckets.get(key);
+        if (bucket == null)
+            return null;
+
+        return bucket.getLastElement();
+    }
+
     @Override
     public boolean exists(String key) {
         return buckets.containsKey(key);

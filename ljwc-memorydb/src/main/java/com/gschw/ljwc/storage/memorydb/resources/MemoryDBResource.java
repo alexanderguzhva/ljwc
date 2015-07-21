@@ -124,6 +124,22 @@ public class MemoryDBResource implements IDBStorageResource {
         return Response.ok().entity(dbStorageElement).build();
     }
 
+
+    //DBStorageElement readLast(String key);
+    @Path("{key}/lastdata")
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response readLast(@PathParam("key") @NotBlank String key) {
+        DBStorageElement dbStorageElement = memoryDB.readLast(key);
+        if (dbStorageElement == null)
+            return Response.status(Response.Status.NOT_FOUND).build();
+
+        return Response.ok().entity(dbStorageElement).build();
+    }
+
+
+
     //
     @Override
     @Path("{key}")

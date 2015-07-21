@@ -20,4 +20,5 @@ include 'ljwc-uploaderclient'
 include 'ljwc-uploader'
 include 'ljwc-lj2dbwriter'
 include 'ljwc-ljagent'
+include 'ljwc-ljreader'
 

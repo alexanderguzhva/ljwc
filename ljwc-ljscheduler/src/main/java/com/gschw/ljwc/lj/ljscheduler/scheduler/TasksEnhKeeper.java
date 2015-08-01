@@ -26,11 +26,14 @@ public class TasksEnhKeeper implements ILJDownloadTaskClient {
 
     @Override
     public LJDownloadTask acquireTask(Identity clientIdentity) {
-
+        return null;
     }
 
     @Override
     public boolean completeElement(Identity elementIdentity, boolean success) {
+        return false;
+
+        /* TODO later
         if (elementIdentity == null)
             return false;
 
@@ -42,5 +45,6 @@ public class TasksEnhKeeper implements ILJDownloadTaskClient {
 
         boolean result = sequence.completeElement(elementIdentity, success);
         return false;
+        */
     }
 }

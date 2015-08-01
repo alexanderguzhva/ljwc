@@ -25,6 +25,8 @@ public class ElementsKeeper {
     }
 
     public DownloadableElement getDownloadableElement(String url) {
+        return null;
+        /* TODO later
         DownloadableElement de = downloadableElements.get(url);
         if (de == null) {
 
@@ -34,9 +36,10 @@ public class ElementsKeeper {
 
             //// create and store de
             de = new DownloadableElement(element);
-            downloadableElements[element] = de;
+            downloadableElements.put(element, de);
         }
 
         return de;
+        */
     }
 }

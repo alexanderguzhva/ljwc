@@ -7,6 +7,6 @@ public enum DownloadStep {
     UNDEFINED,
     DOWNLOAD_ROOT,
     DOWNLOADED_ROOT,
-    DOWNLOAD_ElEMENTS,
+    DOWNLOAD_ELEMENTS,
     COMPLETE
 }

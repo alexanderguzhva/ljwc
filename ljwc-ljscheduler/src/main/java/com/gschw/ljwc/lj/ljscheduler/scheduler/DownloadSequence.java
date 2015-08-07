@@ -2,15 +2,12 @@ package com.gschw.ljwc.lj.ljscheduler.scheduler;
 
 import com.gschw.ljwc.auth.Identity;
 import com.gschw.ljwc.auth.IdentityRandomGenerator;
-import com.gschw.ljwc.lj.ljscheduler.api.LJDownloadElement;
 import com.gschw.ljwc.lj.ljscheduler.api.LJDownloadTask;
-import com.gschw.ljwc.lj.ljscheduler.client.ILJDownloadTaskClient;
 import com.gschw.ljwc.lj.ljscheduler.core.LJPostPageElement;
 import com.gschw.ljwc.lj.ljscheduler.core.LJPostPageRoot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -98,7 +95,7 @@ public class DownloadSequence {
                 //// produce new elements download
                 LJDownloadTask deE = acquireDEForElements(agent);
 
-                step = DownloadStep.DOWNLOAD_ElEMENTS;
+                step = DownloadStep.DOWNLOAD_ELEMENTS;
                 return deE;
         }
 
@@ -153,7 +150,7 @@ public class DownloadSequence {
         switch(step) {
             case DOWNLOAD_ROOT:
                 return completeElementRoot(downloadableElement, success);
-            case DOWNLOAD_ElEMENTS:
+            case DOWNLOAD_ELEMENTS:
                 return completeElementElement(downloadableElement, success);
         }
 

@@ -27,6 +27,7 @@ public interface IDBStorageResource {
 
     //void write(DBStorageElement element);
     //void write(List<DBStorageElement> elements);
+    //POST /
     @POST
     //@Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -34,62 +35,57 @@ public interface IDBStorageResource {
     Response write(@NotNull DBStorageElementsCollection elementsCollection);
 
     //void clear();
+    //DELETE /
     @DELETE
     //@Path("/")
     Response clear();
 
     //boolean remove(String key);
+    //DELETE /{key}
+    //
+    //boolean remove(String key, Datetime timestamp);
+    //DELETE /{key}?timestamp=x
+    //
     @Path("{key}")
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    Response remove(@PathParam("key") @NotBlank String key);
-
-    //boolean remove(String key, Datetime timestamp);
-    @Path("{key}/{timestamp}")
-    @DELETE
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    Response remove(@PathParam("key") @NotBlank String key, @PathParam("timestamp") @NotBlank String timestamp);
+    Response remove(@PathParam("key") @NotBlank String key, @QueryParam("timestamp") String timestamp);
 
     //List<DBStorageElement> read();
+    //GET /
     //@Path("/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     Response read();
 
     //List<DBStorageElement> read(String key);
-    @Path("{key}/data")
-    @GET
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    Response read(@PathParam("key") @NotBlank String key);
-
+    //GET /{key}/element
+    //
     //DBStorageElement read(String key, DateTime timestamp);
-    @Path("{key}/{timestamp}/data")
+    //GET /{key}/element?timestamp=x
+    @Path("{key}/element")
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    Response readElement(@PathParam("key") @NotBlank String key, @PathParam("timestamp") @NotBlank String timestamp);
+    Response readElement(@PathParam("key") @NotBlank String key, @QueryParam("timestamp") String timestamp);
 
     //DBStorageElement readLast(String key);
-    @Path("{key}/lastdata")
+    //GET /{key}/lastelement
+    @Path("{key}/lastelement")
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     Response readLast(@PathParam("key") @NotBlank String key);
 
     //boolean exists(String key);
+    //GET /{key}
+    //
+    //boolean exists(String key, DateTime timestamp);
+    //GET /{key}?timestamp=x
     @Path("{key}")
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    Response existsAny(@PathParam("key") @NotBlank String key);
-
-    //boolean exists(String key, DateTime timestamp);
-    @Path("{key}/{timestamp}")
-    @GET
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    Response exists(@PathParam("key") @NotBlank String key, @PathParam("timestamp") @NotBlank String timestamp);
+    Response exists(@PathParam("key") @NotBlank String key, @QueryParam("timestamp") String timestamp);
 }

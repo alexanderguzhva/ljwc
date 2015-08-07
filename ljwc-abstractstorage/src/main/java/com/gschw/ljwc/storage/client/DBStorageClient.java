@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 
 import com.google.common.base.Throwables;
 import org.slf4j.Logger;
@@ -108,6 +109,7 @@ public class DBStorageClient implements IDBStorage {
     }
 
 
+
     @Override
     public List<DBStorageElement> read(String key) {
         if (key == null || key.isEmpty())
@@ -117,13 +119,15 @@ public class DBStorageClient implements IDBStorage {
         String url = parameters.getServiceUrl();
 
         try {
-            Response response =
+            WebTarget target =
                     client
                             .target(url)
-                            .path(String.format("/%s/data", key))
-                            .request(MediaType.APPLICATION_JSON_TYPE)
-                            .buildGet()
-                            .invoke();
+                            .path(String.format("/%s/element", key));
+
+            Response response = target
+                    .request(MediaType.APPLICATION_JSON_TYPE)
+                    .buildGet()
+                    .invoke();
 
             logger.info("{} returned {}", url, response.getStatusInfo());
             if (response.getStatus() != Response.Status.OK.getStatusCode())
@@ -146,24 +150,26 @@ public class DBStorageClient implements IDBStorage {
     public DBStorageElement read(String key, DateTime timestamp) {
         if (key == null || key.isEmpty())
             return null;
-        if (timestamp == null)
-            return null;
 
         ////
-        if (key == null || key.isEmpty())
+        if (timestamp == null)
             return null;
 
         ////
         String url = parameters.getServiceUrl();
 
         try {
-            Response response =
+            WebTarget target =
                     client
                             .target(url)
-                            .path(String.format("/%s/%s/data", key, new Long(timestamp.getMillis()).toString()))
-                            .request(MediaType.APPLICATION_JSON_TYPE)
-                            .buildGet()
-                            .invoke();
+                            .path(String.format("/%s/element", key));
+            if (timestamp != null)
+                target = target.queryParam("timestamp", new Long(timestamp.getMillis()).toString());
+
+            Response response = target
+                    .request(MediaType.APPLICATION_JSON_TYPE)
+                    .buildGet()
+                    .invoke();
 
             logger.info("{} returned {}", url, response.getStatusInfo());
             if (response.getStatus() != Response.Status.OK.getStatusCode())
@@ -196,7 +202,7 @@ public class DBStorageClient implements IDBStorage {
             Response response =
                     client
                             .target(url)
-                            .path(String.format("/%s/lastdata", key))
+                            .path(String.format("/%s/lastelement", key))
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildGet()
                             .invoke();
@@ -257,7 +263,8 @@ public class DBStorageClient implements IDBStorage {
             Response response =
                     client
                             .target(url)
-                            .path(String.format("/%s/%s", key, sTimestamp))
+                            .path(String.format("/%s", key))
+                            .queryParam("timestamp", sTimestamp)
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildGet()
                             .invoke();
@@ -304,6 +311,9 @@ public class DBStorageClient implements IDBStorage {
         if (key == null || key.isEmpty())
             return false;
 
+        if (timestamp == null)
+            return false;
+
         ////
         String url = parameters.getServiceUrl();
         String sTimestamp = new Long(timestamp.getMillis()).toString();
@@ -312,7 +322,8 @@ public class DBStorageClient implements IDBStorage {
             Response response =
                     client
                             .target(url)
-                            .path(String.format("/%s/%s", key, sTimestamp))
+                            .path(String.format("/%s", key))
+                            .queryParam("timestamp", sTimestamp)
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildDelete()
                             .invoke();

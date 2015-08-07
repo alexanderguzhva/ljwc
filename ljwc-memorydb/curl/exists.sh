@@ -1,1 +1,1 @@
-curl -X GET -H "Accept: application/json" http://localhost:11010/meow/946786379001
+curl -X GET -H "Accept: application/json" http://localhost:11010/meow?timestamp=946786379001

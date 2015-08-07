@@ -59,6 +59,27 @@ public class LJDownloadTaskClient implements ILJDownloadTaskClient {
 
     @Override
     public boolean completeElement(Identity elementIdentity, boolean success) {
-        return false;
+        ////
+        String url = parameters.getServiceUrl();
+
+        try {
+            Response response =
+                    client
+                            .target(url)
+                            .path(String.format("/element/%s", elementIdentity))
+                            .request(MediaType.APPLICATION_JSON_TYPE)
+                            .buildPost(Entity.entity(new Boolean(success), MediaType.APPLICATION_JSON_TYPE))
+                            .invoke();
+
+            logger.info("{} returned {}", url, response.getStatusInfo());
+            if (response.getStatus() != Response.Status.OK.getStatusCode())
+                return false;
+
+            return true;
+
+        } catch (Exception e) {
+            logger.error(Throwables.getStackTraceAsString(e));
+            return false;
+        }
     }
 }

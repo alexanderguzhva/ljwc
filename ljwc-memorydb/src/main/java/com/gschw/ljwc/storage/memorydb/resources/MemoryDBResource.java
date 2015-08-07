@@ -5,6 +5,7 @@ import com.gschw.ljwc.storage.memorydb.core.MemoryDB;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.MediaType;
@@ -85,48 +86,45 @@ public class MemoryDBResource implements IDBStorageResource {
     public Response read() {
         List<DBStorageElement> dbStorageElements = memoryDB.read();
         if (dbStorageElements == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NO_CONTENT).build();
 
         return Response.ok().entity(dbStorageElements).build();
     }
 
 
 
-    //List<DBStorageElement> read(String key);
     @Override
-    @Path("{key}/data")
+    @Path("{key}/element")
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response read(@PathParam("key") @NotBlank String key) {
-        List<DBStorageElement> dbStorageElements = memoryDB.read(key);
-        if (dbStorageElements == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
+    public Response readElement(@PathParam("key") @NotBlank String key, @QueryParam("timestamp") String timestamp) {
+        if (timestamp == null || timestamp.isEmpty()) {
+            //// exact time is not known, so read everything
+            List<DBStorageElement> dbStorageElements = memoryDB.read(key);
+            if (dbStorageElements == null)
+                return Response.status(Response.Status.NOT_FOUND).build();
 
-        return Response.ok().entity(dbStorageElements).build();
-    }
+            return Response.ok().entity(dbStorageElements).build();
+        }
+        else {
+            //// exact time is known
+            DateTime dt = parseDTFromString(timestamp);
+            if (dt == null)
+                return Response.status(Response.Status.BAD_REQUEST).build();
 
-    @Override
-    @Path("{key}/{timestamp}/data")
-    @GET
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response readElement(@PathParam("key") @NotBlank String key, @PathParam("timestamp") @NotBlank String timestamp) {
-        DateTime dt = parseDTFromString(timestamp);
-        if (dt == null)
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            ////
+            DBStorageElement dbStorageElement = memoryDB.read(key, dt);
+            if (dbStorageElement == null)
+                return Response.status(Response.Status.NOT_FOUND).build();
 
-        ////
-        DBStorageElement dbStorageElement = memoryDB.read(key, dt);
-        if (dbStorageElement == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
-
-        return Response.ok().entity(dbStorageElement).build();
+            return Response.ok().entity(dbStorageElement).build();
+        }
     }
 
 
     //DBStorageElement readLast(String key);
-    @Path("{key}/lastdata")
+    @Path("{key}/lastelement")
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -146,30 +144,28 @@ public class MemoryDBResource implements IDBStorageResource {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response existsAny(@PathParam("key") @NotBlank String key) {
-        if (memoryDB.exists(key))
-            return Response.ok().build();
+    public Response exists(@PathParam("key") @NotBlank String key, @QueryParam("timestamp") String timestamp) {
+        if (timestamp == null || timestamp.isEmpty()) {
+            //// exact time is not known
+            if (memoryDB.exists(key))
+                return Response.ok().build();
 
-        return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        else {
+            //// exact time is known
+            DateTime dt = parseDTFromString(timestamp);
+            if (dt == null)
+                return Response.status(Response.Status.BAD_REQUEST).build();
+
+            ////
+            if (memoryDB.exists(key, dt))
+                return Response.ok().build();
+
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 
-    //
-    @Override
-    @Path("{key}/{timestamp}")
-    @GET
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response exists(@PathParam("key") @NotBlank String key, @PathParam("timestamp") @NotBlank String timestamp) {
-        DateTime dt = parseDTFromString(timestamp);
-        if (dt == null)
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
-        ////
-        if (memoryDB.exists(key, dt))
-            return Response.ok().build();
-
-        return Response.status(Response.Status.NOT_FOUND).build();
-    }
 
     //
     @Override
@@ -177,28 +173,25 @@ public class MemoryDBResource implements IDBStorageResource {
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(@PathParam("key") @NotBlank String key) {
-        if (memoryDB.remove(key))
-            return Response.ok().build();
+    public Response remove(@PathParam("key") @NotBlank String key, @QueryParam("timestamp") String timestamp) {
+        if (timestamp == null || timestamp.isEmpty()) {
+            //// exact time is not known
+            if (memoryDB.remove(key))
+                return Response.ok().build();
 
-        return Response.status(Response.Status.NOT_FOUND).build();
-    }
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        else {
+            //// exact time is known
+            DateTime dt = parseDTFromString(timestamp);
+            if (dt == null)
+                return Response.status(Response.Status.BAD_REQUEST).build();
 
-    //
-    @Override
-    @Path("{key}/{timestamp}")
-    @DELETE
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(@PathParam("key") @NotBlank String key, @PathParam("timestamp") @NotBlank String timestamp) {
-        DateTime dt = parseDTFromString(timestamp);
-        if (dt == null)
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            if (memoryDB.remove(key, dt))
+                return Response.ok().build();
 
-        if (memoryDB.remove(key, dt))
-            return Response.ok().build();
-
-        return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 
 }

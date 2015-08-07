@@ -42,7 +42,7 @@ public class LJDownloadTaskResource implements ILJDownloadTaskResource {
     @Override
     @POST
     @Path("element/{elementIdentity}")
-    public Response completeElement(@PathParam("elementIdentity") @NotNull Identity elementIdentity, boolean success) {
+    public Response completeElement(@PathParam("elementIdentity") @NotNull Identity elementIdentity, @NotNull Boolean success) {
         boolean bResult = tasksKeeper.completeElement(elementIdentity, success);
         if (!bResult)
             return Response.status(Response.Status.BAD_REQUEST).build();

@@ -22,5 +22,5 @@ public interface ILJDownloadTaskResource {
 
     @POST
     @Path("{elementIdentity}")
-    Response completeElement(@PathParam("elementIdentity") @NotNull Identity elementIdentity, boolean success);
+    Response completeElement(@PathParam("elementIdentity") @NotNull Identity elementIdentity, @NotNull Boolean success);
 }

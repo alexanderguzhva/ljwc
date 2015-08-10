@@ -6,6 +6,11 @@ server:
         - type: http
           port: 11271
 
+httpClient:
+    timeout: 2000ms
+    connectionTimeout: 2000ms
+    connectionRequestTimeout: 2000ms
+
 processorParameters:
     uploaderServiceUrl: "http://localhost:11240/"
     processorIdentity:

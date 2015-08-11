@@ -10,7 +10,15 @@ public class SequentialIdentityGenerator implements IIdentityGenerator {
     private final Object locker = new Object();
 
     private long lowLong = 0;
-    private long hiLong = 0;
+    private long hiLong;
+
+    public SequentialIdentityGenerator() {
+        hiLong = 0;
+    }
+
+    public SequentialIdentityGenerator(long hiLong) {
+        this.hiLong = hiLong;
+    }
 
     @Override
     public Identity generate() {

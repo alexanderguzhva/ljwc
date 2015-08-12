@@ -1,7 +1,7 @@
 package com.gschw.ljwc.lj.ljscheduler.scheduler;
 
+import com.gschw.ljwc.auth.IIdentityGenerator;
 import com.gschw.ljwc.auth.Identity;
-import com.gschw.ljwc.auth.IdentityRandomGenerator;
 import com.gschw.ljwc.lj.ljscheduler.api.LJDownloadTask;
 import com.gschw.ljwc.lj.ljscheduler.core.LJPostPageElement;
 import com.gschw.ljwc.lj.ljscheduler.core.LJPostPageRoot;
@@ -12,17 +12,29 @@ import java.util.Set;
 
 /**
  * Created by nop on 7/24/15.
+ *
+ * Class holds the logic for downloading a page root and its subelements.
  */
 public class DownloadSequence {
+    /**
+     * A logger.
+     */
     private static Logger logger = LoggerFactory.getLogger(DownloadSequence.class);
 
+    /**
+     * Current step in processing.
+     */
     private DownloadStep step;
 
+    /**
+     * A root page.
+     */
     private LJPostPageRoot rootPage;
 
+    /**
+     * DownloadableElements that are being downloaded right now.
+     */
     private Set<DownloadableElement> elementsBeingDownloaded;
-
-    private ElementsKeeper elementsKeeper;
 
     //
     public LJPostPageRoot getRootPage() {
@@ -33,25 +45,51 @@ public class DownloadSequence {
         this.rootPage = rootPage;
     }
 
+
+    /**
+     * An identity generator for new tasks.
+     */
+    private IIdentityGenerator taskIdentityGenerator;
+
+
     //
-    public void reset() {
+    public DownloadSequence(LJPostPageRoot rootPage, IIdentityGenerator taskIdentityGenerator) {
+        this.rootPage = rootPage;
+        this.taskIdentityGenerator = taskIdentityGenerator;
+
+        ////
+        internalReset();
+    }
+
+    //
+    private void internalReset() {
         elementsBeingDownloaded.clear();
         rootPage = null;
         step = DownloadStep.UNDEFINED;
     }
 
     //
-    private LJDownloadTask acquireDEForRoot(LJAgent agent) {
+    public void reset() {
+        internalReset();
+    }
+
+    /**
+     * Creates a task for downloading the current root page HTML for a given downloadAgent.
+     * Basically, this task will contain only 1 element to be downloaded.
+     * @param downloadAgent DownloadAgent
+     * @return A task for the given downloadAgent.
+     */
+    private LJDownloadTask acquireDEForRoot(DownloadAgent downloadAgent) {
         //// create de
         DownloadableElement downloadableElement =
-                elementsKeeper.getDownloadableElement(rootPage.getUrl());
+                new DownloadableElement(rootPage.createLJDownloadElement());
 
         //// store it
         elementsBeingDownloaded.clear();
         elementsBeingDownloaded.add(downloadableElement);
 
         //// add to task
-        Identity taskIdentity = IdentityRandomGenerator.generate();
+        Identity taskIdentity = taskIdentityGenerator.generate();
         LJDownloadTask task = new LJDownloadTask(taskIdentity);
 
         task.addElement(downloadableElement.getElement());
@@ -59,9 +97,15 @@ public class DownloadSequence {
         return task;
     }
 
-    private LJDownloadTask acquireDEForElements(LJAgent agent) {
+    /**
+     * Creates a task for downloading elements of the current root page HTML for a given downloadAgent.
+     * This task contains all subelements of the current root page.
+     * @param downloadAgent DownloadAgent
+     * @return A task for the given downloadAgent.
+     */
+    private LJDownloadTask acquireDEForElements(DownloadAgent downloadAgent) {
         //// create task
-        Identity taskIdentity = IdentityRandomGenerator.generate();
+        Identity taskIdentity = taskIdentityGenerator.generate();
         LJDownloadTask task = new LJDownloadTask(taskIdentity);
 
         ////
@@ -70,7 +114,7 @@ public class DownloadSequence {
         //// add elements to task
         for (LJPostPageElement pageElement : rootPage.getElements()) {
             DownloadableElement downloadableElement =
-                    elementsKeeper.getDownloadableElement(pageElement.getUrl());
+                    new DownloadableElement(pageElement.createLJDownloadElement());
 
             elementsBeingDownloaded.add(downloadableElement);
 
@@ -81,19 +125,19 @@ public class DownloadSequence {
     }
 
 
-    public LJDownloadTask acquireDE(LJAgent agent) {
+    public LJDownloadTask acquireDE(DownloadAgent downloadAgent) {
         switch(step) {
             case COMPLETE:
             case UNDEFINED:
                 //// produce new root download
-                LJDownloadTask deR = acquireDEForRoot(agent);
+                LJDownloadTask deR = acquireDEForRoot(downloadAgent);
 
                 step = DownloadStep.DOWNLOAD_ROOT;
                 return deR;
 
             case DOWNLOADED_ROOT:
                 //// produce new elements download
-                LJDownloadTask deE = acquireDEForElements(agent);
+                LJDownloadTask deE = acquireDEForElements(downloadAgent);
 
                 step = DownloadStep.DOWNLOAD_ELEMENTS;
                 return deE;
@@ -159,8 +203,13 @@ public class DownloadSequence {
     }
 
     //
-    public boolean canAcquireNewTask() {
+    public boolean isComplete() {
         return (step == DownloadStep.COMPLETE ||
                 step == DownloadStep.UNDEFINED);
+    }
+
+    //
+    public boolean isElementBeingDownloaded(DownloadableElement element) {
+        return elementsBeingDownloaded.contains(element);
     }
 }

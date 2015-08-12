@@ -11,14 +11,25 @@ import com.gschw.ljwc.auth.Identity;
 
 /**
  * Created by nop on 7/15/15.
+ *
+ * A task for a LJAgent.
  */
 public class LJDownloadTask {
+    /**
+     * Elements that need to be downloaded.
+     */
     @NotNull
     private List<LJDownloadElement> elements;
 
+    /**
+     * Identifies this task.
+     */
     @NotNull
     private Identity identity;
 
+    /**
+     * Identifies an agent that should perform this task.
+     */
     @NotNull
     private Identity assignedTo;
 

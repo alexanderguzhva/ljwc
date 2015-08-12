@@ -1,8 +1,7 @@
 package com.gschw.ljwc.lj.ljscheduler.scheduler;
 
+import com.gschw.ljwc.auth.IIdentityGenerator;
 import com.gschw.ljwc.auth.Identity;
-import com.gschw.ljwc.auth.IdentityRandomGenerator;
-import com.gschw.ljwc.lj.ljscheduler.api.LJDownloadElement;
 
 import java.util.Map;
 import java.util.Set;
@@ -11,27 +10,31 @@ import java.util.Set;
  * Created by nop on 7/24/15.
  */
 public class ElementsKeeper {
-    private Map<String, DownloadableElement> downloadableElements;
-    private Set<LJAgent> ljagents;
+    private Map<Identity, DownloadableElement> downloadableElements;
+    private Set<DownloadAgent> ljagents;
 
-    public void addFailure(LJAgent ljagent, DownloadableElement element) {
+    private IIdentityGenerator identityGenerator;
+
+    public ElementsKeeper(IIdentityGenerator identityGenerator) {
+        this.identityGenerator = identityGenerator;
+    }
+
+    public void addFailure(DownloadAgent ljagent, DownloadableElement element) {
         ljagent.addFailure(element);
         element.addFailure(ljagent);
     }
 
-    public void addSuccess(LJAgent ljagent, DownloadableElement element) {
+    public void addSuccess(DownloadAgent ljagent, DownloadableElement element) {
         ljagent.addSuccess(element);
         element.addSuccess(ljagent);
     }
 
-    public DownloadableElement getDownloadableElement(String url) {
-        return null;
-        /* TODO later
+    public DownloadableElement getDownloadableElement(Identity deIdentity) {
         DownloadableElement de = downloadableElements.get(url);
         if (de == null) {
 
             //// create element
-            Identity identity = IdentityRandomGenerator.generate();
+            Identity identity = identityGenerator.generate();
             LJDownloadElement element = new LJDownloadElement(identity, url);
 
             //// create and store de
@@ -40,6 +43,5 @@ public class ElementsKeeper {
         }
 
         return de;
-        */
     }
 }

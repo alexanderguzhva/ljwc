@@ -1,6 +1,7 @@
 package com.gschw.ljwc.lj.ljagent.core;
 
 import com.gschw.ljwc.auth.Identity;
+import com.gschw.ljwc.auth.IdentityRandomGenerator;
 import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadTask;
 import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadResult;
 import com.gschw.ljwc.grabber.datagrabber.client.IDGDownloadTaskClient;

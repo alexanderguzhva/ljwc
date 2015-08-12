@@ -11,18 +11,11 @@ import com.gschw.ljwc.auth.Identity;
 
 /**
  * Created by nop on 7/15/15.
- * This is single file to be downloaded.
  */
 public class LJDownloadElement {
-    /**
-     * Identity for this element
-     */
     @NotNull
     private Identity identity;
 
-    /**
-     * URL of an element.
-     */
     @URL
     @NotBlank
     private String url;

@@ -1,8 +1,7 @@
 package com.gschw.ljwc.grabber.datagrabber.core;
 
-import com.gschw.ljwc.auth.IIdentityGenerator;
 import com.gschw.ljwc.auth.Identity;
-import com.gschw.ljwc.auth.StandardIdentityRandomGenerator;
+import com.gschw.ljwc.auth.IdentityRandomGenerator;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,14 +20,10 @@ public class GrabbersKeeper {
 
     private GrabbersKeeperParameters keeperParameters;
 
-    private IIdentityGenerator identityGenerator;
-
     public GrabbersKeeper(GrabbersKeeperParameters keeperParameters, GrabberParameters grabberParameters) {
         this.keeperParameters = keeperParameters;
         this.grabberParameters = grabberParameters;
         this.sessions = new HashMap<>();
-
-        this.identityGenerator = new StandardIdentityRandomGenerator();
     }
 
     public Identity createSession() {
@@ -40,7 +35,7 @@ public class GrabbersKeeper {
             ////
             Identity identity;
             do {
-                 identity = identityGenerator.generate();
+                 identity = IdentityRandomGenerator.generate();
             } while (sessions.containsKey(identity));
 
             GrabberSession grabberSession = GrabberSession.createSession(grabberParameters);

@@ -3,6 +3,7 @@ package com.gschw.ljwc.grabber.datagrabber.core;
 /**
  * Created by nop on 5/16/15.
  */
+
 public class GrabberResult {
     private final byte[] data;
     private final String uri;

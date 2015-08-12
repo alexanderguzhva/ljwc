@@ -6,15 +6,11 @@ import com.gschw.ljwc.uploader.api.DGUploadTask;
 import com.gschw.ljwc.uploader.client.DGUploaderClient;
 import com.gschw.ljwc.uploader.client.DGUploaderClientParameters;
 import io.dropwizard.Application;
-import io.dropwizard.cli.ConfiguredCommand;
 import io.dropwizard.cli.EnvironmentCommand;
-import io.dropwizard.client.HttpClientBuilder;
 import io.dropwizard.client.JerseyClientBuilder;
-import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import net.sourceforge.argparse4j.inf.Namespace;
 import net.sourceforge.argparse4j.inf.Subparser;
-import org.glassfish.jersey.client.JerseyClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

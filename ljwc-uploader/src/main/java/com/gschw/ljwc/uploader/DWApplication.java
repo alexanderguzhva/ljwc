@@ -2,6 +2,7 @@ package com.gschw.ljwc.uploader;
 
 import com.gschw.ljwc.storage.client.DBStorageClient;
 import com.gschw.ljwc.storage.client.DBStorageClientParameters;
+import com.gschw.ljwc.uploader.cli.UploadLocalFileCommand;
 import com.gschw.ljwc.uploader.resources.UploaderResource;
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
@@ -35,6 +36,8 @@ public class DWApplication extends Application<DWConfiguration> {
                         new EnvironmentVariableSubstitutor()
                 )
         );
+
+        bootstrap.addCommand(new UploadLocalFileCommand(this));
     }
 
     @Override

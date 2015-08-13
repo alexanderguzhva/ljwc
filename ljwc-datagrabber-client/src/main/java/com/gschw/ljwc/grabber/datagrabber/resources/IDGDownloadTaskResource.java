@@ -1,6 +1,7 @@
 package com.gschw.ljwc.grabber.datagrabber.resources;
 
 import com.gschw.ljwc.auth.Identity;
+import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadRawTask;
 import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadTask;
 
 import javax.validation.constraints.NotNull;
@@ -22,6 +23,13 @@ public interface IDGDownloadTaskResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     Response download(@PathParam("sessionIdentity") @NotNull Identity sessionIdentity, @NotNull DGDownloadTask task);
+
+    @Path("/session/{sessionIdentity}/downloadRaw")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    Response downloadRaw(@PathParam("sessionIdentity") @NotNull Identity sessionIdentity, @NotNull DGDownloadRawTask task);
+
 
     @Path("/session/{sessionIdentity}")
     @DELETE

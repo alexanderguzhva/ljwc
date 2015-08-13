@@ -1,6 +1,8 @@
 package com.gschw.ljwc.grabber.datagrabber.resources;
 
 import com.gschw.ljwc.auth.Identity;
+import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadRawResult;
+import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadRawTask;
 import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadResult;
 import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadTask;
 import com.gschw.ljwc.grabber.datagrabber.core.Grabber;
@@ -69,6 +71,25 @@ public class DGDownloadTaskResource implements IDGDownloadTaskResource {
         DGDownloadResult downloadResult = new DGDownloadResult(task.getTaskIdentity(), uploadResult);
         return Response.ok().entity(downloadResult).build();
     }
+
+    @Path("/session/{sessionIdentity}/downloadRaw")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Override
+    public Response downloadRaw(@PathParam("sessionIdentity") @NotNull Identity sessionIdentity, @NotNull DGDownloadRawTask task) {
+        Grabber grabber = keeper.getBySession(sessionIdentity);
+        if (grabber == null)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        ////
+        GrabberResult result = grabber.grab(task.getUrl());
+        if (result == null)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        DGDownloadRawResult taskResult = DGDownloadRawResult.createSuccess(task.getTaskIdentity(), result.getData());
+        return Response.ok().entity(taskResult).build();
+    }
+
 
     @Path("/session/{sessionIdentity}")
     @DELETE

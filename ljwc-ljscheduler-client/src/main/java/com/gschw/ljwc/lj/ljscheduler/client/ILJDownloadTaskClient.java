@@ -10,4 +10,5 @@ import com.gschw.ljwc.lj.ljscheduler.api.LJDownloadElement;
 public interface ILJDownloadTaskClient {
     LJDownloadTask acquireTask(Identity clientIdentity);
     boolean completeElement(Identity elementIdentity, boolean success);
+    boolean download(LJDownloadTask task, long timeoutInMsec);
 }

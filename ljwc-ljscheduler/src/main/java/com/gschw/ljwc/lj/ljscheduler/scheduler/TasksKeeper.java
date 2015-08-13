@@ -3,6 +3,7 @@ package com.gschw.ljwc.lj.ljscheduler.scheduler;
 import com.gschw.ljwc.auth.Identity;
 import com.gschw.ljwc.lj.ljscheduler.api.LJDownloadTask;
 import com.gschw.ljwc.lj.ljscheduler.client.ILJDownloadTaskClient;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,11 +34,15 @@ public class TasksKeeper implements ILJDownloadTaskClient {
         if (clientIdentity == null)
             return null;
 
-        if (testTasksToProcess.isEmpty())
-            return null;
-
         ////
-        LJDownloadTask task = testTasksToProcess.poll();
+        LJDownloadTask task;
+        synchronized(testTasksToProcess) {
+            if (testTasksToProcess.isEmpty())
+                return null;
+
+            task = testTasksToProcess.poll();
+        }
+
         task.setAssignedTo(clientIdentity);
 
         logger.info("Issued {} to {}", task.getIdentity(), task.getAssignedTo());
@@ -49,5 +54,15 @@ public class TasksKeeper implements ILJDownloadTaskClient {
     public boolean completeElement(Identity elementIdentity, boolean success) {
         logger.info("Complete says: {} for {}", success, elementIdentity);
         return false;
+    }
+
+
+    @Override
+    public boolean download(LJDownloadTask task, long timeoutInMsec) {
+        synchronized (testTasksToProcess) {
+            testTasksToProcess.add(task);
+        }
+
+        //// wait
     }
 }

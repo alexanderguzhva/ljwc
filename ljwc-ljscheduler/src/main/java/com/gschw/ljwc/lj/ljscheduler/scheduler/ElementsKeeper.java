@@ -1,7 +1,6 @@
 package com.gschw.ljwc.lj.ljscheduler.scheduler;
 
 import com.gschw.ljwc.auth.Identity;
-import com.gschw.ljwc.auth.IdentityRandomGenerator;
 import com.gschw.ljwc.lj.ljscheduler.api.LJDownloadElement;
 
 import java.util.Map;

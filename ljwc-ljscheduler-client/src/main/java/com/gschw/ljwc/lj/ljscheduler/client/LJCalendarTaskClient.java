@@ -2,36 +2,34 @@ package com.gschw.ljwc.lj.ljscheduler.client;
 
 import com.google.common.base.Throwables;
 import com.gschw.ljwc.auth.Identity;
-
-import com.gschw.ljwc.lj.ljscheduler.api.LJDownloadTask;
-import com.gschw.ljwc.lj.ljscheduler.api.LJDownloadElement;
+import com.gschw.ljwc.lj.ljscheduler.api.LJCalendarTask;
+import com.gschw.ljwc.lj.ljscheduler.api.LJCalendarTaskResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import javax.ws.rs.client.Client;
-
 /**
- * Created by nop on 7/15/15.
+ * Created by nop on 8/15/15.
  */
-public class LJDownloadTaskClient implements ILJDownloadTaskClient {
-    private static Logger logger = LoggerFactory.getLogger(LJDownloadTaskClient.class);
+public class LJCalendarTaskClient implements ILJCalendarTaskClient {
+    private static Logger logger = LoggerFactory.getLogger(LJCalendarTaskClient.class);
 
     private Client client;
 
-    private LJDownloadTaskClientParameters parameters;
+    private LJCalendarTaskClientParameters parameters;
 
-    public LJDownloadTaskClient(Client client, LJDownloadTaskClientParameters parameters) {
+    public LJCalendarTaskClient(Client client, LJCalendarTaskClientParameters parameters) {
         this.client = client;
         this.parameters = parameters;
     }
 
     @Override
-    public LJDownloadTask acquireTask(Identity clientIdentity) {
+    public LJCalendarTask acquireTask(Identity clientIdentity) {
         ////
         String url = parameters.getServiceUrl();
 
@@ -39,7 +37,7 @@ public class LJDownloadTaskClient implements ILJDownloadTaskClient {
             Response response =
                     client
                             .target(url)
-                            .path("/taskgenerator")
+                            .path("/calendargenerator")
                             .queryParam("clientIdentity", clientIdentity)
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildGet()
@@ -49,7 +47,7 @@ public class LJDownloadTaskClient implements ILJDownloadTaskClient {
             if (response.getStatus() != Response.Status.OK.getStatusCode())
                 return null;
 
-            LJDownloadTask task = response.readEntity(LJDownloadTask.class);
+            LJCalendarTask task = response.readEntity(LJCalendarTask.class);
             return task;
 
         } catch (Exception e) {
@@ -59,7 +57,7 @@ public class LJDownloadTaskClient implements ILJDownloadTaskClient {
     }
 
     @Override
-    public boolean completeElement(Identity elementIdentity, boolean success) {
+    public boolean complete(LJCalendarTaskResult result) {
         ////
         String url = parameters.getServiceUrl();
 
@@ -67,9 +65,9 @@ public class LJDownloadTaskClient implements ILJDownloadTaskClient {
             Response response =
                     client
                             .target(url)
-                            .path(String.format("/element/%s", elementIdentity))
+                            .path("/calendarurls")
                             .request(MediaType.APPLICATION_JSON_TYPE)
-                            .buildPost(Entity.entity(new Boolean(success), MediaType.APPLICATION_JSON_TYPE))
+                            .buildPost(Entity.entity(result, MediaType.APPLICATION_JSON_TYPE))
                             .invoke();
 
             logger.info("{} returned {}", url, response.getStatusInfo());
@@ -84,27 +82,26 @@ public class LJDownloadTaskClient implements ILJDownloadTaskClient {
         }
     }
 
+
     @Override
-    public boolean download(LJDownloadTask task, long timeoutInMsec) {
+    public boolean download(LJCalendarTask task, long timeoutInMsec) {
         return download(task, new Long(timeoutInMsec));
     }
 
     @Override
-    public boolean download(LJDownloadTask task) {
+    public boolean download(LJCalendarTask task) {
         return download(task, null);
     }
 
-    private boolean download(LJDownloadTask task, Long timeoutInMsec) {
-        ////
+    private boolean download(LJCalendarTask task, Long timeoutInMsec) {
         String url = parameters.getServiceUrl();
 
         try {
             WebTarget target = client
                             .target(url)
-                            .path("/download");
-
+                            .path("/downloadcalendar");
             if (timeoutInMsec != null)
-                target = target.queryParam("timeout");
+                target = target.queryParam("timeout", timeoutInMsec);
 
             Response response = target
                             .request(MediaType.APPLICATION_JSON_TYPE)

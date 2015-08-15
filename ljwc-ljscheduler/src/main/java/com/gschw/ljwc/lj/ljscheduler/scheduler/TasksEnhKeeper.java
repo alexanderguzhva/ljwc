@@ -47,4 +47,14 @@ public class TasksEnhKeeper implements ILJDownloadTaskClient {
         return false;
         */
     }
+
+    @Override
+    public boolean download(LJDownloadTask task, long timeoutInMsec) {
+        return false;
+    }
+
+    @Override
+    public boolean download(LJDownloadTask task) {
+        return false;
+    }
 }

@@ -16,6 +16,9 @@ public class LJCalendarTask {
     @NotNull
     private Identity taskIdentity;
 
+    /**
+     * An url of a blog page. For ex., http://tema.livejournal.com
+     */
     @URL
     @NotBlank
     private String url;

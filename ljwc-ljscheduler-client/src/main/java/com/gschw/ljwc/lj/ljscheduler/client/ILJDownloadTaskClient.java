@@ -11,4 +11,5 @@ public interface ILJDownloadTaskClient {
     LJDownloadTask acquireTask(Identity clientIdentity);
     boolean completeElement(Identity elementIdentity, boolean success);
     boolean download(LJDownloadTask task, long timeoutInMsec);
+    boolean download(LJDownloadTask task);
 }

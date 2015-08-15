@@ -10,6 +10,9 @@ import org.hibernate.validator.constraints.URL;
  * Created by nop on 8/12/15.
  */
 public class LJCalendarTaskResultElement {
+    /**
+     * A single blog page. For ex., http://tema.livejournal.com/12356.html
+     */
     @URL
     @NotBlank
     private String url;

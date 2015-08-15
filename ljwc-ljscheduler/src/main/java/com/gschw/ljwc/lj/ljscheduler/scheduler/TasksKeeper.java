@@ -64,5 +64,11 @@ public class TasksKeeper implements ILJDownloadTaskClient {
         }
 
         //// wait
+        return false;
+    }
+
+    @Override
+    public boolean download(LJDownloadTask task) {
+        return false;
     }
 }

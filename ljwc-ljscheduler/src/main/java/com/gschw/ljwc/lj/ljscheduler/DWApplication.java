@@ -1,5 +1,6 @@
 package com.gschw.ljwc.lj.ljscheduler;
 
+import com.gschw.ljwc.lj.ljscheduler.resources.CalendarResource;
 import com.gschw.ljwc.lj.ljscheduler.resources.LJDownloadTaskResource;
 import com.gschw.ljwc.lj.ljscheduler.scheduler.*;
 import io.dropwizard.Application;
@@ -43,5 +44,9 @@ public class DWApplication extends Application<DWConfiguration> {
         LJDownloadTaskResource taskResource =
                 new LJDownloadTaskResource(tasksKeeper);
         environment.jersey().register(taskResource);
+
+        ////
+        CalendarResource calendarResource = new CalendarResource();
+        environment.jersey().register(calendarResource);
     }
 }

@@ -1,7 +1,8 @@
 package com.gschw.ljwc.lj.ljscheduler.scheduler;
 
 import com.gschw.ljwc.auth.Identity;
-import com.gschw.ljwc.auth.IdentityRandomGenerator;
+import com.gschw.ljwc.auth.IIdentityGenerator;
+import com.gschw.ljwc.auth.StandardIdentityRandomGenerator;
 import com.gschw.ljwc.lj.ljscheduler.api.LJDownloadTask;
 import com.gschw.ljwc.lj.ljscheduler.core.LJPostPageElement;
 import com.gschw.ljwc.lj.ljscheduler.core.LJPostPageRoot;
@@ -34,6 +35,13 @@ public class DownloadSequence {
     }
 
     //
+    private IIdentityGenerator identityGenerator;
+
+    public DownloadSequence() {
+        identityGenerator = new StandardIdentityRandomGenerator();
+    }
+
+    //
     public void reset() {
         elementsBeingDownloaded.clear();
         rootPage = null;
@@ -51,7 +59,7 @@ public class DownloadSequence {
         elementsBeingDownloaded.add(downloadableElement);
 
         //// add to task
-        Identity taskIdentity = IdentityRandomGenerator.generate();
+        Identity taskIdentity = identityGenerator.generate();
         LJDownloadTask task = new LJDownloadTask(taskIdentity);
 
         task.addElement(downloadableElement.getElement());
@@ -61,7 +69,7 @@ public class DownloadSequence {
 
     private LJDownloadTask acquireDEForElements(LJAgent agent) {
         //// create task
-        Identity taskIdentity = IdentityRandomGenerator.generate();
+        Identity taskIdentity = identityGenerator.generate();
         LJDownloadTask task = new LJDownloadTask(taskIdentity);
 
         ////

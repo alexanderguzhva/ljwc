@@ -75,6 +75,7 @@ public class DGDownloadTaskResource implements IDGDownloadTaskResource {
     @Path("/session/{sessionIdentity}/downloadRaw")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response downloadRaw(@PathParam("sessionIdentity") @NotNull Identity sessionIdentity, @NotNull DGDownloadRawTask task) {
         Grabber grabber = keeper.getBySession(sessionIdentity);

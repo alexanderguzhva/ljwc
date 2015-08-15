@@ -20,6 +20,10 @@ public class CalendarAnalyzer {
 
     private LinksExtractor extractor;
 
+    public CalendarAnalyzer(LinksExtractor extractor) {
+        this.extractor = extractor;
+    }
+
     //
     public void getYearsFromCalendar(String baseURL, Collection<String> yearsURLs)
     {

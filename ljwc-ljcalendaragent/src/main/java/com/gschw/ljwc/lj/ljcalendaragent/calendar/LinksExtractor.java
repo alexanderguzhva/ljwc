@@ -6,7 +6,7 @@ import com.gschw.ljwc.auth.IIdentityGenerator;
 import com.gschw.ljwc.auth.StandardIdentityRandomGenerator;
 import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadRawResult;
 import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadRawTask;
-import com.gschw.ljwc.grabber.datagrabber.client.DGDownloadTaskClient;
+import com.gschw.ljwc.grabber.datagrabber.client.IDGDownloadTaskClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,12 +23,12 @@ import java.util.regex.Pattern;
 public class LinksExtractor {
     private static Logger logger = LoggerFactory.getLogger(LinksExtractor.class);
 
-    private DGDownloadTaskClient downloadTaskClient;
+    private IDGDownloadTaskClient downloadTaskClient;
     private Identity sessionIdentity;
 
     private IIdentityGenerator identityGenerator;
 
-    public LinksExtractor(DGDownloadTaskClient downloadTaskClient, Identity sessionIdentity) {
+    public LinksExtractor(IDGDownloadTaskClient downloadTaskClient, Identity sessionIdentity) {
         this.downloadTaskClient = downloadTaskClient;
         this.sessionIdentity = sessionIdentity;
 

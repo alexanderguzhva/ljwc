@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 public class ControllerResource {
     private static Logger logger = LoggerFactory.getLogger(ControllerResource.class);
 
-    private Processor processor = new Processor();
+    private Processor processor;
 
     public ControllerResource(Processor processor) {
         this.processor = processor;

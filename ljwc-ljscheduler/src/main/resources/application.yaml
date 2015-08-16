@@ -26,3 +26,6 @@ tasksKeeperParameters:
             - identity:
                 id: element22
               url: http://localhost:11210/generate/2_2
+
+calendarKeeperParameters:
+    defaultTimeoutMsec: 1000

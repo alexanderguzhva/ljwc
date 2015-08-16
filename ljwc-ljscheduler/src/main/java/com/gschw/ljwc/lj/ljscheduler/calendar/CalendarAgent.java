@@ -31,6 +31,10 @@ public class CalendarAgent {
         tasksBeingProcessed.add(task);
     }
 
+    public boolean removeTask(LJCalendarTask task) {
+        return tasksBeingProcessed.remove(task);
+    }
+
     //
     public CalendarAgent(Identity agentIdentity) {
         this.agentIdentity = agentIdentity;

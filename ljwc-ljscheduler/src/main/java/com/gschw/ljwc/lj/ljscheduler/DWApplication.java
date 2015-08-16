@@ -1,5 +1,7 @@
 package com.gschw.ljwc.lj.ljscheduler;
 
+import com.gschw.ljwc.lj.ljscheduler.calendar.CalendarKeeper;
+import com.gschw.ljwc.lj.ljscheduler.calendar.CalendarKeeperParameters;
 import com.gschw.ljwc.lj.ljscheduler.resources.CalendarResource;
 import com.gschw.ljwc.lj.ljscheduler.resources.LJDownloadTaskResource;
 import com.gschw.ljwc.lj.ljscheduler.scheduler.*;
@@ -40,13 +42,15 @@ public class DWApplication extends Application<DWConfiguration> {
                 configuration.getTasksKeeperParameters();
         TasksKeeper tasksKeeper = new TasksKeeper(tasksKeeperParameters);
 
-        ////
-        LJDownloadTaskResource taskResource =
-                new LJDownloadTaskResource(tasksKeeper);
+        LJDownloadTaskResource taskResource = new LJDownloadTaskResource(tasksKeeper);
         environment.jersey().register(taskResource);
 
         ////
-        CalendarResource calendarResource = new CalendarResource();
+        CalendarKeeperParameters calendarKeeperParameters =
+                configuration.getCalendarKeeperParameters();
+        CalendarKeeper calendarKeeper = new CalendarKeeper(calendarKeeperParameters);
+
+        CalendarResource calendarResource = new CalendarResource(calendarKeeper);
         environment.jersey().register(calendarResource);
     }
 }

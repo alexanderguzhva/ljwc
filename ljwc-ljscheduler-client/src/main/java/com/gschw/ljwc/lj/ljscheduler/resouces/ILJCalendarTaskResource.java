@@ -27,5 +27,5 @@ public interface ILJCalendarTaskResource {
     @Path("download")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    Response download(@NotNull LJCalendarTask task, @NotNull Long timeout);
+    Response download(@NotNull LJCalendarTask task, @QueryParam("timeout") Long timeout);
 }

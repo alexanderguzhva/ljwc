@@ -22,4 +22,5 @@ include 'ljwc-uploader'
 include 'ljwc-ljagent'
 include 'ljwc-ljreader'
 include 'ljwc-ljcalendaragent'
+include 'ljwc-common'
 

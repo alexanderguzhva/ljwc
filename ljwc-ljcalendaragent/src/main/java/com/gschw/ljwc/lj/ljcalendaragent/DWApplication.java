@@ -17,7 +17,7 @@ public class DWApplication extends Application<DWConfiguration> {
 
     @Override
     public String getName() {
-        return "ljwc-ljagent";
+        return "ljwc-ljcalendaragent";
     }
 
     @Override

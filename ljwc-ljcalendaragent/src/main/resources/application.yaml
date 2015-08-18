@@ -6,13 +6,8 @@ server:
         - type: http
           port: 11171
 
-httpClient:
-    timeout: 2000ms
-    connectionTimeout: 2000ms
-    connectionRequestTimeout: 2000ms
-
 processorParameters:
-    calendarServiceUrl: "http://localhost:11240/"
+    calendarServiceUrl: "unused"
     processorIdentity:
         id: "ljagent"
 
@@ -20,5 +15,5 @@ downloadTaskClientParameters:
     serviceUrl: "http://localhost:11250/"
 
 ljCalendarTaskClientParameters:
-    serviceUrl: "http://localhost:11260/"
+    serviceUrl: "http://localhost:11260/calendar/"
 

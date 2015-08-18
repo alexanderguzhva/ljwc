@@ -27,8 +27,6 @@ public class DWConfiguration extends Configuration {
         return httpClient;
     }
 
-
-
     //
     @NotNull
     private GrabberParameters grabberParameters;

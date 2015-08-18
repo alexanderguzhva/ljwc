@@ -37,7 +37,7 @@ public class LJCalendarTaskClient implements ILJCalendarTaskClient {
             Response response =
                     client
                             .target(url)
-                            .path("/calendargenerator")
+                            .path("/generator")
                             .queryParam("clientIdentity", clientIdentity)
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildGet()
@@ -65,7 +65,7 @@ public class LJCalendarTaskClient implements ILJCalendarTaskClient {
             Response response =
                     client
                             .target(url)
-                            .path("/calendarurls")
+                            .path("/urls")
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildPost(Entity.entity(result, MediaType.APPLICATION_JSON_TYPE))
                             .invoke();
@@ -99,7 +99,7 @@ public class LJCalendarTaskClient implements ILJCalendarTaskClient {
         try {
             WebTarget target = client
                             .target(url)
-                            .path("/downloadcalendar");
+                            .path("/download");
             if (timeoutInMsec != null)
                 target = target.queryParam("timeout", timeoutInMsec);
 

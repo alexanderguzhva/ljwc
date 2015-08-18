@@ -66,9 +66,7 @@ public class CalendarAnalyzer {
             String baseURL;
             try
             {
-                URI uri = new URI(ie);
-                baseURL = uri.getHost();
-                //baseURL = String2URI.extractHost(ie).toString();
+                baseURL = String2URI.extractHost(ie).toString();
             }
             catch (Exception ex)
             {
@@ -78,8 +76,8 @@ public class CalendarAnalyzer {
             }
 
             ////
-            Pattern singlePattern = Pattern.compile(String.format("%s/\\d+.html", baseURL));
-
+            String lookingFor = String.format("%s/\\d+.html", baseURL);
+            Pattern singlePattern = Pattern.compile(lookingFor);
             extractor.ExtractLinks(ie, singlePattern, posts);
         }
 

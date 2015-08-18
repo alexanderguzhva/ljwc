@@ -56,6 +56,8 @@ public class LinksExtractor {
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
         }
+
+        logger.info("Processed ExtractLinks from {}", baseURL);
     }
 
 

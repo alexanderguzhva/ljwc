@@ -5,6 +5,7 @@ import com.gschw.ljwc.grabber.datagrabber.client.DGDownloadTaskClientParameters;
 import com.gschw.ljwc.grabber.datagrabber.client.IDGDownloadTaskClient;
 import com.gschw.ljwc.lj.ljcalendaragent.calendar.Processor;
 import com.gschw.ljwc.lj.ljcalendaragent.calendar.ProcessorParameters;
+import com.gschw.ljwc.lj.ljcalendaragent.resources.ControllerResource;
 import com.gschw.ljwc.lj.ljscheduler.client.ILJCalendarTaskClient;
 import com.gschw.ljwc.lj.ljscheduler.client.LJCalendarTaskClient;
 import com.gschw.ljwc.lj.ljscheduler.client.LJCalendarTaskClientParameters;
@@ -14,6 +15,7 @@ import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.glassfish.jersey.client.ClientProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +49,9 @@ public class DWApplication extends Application<DWConfiguration> {
                 .using(configuration.getJerseyClientConfiguration())
                 .build(getName());
 
+        client.property(ClientProperties.CONNECT_TIMEOUT, 10000);
+        client.property(ClientProperties.READ_TIMEOUT, 10000);
+
         ////
         DGDownloadTaskClientParameters downloadTaskClientParameters =
             configuration.getDownloadTaskClientParameters();
@@ -66,7 +71,10 @@ public class DWApplication extends Application<DWConfiguration> {
                     calendarTaskClient,
                     processorParameters);
 
-        environment.jersey().register(processor);
+        ControllerResource controllerResource =
+                new ControllerResource(processor);
+
+        environment.jersey().register(controllerResource);
     }
 
 }

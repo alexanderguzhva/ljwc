@@ -22,12 +22,12 @@ public class ProcessorParameters {
     public ProcessorParameters() {
     }
 
-    @JsonProperty("calendarService")
+    @JsonProperty("calendarServiceUrl")
     public String getCalendarServiceUrl() {
         return calendarServiceUrl;
     }
 
-    @JsonProperty("calendarService")
+    @JsonProperty("calendarServiceUrl")
     public void setCalendarServiceUrl(String calendarServiceUrl) {
         this.calendarServiceUrl = calendarServiceUrl;
     }

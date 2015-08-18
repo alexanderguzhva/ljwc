@@ -39,7 +39,7 @@ public class LJDownloadTaskClient implements ILJDownloadTaskClient {
             Response response =
                     client
                             .target(url)
-                            .path("/taskgenerator")
+                            .path("/generator")
                             .queryParam("clientIdentity", clientIdentity)
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildGet()

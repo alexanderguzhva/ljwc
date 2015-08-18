@@ -3,6 +3,8 @@ package com.gschw.ljwc.lj.ljcalendaragent.calendar;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.regex.Matcher;
@@ -12,6 +14,9 @@ import java.util.regex.Pattern;
  * Created by nop on 8/12/15.
  */
 public class LinksMatcher {
+    private static Logger logger = LoggerFactory.getLogger(LinksMatcher.class);
+
+
     private LinksMatcher() {
     }
 

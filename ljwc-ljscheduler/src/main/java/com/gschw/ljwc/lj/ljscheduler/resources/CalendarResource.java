@@ -4,8 +4,9 @@ import com.gschw.ljwc.auth.Identity;
 import com.gschw.ljwc.lj.ljscheduler.api.LJCalendarTask;
 import com.gschw.ljwc.lj.ljscheduler.api.LJCalendarTaskResult;
 import com.gschw.ljwc.lj.ljscheduler.calendar.CalendarKeeper;
-import com.gschw.ljwc.lj.ljscheduler.client.ILJCalendarTaskClient;
 import com.gschw.ljwc.lj.ljscheduler.resouces.ILJCalendarTaskResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
@@ -15,8 +16,9 @@ import javax.ws.rs.core.Response;
 /**
  * Created by nop on 8/15/15.
  */
-@Path("/")
+@Path("/calendar")
 public class CalendarResource implements ILJCalendarTaskResource {
+    private static Logger logger = LoggerFactory.getLogger(CalendarResource.class);
 
     private CalendarKeeper calendarKeeper;
 
@@ -25,8 +27,9 @@ public class CalendarResource implements ILJCalendarTaskResource {
     }
 
     @GET
-    @Path("calendargenerator")
+    @Path("generator")
     @Produces(MediaType.APPLICATION_JSON)
+    @Override
     public Response acquireTask(@QueryParam("clientIdentity") @NotNull Identity clientIdentity) {
         LJCalendarTask task = calendarKeeper.acquireTask(clientIdentity);
         if (task == null)
@@ -36,7 +39,8 @@ public class CalendarResource implements ILJCalendarTaskResource {
     }
 
     @POST
-    @Path("calendarurls")
+    @Path("urls")
+    @Override
     public Response completeElement(@NotNull LJCalendarTaskResult result) {
         boolean b = calendarKeeper.complete(result);
         if (!b)
@@ -49,7 +53,10 @@ public class CalendarResource implements ILJCalendarTaskResource {
     @Path("download")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Override
     public Response download(@NotNull LJCalendarTask task, @QueryParam("timeout") Long timeout) {
+        logger.info("Going to process {}", task.getUrl());
+
         if (timeout == null) {
             boolean b = calendarKeeper.download(task);
             if (!b)

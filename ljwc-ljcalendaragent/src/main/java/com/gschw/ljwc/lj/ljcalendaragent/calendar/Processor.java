@@ -30,6 +30,7 @@ public class Processor {
     }
 
     public boolean iterate() {
+        logger.info("Let us iterate");
         LJCalendarTask task = calendarTaskClient.acquireTask(parameters.getProcessorIdentity());
         if (task == null) {
             logger.error("Could not get a task to process");
@@ -42,6 +43,8 @@ public class Processor {
             return false;
         }
 
+        logger.info("Url is {}", url);
+
         //// now create session
         Identity sessionIdentity = downloadTaskClient.createSession();
         if (sessionIdentity == null) {
@@ -49,7 +52,7 @@ public class Processor {
             return false;
         }
 
-        logger.debug("Created a session {}", sessionIdentity);
+        logger.info("Created a session {}", sessionIdentity);
 
         try {
             LinksExtractor extractor = new LinksExtractor(downloadTaskClient, sessionIdentity);
@@ -84,7 +87,7 @@ public class Processor {
             }
 
             ////
-            LJCalendarTaskResult result = new LJCalendarTaskResult();
+            LJCalendarTaskResult result = new LJCalendarTaskResult(task.getTaskIdentity());
             for (String postUrl : postURLs) {
                 LJCalendarTaskResultElement element =
                         new LJCalendarTaskResultElement(postUrl);

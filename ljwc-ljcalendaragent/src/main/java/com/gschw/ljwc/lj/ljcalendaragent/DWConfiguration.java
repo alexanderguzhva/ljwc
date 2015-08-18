@@ -24,6 +24,8 @@ public class DWConfiguration extends Configuration {
     }
 
 
+
+
     private ProcessorParameters processorParameters;
 
     @JsonProperty("processorParameters")

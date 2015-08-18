@@ -83,10 +83,12 @@ public class DGDownloadTaskResource implements IDGDownloadTaskResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
 
         ////
+        logger.info("Going to download {}", task.getUrl());
         GrabberResult result = grabber.grab(task.getUrl());
         if (result == null)
             return Response.status(Response.Status.BAD_REQUEST).build();
 
+        logger.info("Downloaded {}", task.getUrl());
         DGDownloadRawResult taskResult = DGDownloadRawResult.createSuccess(task.getTaskIdentity(), result.getData());
         return Response.ok().entity(taskResult).build();
     }

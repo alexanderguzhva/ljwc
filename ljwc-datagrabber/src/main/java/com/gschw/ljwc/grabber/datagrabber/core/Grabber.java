@@ -80,17 +80,18 @@ public class Grabber {
 
         //// content
         try {
-            InputStream inputStream = httpEntity.getContent();
+            try (InputStream inputStream = httpEntity.getContent()) {
 
-            ////
-            try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-                byte[] buffer = new byte[65536];
-                int len;
-                while ((len = inputStream.read(buffer)) > -1)
-                    baos.write(buffer, 0, len);
-                baos.flush();
+                ////
+                try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+                    byte[] buffer = new byte[65536];
+                    int len;
+                    while ((len = inputStream.read(buffer)) > -1)
+                        baos.write(buffer, 0, len);
+                    baos.flush();
 
-                return new GrabberResult(uri, baos.toByteArray());
+                    return new GrabberResult(uri, baos.toByteArray());
+                }
             }
         } catch (IOException e) {
             logger.error(Throwables.getStackTraceAsString(e));

@@ -6,11 +6,12 @@ server:
         - type: http
           port: 11251
 
+
 grabberParameters:
-    userAgentString: "mr. firefox"
-    timeoutMSec: 10000
-    gracefulSleepMSec: 0
-    socketTimeoutMSec: 1000
+    userAgentString: "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0"
+    timeoutMSec: 3000
+    gracefulSleepMSec: 100
+    socketTimeoutMSec: 3000
 
 grabbersKeeperParameters:
     maximumNumberOfSessions: 100

@@ -14,18 +14,7 @@ import javax.ws.rs.core.Response;
  * Created by nop on 8/15/15.
  */
 public interface ILJCalendarTaskResource {
-    @GET
-    @Path("calendargenerator")
-    @Produces(MediaType.APPLICATION_JSON)
     Response acquireTask(@QueryParam("clientIdentity") @NotNull Identity clientIdentity);
-
-    @POST
-    @Path("calendarurls")
     Response completeElement(@NotNull LJCalendarTaskResult result);
-
-    @POST
-    @Path("download")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     Response download(@NotNull LJCalendarTask task, @QueryParam("timeout") Long timeout);
 }

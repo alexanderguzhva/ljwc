@@ -1,0 +1,11 @@
+ljagent			58500
+ljcalendaragent		58510
+ljscheduler		58520
+uploader		58530
+
+datagrabber		58540
+memorydb		58550
+
+ljreader		58560
+
+httprnggenerator	58570

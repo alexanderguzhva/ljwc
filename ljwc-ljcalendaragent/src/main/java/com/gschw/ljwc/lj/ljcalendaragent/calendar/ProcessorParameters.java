@@ -11,25 +11,11 @@ import javax.validation.constraints.NotNull;
  * Created by nop on 8/15/15.
  */
 public class ProcessorParameters {
-    @URL
-    @NotBlank
-    private String calendarServiceUrl;
-
     @NotNull
     private Identity processorIdentity;
 
 
     public ProcessorParameters() {
-    }
-
-    @JsonProperty("calendarServiceUrl")
-    public String getCalendarServiceUrl() {
-        return calendarServiceUrl;
-    }
-
-    @JsonProperty("calendarServiceUrl")
-    public void setCalendarServiceUrl(String calendarServiceUrl) {
-        this.calendarServiceUrl = calendarServiceUrl;
     }
 
     @JsonProperty("processorIdentity")

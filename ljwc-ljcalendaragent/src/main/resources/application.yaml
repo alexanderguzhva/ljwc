@@ -7,7 +7,6 @@ server:
           port: 11171
 
 processorParameters:
-    calendarServiceUrl: "unused"
     processorIdentity:
         id: "ljagent"
 

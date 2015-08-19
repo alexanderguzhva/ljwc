@@ -1,5 +1,6 @@
 package com.gschw.ljwc.html.htmlparser.client;
 
+import com.google.common.base.Throwables;
 import com.gschw.ljwc.html.htmlparser.api.*;
 
 import org.slf4j.Logger;
@@ -10,39 +11,79 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.net.URI;
 
 /**
  * Created by nop on 6/29/15.
  */
 
-public class HTMLParserClient {
+public class HTMLParserClient implements IHTMLParserClient {
     private static Logger logger = LoggerFactory.getLogger(HTMLParserClient.class);
 
     private Client client;
 
-    private URI serviceURI;
+    private HTMLParserClientParameters parameters;
 
-    public HTMLParserClient(Client client, URI serviceURI) {
+    public HTMLParserClient(Client client, HTMLParserClientParameters parameters) {
         this.client = client;
-        this.serviceURI = serviceURI;
+        this.parameters = parameters;
     }
 
     public ElementsCollection parse(byte[] data) {
         logger.info("Going to parse {} bytes", data.length);
 
-        HTMLParserData parserData = new HTMLParserData(data);
+        HTMLParseTaskByData parserData = new HTMLParseTaskByData(data);
 
-        WebTarget target = client.target(serviceURI);
-        Response response =
-                target.request()
-                        .buildPost(Entity.entity(parserData, MediaType.APPLICATION_JSON_TYPE))
-                        .invoke();
+        try {
+            WebTarget target = client
+                        .target(parameters.getServiceURL())
+                        .path("/parseByData");
+            Response response =
+                    target.request()
+                            .buildPost(Entity.entity(parserData, MediaType.APPLICATION_JSON_TYPE))
+                            .invoke();
 
-        if (response.getStatus() != Response.Status.OK.getStatusCode())
+            if (response.getStatus() != Response.Status.OK.getStatusCode())
+                return null;
+
+            HTMLParseResultByData result = response.readEntity(HTMLParseResultByData.class);
+            if (result == null)
+                return null;
+
+            return result.getElements();
+        }
+        catch (Exception e) {
+            logger.error(Throwables.getStackTraceAsString(e));
             return null;
-
-        return response.readEntity(ElementsCollection.class);
+        }
     }
 
+    @Override
+    public ElementsCollection parse(String dbUrl) {
+        logger.info("Going to parse {} db element", dbUrl);
+
+        HTMLParseTaskByDBURL task = new HTMLParseTaskByDBURL(dbUrl);
+
+        try {
+            WebTarget target = client
+                    .target(parameters.getServiceURL())
+                    .path("/parseByDBURL");
+            Response response =
+                    target.request()
+                            .buildPost(Entity.entity(task, MediaType.APPLICATION_JSON_TYPE))
+                            .invoke();
+
+            if (response.getStatus() != Response.Status.OK.getStatusCode())
+                return null;
+
+            HTMLParseResultByDBURL result = response.readEntity(HTMLParseResultByDBURL.class);
+            if (result == null)
+                return null;
+
+            return result.getElements();
+        }
+        catch (Exception e) {
+            logger.error(Throwables.getStackTraceAsString(e));
+            return null;
+        }
+    }
 }

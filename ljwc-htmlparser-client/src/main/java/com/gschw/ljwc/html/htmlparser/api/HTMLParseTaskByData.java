@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by nop on 5/16/15.
  */
-public class HTMLParserData {
+public class HTMLParseTaskByData {
     private final byte[] data;
 
     @JsonCreator
-    public HTMLParserData(@JsonProperty("data") byte[] data) {
+    public HTMLParseTaskByData(@JsonProperty("data") byte[] data) {
         this.data = data;
     }
 

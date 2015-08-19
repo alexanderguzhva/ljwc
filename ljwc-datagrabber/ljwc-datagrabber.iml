@@ -102,7 +102,7 @@
     <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.5.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.12" level="project" />
     <orderEntry type="module" module-name="ljwc-auth" exported="" />
-    <orderEntry type="module" module-name="ljwc-uploaderclient" exported="" />
+    <orderEntry type="module" module-name="ljwc-ljuploader-client" exported="" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

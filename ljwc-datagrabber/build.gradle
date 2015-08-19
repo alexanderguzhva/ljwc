@@ -17,7 +17,7 @@ dependencies {
     compile project(':ljwc-datagrabber-client')
     //compile project(':ljwc-ljdbwriter-client')
     compile project(':ljwc-auth')
-    compile project(':ljwc-uploaderclient')
+    compile project(':ljwc-ljuploader-client')
 
     compile 'ch.qos.logback:logback-core:1.1.2'
     compile 'ch.qos.logback:logback-classic:1.1.2'

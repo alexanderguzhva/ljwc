@@ -1,8 +1,6 @@
 package com.gschw.ljwc.grabber.datagrabber.resources;
 
 import com.gschw.ljwc.auth.Identity;
-import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadRawResult;
-import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadRawTask;
 import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadResult;
 import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadTask;
 import com.gschw.ljwc.grabber.datagrabber.core.Grabber;
@@ -37,6 +35,7 @@ public class DGDownloadTaskResource implements IDGDownloadTaskResource {
     @Path("/sessiongenerator")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Override
     public Response generateSession() {
         Identity identity = keeper.createSession();
         if (identity == null)
@@ -47,37 +46,10 @@ public class DGDownloadTaskResource implements IDGDownloadTaskResource {
 
     @Path("/session/{sessionIdentity}/download")
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response download(@PathParam("sessionIdentity") @NotNull Identity sessionIdentity, @NotNull DGDownloadTask task) {
-        Grabber grabber = keeper.getBySession(sessionIdentity);
-        if (grabber == null)
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
-        ////
-        GrabberResult result = grabber.grab(task.getUrl());
-        if (result == null)
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
-        ////
-        DGUploadTask uploadTask =
-                new DGUploadTask(
-                        task.getTaskIdentity(),
-                        task.getUrl(),
-                        result.getData());
-        boolean uploadResult = uploaderClient.upload(task.getUploadServiceURL(), uploadTask);
-
-        logger.info("uploadClient returned {}", uploadResult);
-
-        DGDownloadResult downloadResult = new DGDownloadResult(task.getTaskIdentity(), uploadResult);
-        return Response.ok().entity(downloadResult).build();
-    }
-
-    @Path("/session/{sessionIdentity}/downloadRaw")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public Response downloadRaw(@PathParam("sessionIdentity") @NotNull Identity sessionIdentity, @NotNull DGDownloadRawTask task) {
+    public Response download(@PathParam("sessionIdentity") @NotNull Identity sessionIdentity, @NotNull DGDownloadTask task) {
         Grabber grabber = keeper.getBySession(sessionIdentity);
         if (grabber == null)
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -88,9 +60,30 @@ public class DGDownloadTaskResource implements IDGDownloadTaskResource {
         if (result == null)
             return Response.status(Response.Status.BAD_REQUEST).build();
 
+        ////
         logger.info("Downloaded {}", task.getUrl());
-        DGDownloadRawResult taskResult = DGDownloadRawResult.createSuccess(task.getTaskIdentity(), result.getData());
-        return Response.ok().entity(taskResult).build();
+
+        ////
+        DGDownloadResult downloadResult = new DGDownloadResult();
+        downloadResult.setTaskIdentity(task.getTaskIdentity());
+
+        if (task.isUploadDataToBase()) {
+            DGUploadTask uploadTask =
+                    new DGUploadTask(
+                            task.getTaskIdentity(),
+                            task.getUrl(),
+                            result.getData());
+            boolean uploadResult = uploaderClient.upload(task.getUploadServiceURL(), uploadTask);
+
+            downloadResult.setUploadSuccess(uploadResult);
+
+            logger.info("uploadClient returned {}", uploadResult);
+        }
+
+        if (task.isReturnDataInReply())
+            downloadResult.setData(result.getData());
+
+        return Response.ok().entity(downloadResult).build();
     }
 
 

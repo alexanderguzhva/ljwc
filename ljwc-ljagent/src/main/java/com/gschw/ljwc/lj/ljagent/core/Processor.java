@@ -59,15 +59,12 @@ public class Processor {
         //// ok, process one by one
         for (LJDownloadElement element : task.getElements()) {
             //// let this single grabber to process it
-            DGDownloadTask downloadTask =
-                    new DGDownloadTask(
-                            element.getIdentity(),
-                            element.getUrl(),
-                            parameters.getUploaderServiceUrl()
-                    );
-
-            ////
-            
+            DGDownloadTask downloadTask = new DGDownloadTask();
+            downloadTask.setTaskIdentity(element.getIdentity());
+            downloadTask.setUrl(element.getUrl());
+            downloadTask.setUploadServiceURL(parameters.getUploaderServiceUrl());
+            downloadTask.setReturnDataInReply(true);
+            downloadTask.setUploadDataToBase(true);
 
             ////
             boolean bSuccessToReturn = false;
@@ -90,7 +87,7 @@ public class Processor {
                     continue;
                 }
 
-                bSuccessToReturn = result.isSuccess();
+                bSuccessToReturn = result.isUploadSuccess();
             }
 
 

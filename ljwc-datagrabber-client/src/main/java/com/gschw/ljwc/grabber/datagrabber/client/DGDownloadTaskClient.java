@@ -2,8 +2,6 @@ package com.gschw.ljwc.grabber.datagrabber.client;
 
 import com.google.common.base.Throwables;
 import com.gschw.ljwc.auth.Identity;
-import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadRawResult;
-import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadRawTask;
 import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadResult;
 import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadTask;
 import org.slf4j.Logger;
@@ -58,34 +56,6 @@ public class DGDownloadTaskClient implements IDGDownloadTaskClient {
         }
     }
 
-    @Override
-    public DGDownloadRawResult downloadRaw(Identity sessionIdentity, DGDownloadRawTask dgDownloadRawTask) {
-        if (sessionIdentity == null || dgDownloadRawTask == null)
-            return null;
-
-        ////
-        String url = parameters.getServiceUrl();
-
-        try {
-            Response response =
-                    client
-                            .target(url)
-                            .path(String.format("/session/%s/downloadRaw", sessionIdentity.toString()))
-                            .request(MediaType.APPLICATION_JSON_TYPE)
-                            .buildPost(Entity.entity(dgDownloadRawTask, MediaType.APPLICATION_JSON_TYPE))
-                            .invoke();
-
-            logger.info("{} returned {}", url, response.getStatusInfo());
-            if (response.getStatus() != Response.Status.OK.getStatusCode())
-                return null;
-
-            return response.readEntity(DGDownloadRawResult.class);
-
-        } catch (Exception e) {
-            logger.error(Throwables.getStackTraceAsString(e));
-            return null;
-        }
-    }
 
 
     @Override

@@ -4,8 +4,8 @@ import com.google.common.base.Throwables;
 import com.gschw.ljwc.auth.Identity;
 import com.gschw.ljwc.auth.IIdentityGenerator;
 import com.gschw.ljwc.auth.StandardIdentityRandomGenerator;
-import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadRawResult;
-import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadRawTask;
+import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadResult;
+import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadTask;
 import com.gschw.ljwc.grabber.datagrabber.client.IDGDownloadTaskClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,11 +37,19 @@ public class LinksExtractor {
 
     public void ExtractLinks(String baseURL, Pattern pattern, Collection<String> outputURLs) {
         ////
-        DGDownloadRawTask task = new DGDownloadRawTask(identityGenerator.generate(), baseURL);
+        DGDownloadTask task = new DGDownloadTask();
+        task.setTaskIdentity(identityGenerator.generate());
+        task.setUrl(baseURL);
+        task.setReturnDataInReply(true);
+        task.setUploadDataToBase(false);
 
-        DGDownloadRawResult result = downloadTaskClient.downloadRaw(sessionIdentity, task);
+        DGDownloadResult result = downloadTaskClient.download(sessionIdentity, task);
         if (result == null) {
             logger.info("Could not download {}", baseURL);
+            return;
+        }
+        if (result.getData() == null) {
+            logger.warn("wtf, returned data is null");
             return;
         }
 

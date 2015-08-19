@@ -7,7 +7,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static io.dropwizard.testing.FixtureHelpers.fixture;
-import static org.testng.Assert.*;
 
 /**
  * Created by nop on 7/12/15.
@@ -21,10 +20,10 @@ public class DGDownloadResultTest {
         final DGDownloadResult resultFalse = new DGDownloadResult(identity, false);
         final DGDownloadResult resultTrue = new DGDownloadResult(identity, true);
 
-        Assert.assertFalse(resultFalse.isSuccess());
+        Assert.assertFalse(resultFalse.isUploadSuccess());
         Assert.assertEquals(resultFalse.getTaskIdentity(), identity);
 
-        Assert.assertTrue(resultTrue.isSuccess());
+        Assert.assertTrue(resultTrue.isUploadSuccess());
         Assert.assertEquals(resultTrue.getTaskIdentity(), identity);
     }
 

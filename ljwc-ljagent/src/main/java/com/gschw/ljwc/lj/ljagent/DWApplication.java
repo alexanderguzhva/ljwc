@@ -2,6 +2,9 @@ package com.gschw.ljwc.lj.ljagent;
 
 import com.gschw.ljwc.grabber.datagrabber.client.DGDownloadTaskClient;
 import com.gschw.ljwc.grabber.datagrabber.client.DGDownloadTaskClientParameters;
+import com.gschw.ljwc.html.htmlparser.client.HTMLParserClient;
+import com.gschw.ljwc.html.htmlparser.client.HTMLParserClientParameters;
+import com.gschw.ljwc.html.htmlparser.client.IHTMLParserClient;
 import com.gschw.ljwc.lj.ljagent.core.Processor;
 import com.gschw.ljwc.lj.ljagent.core.ProcessorParameters;
 import com.gschw.ljwc.lj.ljagent.resources.ControllerResource;
@@ -58,11 +61,17 @@ public class DWApplication extends Application<DWConfiguration> {
         LJDownloadTaskClient ljDownloadTaskClient =
                 new LJDownloadTaskClient(client, ljDownloadTaskClientParameters);
 
+        HTMLParserClientParameters htmlParserClientParameters =
+                configuration.getHtmlParserClientParameters();
+        IHTMLParserClient htmlParserClient =
+                new HTMLParserClient(client, htmlParserClientParameters);
+
         final ProcessorParameters processorParameters =
                 configuration.getProcessorParameters();
         Processor processor = new Processor(
                 dgDownloadTaskClient,
                 ljDownloadTaskClient,
+                htmlParserClient,
                 processorParameters);
 
 

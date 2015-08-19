@@ -2,6 +2,7 @@ package com.gschw.ljwc.lj.ljagent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gschw.ljwc.grabber.datagrabber.client.DGDownloadTaskClientParameters;
+import com.gschw.ljwc.html.htmlparser.client.HTMLParserClientParameters;
 import com.gschw.ljwc.lj.ljagent.core.ProcessorParameters;
 import com.gschw.ljwc.lj.ljscheduler.client.LJDownloadTaskClientParameters;
 import io.dropwizard.Configuration;
@@ -63,5 +64,19 @@ public class DWConfiguration extends Configuration {
     @JsonProperty("ljDownloadTaskClientParameters")
     public void setLjDownloadTaskClientParameters(LJDownloadTaskClientParameters ljDownloadTaskClientParameters) {
         this.ljDownloadTaskClientParameters = ljDownloadTaskClientParameters;
+    }
+
+
+    //
+    private HTMLParserClientParameters htmlParserClientParameters;
+
+    @JsonProperty
+    public HTMLParserClientParameters getHtmlParserClientParameters() {
+        return htmlParserClientParameters;
+    }
+
+    @JsonProperty
+    public void setHtmlParserClientParameters(HTMLParserClientParameters htmlParserClientParameters) {
+        this.htmlParserClientParameters = htmlParserClientParameters;
     }
 }

@@ -45,4 +45,21 @@ public class ElementsCollection {
     public void addMedia(MediaElement mediaElement) {
         medias.add(mediaElement);
     }
+
+
+    public List<ImageElement> getImages() {
+        return images;
+    }
+
+    public List<ImportElement> getImports() {
+        return imports;
+    }
+
+    public List<LinkElement> getLinks() {
+        return links;
+    }
+
+    public List<MediaElement> getMedias() {
+        return medias;
+    }
 }

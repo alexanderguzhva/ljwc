@@ -4,6 +4,10 @@ import com.gschw.ljwc.auth.Identity;
 import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadTask;
 import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadResult;
 import com.gschw.ljwc.grabber.datagrabber.client.IDGDownloadTaskClient;
+import com.gschw.ljwc.html.htmlparser.api.ElementsCollection;
+import com.gschw.ljwc.html.htmlparser.api.HTMLParseResultByDBURL;
+import com.gschw.ljwc.html.htmlparser.api.ImageElement;
+import com.gschw.ljwc.html.htmlparser.client.IHTMLParserClient;
 import com.gschw.ljwc.lj.ljscheduler.api.LJDownloadElement;
 import com.gschw.ljwc.lj.ljscheduler.api.LJDownloadTask;
 import com.gschw.ljwc.lj.ljscheduler.client.ILJDownloadTaskClient;
@@ -20,12 +24,14 @@ public class Processor {
 
     private IDGDownloadTaskClient dgDownloadClient;
     private ILJDownloadTaskClient iljDownloadTaskClient;
+    private IHTMLParserClient htmlParserClient;
 
     private ProcessorParameters parameters;
 
-    public Processor(IDGDownloadTaskClient dgDownloadClient, ILJDownloadTaskClient iljDownloadTaskClient, ProcessorParameters parameters) {
+    public Processor(IDGDownloadTaskClient dgDownloadClient, ILJDownloadTaskClient iljDownloadTaskClient, IHTMLParserClient htmlParserClient, ProcessorParameters parameters) {
         this.dgDownloadClient = dgDownloadClient;
         this.iljDownloadTaskClient = iljDownloadTaskClient;
+        this.htmlParserClient = htmlParserClient;
         this.parameters = parameters;
     }
 
@@ -58,43 +64,68 @@ public class Processor {
 
         //// ok, process one by one
         for (LJDownloadElement element : task.getElements()) {
+            //// so, an order of operations is the following:
+            //// 1. download file and place it in db
+            //// 2. ask htmlparser to parse a file and return a list of links to be downloaded
+            //// 3. download links and store them in db
+
             //// let this single grabber to process it
             DGDownloadTask downloadTask = new DGDownloadTask();
             downloadTask.setTaskIdentity(element.getIdentity());
             downloadTask.setUrl(element.getUrl());
             downloadTask.setUploadServiceURL(parameters.getUploaderServiceUrl());
-            downloadTask.setReturnDataInReply(true);
+            downloadTask.setReturnDataInReply(false);
             downloadTask.setUploadDataToBase(true);
 
-            ////
-            boolean bSuccessToReturn = false;
+            //// step 1
             DGDownloadResult result = dgDownloadClient.download(dgClientSession, downloadTask);
-            if (result == null) {
-                logger.error("wtf, no result");
 
-                //// mark this result as failed
-                bSuccessToReturn = false;
-            }
-            else {
-                //// result is not null
-                if (result.getTaskIdentity() == null) {
-                    logger.error("do not know how to identify this task");
+            boolean bSuccessToReturn = false;
+            try {
+
+                if (result == null) {
+                    logger.info("Could not download {}", element.getUrl());
                     continue;
                 }
 
-                if (!result.getTaskIdentity().equals(element.getIdentity())) {
-                    logger.error("the identity of the result does not match the identity of the element!");
+                if (result.getData() == null) {
+                    logger.info("Data is null for {}", element.getUrl());
                     continue;
                 }
 
-                bSuccessToReturn = result.isUploadSuccess();
+                //// ok, step 2
+                ElementsCollection parsedElements = htmlParserClient.parse(element.getUrl());
+                if (parsedElements == null) {
+                    logger.info("Could not parse elements for {}", element.getUrl());
+                    continue;
+                }
+
+                //// download images
+                for (ImageElement imageElement : parsedElements.getImages()) {
+                    DGDownloadTask elementDownloadTask = new DGDownloadTask();
+                    elementDownloadTask.setTaskIdentity(element.getIdentity());
+                    elementDownloadTask.setUrl(imageElement.src);
+                    elementDownloadTask.setUploadServiceURL(parameters.getUploaderServiceUrl());
+                    elementDownloadTask.setReturnDataInReply(false);
+                    elementDownloadTask.setUploadDataToBase(true);
+
+                    DGDownloadResult localResult = dgDownloadClient.download(dgClientSession, elementDownloadTask);
+                    if (localResult == null) {
+                        logger.info("Could not download {}", imageElement.src);
+                        continue;
+                    }
+
+                    logger.info("UploadStatus for {} is {}", imageElement.src, localResult.isUploadSuccess());
+                }
+
+                bSuccessToReturn = true;
             }
-
-
-            //// tell the boss about the result
-            boolean bComplete = iljDownloadTaskClient.completeElement(element.getIdentity(), bSuccessToReturn);
-            if (!bComplete) {
-                logger.error("Could not tell scheduler about the result");
+            finally {
+                //// tell the boss about the result
+                boolean bComplete = iljDownloadTaskClient.completeElement(element.getIdentity(), bSuccessToReturn);
+                if (!bComplete) {
+                    logger.error("Could not tell scheduler about the result");
+                }
             }
 
             //// anyway, there is nothing we should do at this point.

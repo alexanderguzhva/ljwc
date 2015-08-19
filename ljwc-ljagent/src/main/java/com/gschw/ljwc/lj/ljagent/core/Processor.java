@@ -67,6 +67,9 @@ public class Processor {
                     );
 
             ////
+            
+
+            ////
             boolean bSuccessToReturn = false;
             DGDownloadResult result = dgDownloadClient.download(dgClientSession, downloadTask);
             if (result == null) {

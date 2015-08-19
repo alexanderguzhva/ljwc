@@ -14,6 +14,7 @@ import static io.dropwizard.testing.FixtureHelpers.fixture;
 public class DGDownloadResultTest {
     private static final ObjectMapper MAPPER = Jackson.newObjectMapper();
 
+    /*
     @Test
     public void doTestProperties() throws Exception {
         final Identity identity = new Identity("meow");
@@ -49,5 +50,5 @@ public class DGDownloadResultTest {
                 MAPPER.readValue(fixture("fixtures/dgdownloadresult.json"), DGDownloadResult.class),
                 dgDownloadResult);
     }
-
+*/
 }

@@ -15,6 +15,7 @@ import static org.testng.Assert.*;
 public class DGDownloadTaskTest {
     private static final ObjectMapper MAPPER = Jackson.newObjectMapper();
 
+    /*
     private static final String idString = "meow";
     private static final String urlString = "http://localhost:123";
     private static final String urlReplyString = "http://otherhost:80";
@@ -52,5 +53,5 @@ public class DGDownloadTaskTest {
                 MAPPER.readValue(fixture("fixtures/dgdownloadtask.json"), DGDownloadTask.class),
                 dgDownloadTask);
     }
-
+*/
 }

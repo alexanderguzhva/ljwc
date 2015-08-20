@@ -29,3 +29,8 @@ dependencies {
 }
 
 mainClassName = 'com.gschw.ljwc.lj.ljagent.Main'
+
+applicationDistribution.from('src/main/resources') {
+    include 'application.yaml'
+    into 'config'
+}

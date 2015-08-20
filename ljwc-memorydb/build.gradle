@@ -40,3 +40,8 @@ run {
         args Eval.me(appArgs)
     }
 }
+
+applicationDistribution.from('src/main/resources') {
+    include 'application.yaml'
+    into 'config'
+}

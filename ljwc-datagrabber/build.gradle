@@ -29,3 +29,9 @@ dependencies {
 }
 
 mainClassName = 'com.gschw.ljwc.grabber.datagrabber.Main';
+
+
+applicationDistribution.from('src/main/resources') {
+    include 'application.yaml'
+    into 'config'
+}

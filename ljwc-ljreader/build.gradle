@@ -27,3 +27,8 @@ dependencies {
 
 
 mainClassName = 'com.gschw.ljwc.lj.ljreader.Main'
+
+applicationDistribution.from('src/main/resources') {
+    include 'application.yaml'
+    into 'config'
+}

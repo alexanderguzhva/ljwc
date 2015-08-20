@@ -31,3 +31,8 @@ mainClassName = 'com.gschw.ljwc.uploader.Main';
 test {
     useTestNG()
 }
+
+applicationDistribution.from('src/main/resources') {
+    include 'application.yaml'
+    into 'config'
+}

@@ -23,3 +23,8 @@ mainClassName = 'com.gschw.ljwc.datagenerator.Main'
 test {
     useTestNG()
 }
+
+applicationDistribution.from('src/main/resources') {
+    include 'application.yaml'
+    into 'config'
+}

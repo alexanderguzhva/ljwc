@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * Created by hadoop on 7/2/15.
+ * Generates an array of bytes.
  */
 @Path("/generate")
 public class GeneratorResource {

@@ -15,11 +15,13 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="ljwc-ljuploader-client" exported="" />
+    <orderEntry type="module" module-name="ljwc-abstractstorage" exported="" />
     <orderEntry type="library" exported="" name="Gradle: ch.qos.logback:logback-core:1.1.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: ch.qos.logback:logback-classic:1.1.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.google.guava:guava:18.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: io.dropwizard:dropwizard-core:0.8.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: io.dropwizard:dropwizard-client:0.8.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: joda-time:joda-time:2.7" level="project" />
     <orderEntry type="library" exported="" name="Gradle: io.dropwizard:dropwizard-util:0.8.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: io.dropwizard:dropwizard-jackson:0.8.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: io.dropwizard:dropwizard-validation:0.8.1" level="project" />
@@ -41,7 +43,6 @@
     <orderEntry type="library" exported="" name="Gradle: org.glassfish.jersey.connectors:jersey-apache-connector:2.17" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.5.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.google.code.findbugs:jsr305:3.0.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: joda-time:joda-time:2.7" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.5.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.5.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jdk7:2.5.1" level="project" />
@@ -102,7 +103,6 @@
     <orderEntry type="library" scope="TEST" name="Gradle: org.testng:testng:6.9.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.beanshell:bsh:2.0b4" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.beust:jcommander:1.48" level="project" />
-    <orderEntry type="module" module-name="ljwc-abstractstorage" exported="" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

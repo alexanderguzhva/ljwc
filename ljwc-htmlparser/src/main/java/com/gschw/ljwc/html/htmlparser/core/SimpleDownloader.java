@@ -2,6 +2,7 @@ package com.gschw.ljwc.html.htmlparser.core;
 
 import com.google.common.base.Throwables;
 import com.google.common.io.ByteStreams;
+import org.glassfish.jersey.uri.UriComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,9 +28,11 @@ public class SimpleDownloader {
 
     public byte[] download(String url) {
         try {
+            String encodedElementUrl = UriComponent.encode(url, UriComponent.Type.UNRESERVED);
+
             WebTarget target = client
                     .target(parameters.getServiceURL())
-                    .path(url);
+                    .path(encodedElementUrl);
             Response response = target.request().get();
 
             if (response.getStatus() != Response.Status.OK.getStatusCode())

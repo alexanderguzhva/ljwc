@@ -3,6 +3,7 @@ package com.gschw.ljwc.storage.client;
 import com.gschw.ljwc.storage.DBStorageElement;
 import com.gschw.ljwc.storage.DBStorageElementsCollection;
 import com.gschw.ljwc.storage.IDBStorage;
+import org.glassfish.jersey.uri.UriComponent;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,12 +118,14 @@ public class DBStorageClient implements IDBStorage {
 
         ////
         String url = parameters.getServiceUrl();
+        String encodedElementUrl = UriComponent.encode(key, UriComponent.Type.UNRESERVED);
 
         try {
             WebTarget target =
                     client
                             .target(url)
-                            .path(String.format("/%s/element", key));
+                            .path(encodedElementUrl)
+                            .path("element");
 
             Response response = target
                     .request(MediaType.APPLICATION_JSON_TYPE)
@@ -157,12 +160,14 @@ public class DBStorageClient implements IDBStorage {
 
         ////
         String url = parameters.getServiceUrl();
+        String encodedElementUrl = UriComponent.encode(key, UriComponent.Type.UNRESERVED);
 
         try {
             WebTarget target =
                     client
                             .target(url)
-                            .path(String.format("/%s/element", key));
+                            .path(encodedElementUrl)
+                            .path("element");
             if (timestamp != null)
                 target = target.queryParam("timestamp", new Long(timestamp.getMillis()).toString());
 
@@ -197,12 +202,14 @@ public class DBStorageClient implements IDBStorage {
 
         ////
         String url = parameters.getServiceUrl();
+        String encodedElementUrl = UriComponent.encode(key, UriComponent.Type.UNRESERVED);
 
         try {
             Response response =
                     client
                             .target(url)
-                            .path(String.format("/%s/lastelement", key))
+                            .path(encodedElementUrl)
+                            .path("lastelement")
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildGet()
                             .invoke();
@@ -229,12 +236,13 @@ public class DBStorageClient implements IDBStorage {
 
         ////
         String url = parameters.getServiceUrl();
+        String encodedElementUrl = UriComponent.encode(key, UriComponent.Type.UNRESERVED);
 
         try {
             Response response =
                     client
                             .target(url)
-                            .path(String.format("/%s", key))
+                            .path(encodedElementUrl)
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildGet()
                             .invoke();
@@ -257,13 +265,15 @@ public class DBStorageClient implements IDBStorage {
 
         ////
         String url = parameters.getServiceUrl();
+        String encodedElementUrl = UriComponent.encode(key, UriComponent.Type.UNRESERVED);
+
         String sTimestamp = new Long(timestamp.getMillis()).toString();
 
         try {
             Response response =
                     client
                             .target(url)
-                            .path(String.format("/%s", key))
+                            .path(encodedElementUrl)
                             .queryParam("timestamp", sTimestamp)
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildGet()
@@ -286,12 +296,13 @@ public class DBStorageClient implements IDBStorage {
 
         ////
         String url = parameters.getServiceUrl();
+        String encodedElementUrl = UriComponent.encode(key, UriComponent.Type.UNRESERVED);
 
         try {
             Response response =
                     client
                         .target(url)
-                        .path(String.format("/%s", key))
+                        .path(encodedElementUrl)
                         .request(MediaType.APPLICATION_JSON_TYPE)
                         .buildDelete()
                         .invoke();
@@ -316,13 +327,15 @@ public class DBStorageClient implements IDBStorage {
 
         ////
         String url = parameters.getServiceUrl();
+        String encodedElementUrl = UriComponent.encode(key, UriComponent.Type.UNRESERVED);
+
         String sTimestamp = new Long(timestamp.getMillis()).toString();
 
         try {
             Response response =
                     client
                             .target(url)
-                            .path(String.format("/%s", key))
+                            .path(encodedElementUrl)
                             .queryParam("timestamp", sTimestamp)
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildDelete()

@@ -4,6 +4,7 @@ import com.google.common.base.Throwables;
 import com.gschw.ljwc.auth.Identity;
 import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadResult;
 import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadTask;
+import org.glassfish.jersey.uri.UriComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,11 +36,15 @@ public class DGDownloadTaskClient implements IDGDownloadTaskClient {
         ////
         String url = parameters.getServiceUrl();
 
+        String encodedElementUrl = UriComponent.encode(sessionIdentity.toString(), UriComponent.Type.UNRESERVED);
+
         try {
             Response response =
                     client
                             .target(url)
-                            .path(String.format("/session/%s/download", sessionIdentity.toString()))
+                            .path("session")
+                            .path(encodedElementUrl)
+                            .path("download")
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildPost(Entity.entity(dgDownloadTask, MediaType.APPLICATION_JSON_TYPE))
                             .invoke();
@@ -92,11 +97,14 @@ public class DGDownloadTaskClient implements IDGDownloadTaskClient {
         ////
         String url = parameters.getServiceUrl();
 
+        String encodedElementUrl = UriComponent.encode(sessionIdentity.toString(), UriComponent.Type.UNRESERVED);
+
         try {
             Response response =
                     client
                             .target(url)
-                            .path(String.format("/session/%s", sessionIdentity.toString()))
+                            .path("session")
+                            .path(encodedElementUrl)
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildDelete()
                             .invoke();

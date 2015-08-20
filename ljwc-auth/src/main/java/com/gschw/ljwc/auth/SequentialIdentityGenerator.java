@@ -31,7 +31,8 @@ public class SequentialIdentityGenerator implements IIdentityGenerator {
     }
 
     /**
-     * Generate an identity.
+     * Generates an identity.
+     *
      * @return Identity.
      */
     @Override

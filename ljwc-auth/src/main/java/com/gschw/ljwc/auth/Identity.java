@@ -16,6 +16,7 @@ public class Identity {
 
     /**
      * Initializes an object with an unique id.
+     *
      * @param id ID.
      */
     @JsonCreator
@@ -25,6 +26,7 @@ public class Identity {
 
     /**
      * Returns an ID.
+     *
      * @return ID.
      */
     @JsonProperty

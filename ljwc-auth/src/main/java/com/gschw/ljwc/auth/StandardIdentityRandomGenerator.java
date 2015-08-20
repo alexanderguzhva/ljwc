@@ -7,7 +7,8 @@ import java.util.UUID;
  */
 public class StandardIdentityRandomGenerator implements IIdentityGenerator {
     /**
-     * Generate an identity using random number generator.
+     * Generates an identity using random number generator.
+     *
      * @return An identity.
      */
     @Override

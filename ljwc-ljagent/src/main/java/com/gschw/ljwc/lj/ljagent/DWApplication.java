@@ -16,6 +16,7 @@ import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.glassfish.jersey.client.ClientProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +50,10 @@ public class DWApplication extends Application<DWConfiguration> {
         final Client client = new JerseyClientBuilder(environment)
                 .using(configuration.getJerseyClientConfiguration())
                 .build(getName());
+
+        client.property(ClientProperties.CONNECT_TIMEOUT, 10000);
+        client.property(ClientProperties.READ_TIMEOUT, 10000);
+
 
         ////
         DGDownloadTaskClientParameters dgDownloadTaskClientParameters =

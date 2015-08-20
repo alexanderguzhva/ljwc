@@ -35,7 +35,7 @@ public class HTMLParserClient implements IHTMLParserClient {
 
         try {
             WebTarget target = client
-                        .target(parameters.getServiceURL())
+                        .target(parameters.getServiceUrl())
                         .path("/parseByData");
             Response response =
                     target.request()
@@ -65,7 +65,7 @@ public class HTMLParserClient implements IHTMLParserClient {
 
         try {
             WebTarget target = client
-                    .target(parameters.getServiceURL())
+                    .target(parameters.getServiceUrl())
                     .path("/parseByDBURL");
             Response response =
                     target.request()

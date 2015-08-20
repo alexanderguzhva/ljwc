@@ -6,11 +6,6 @@ server:
         - type: http
           port: 11271
 
-httpClient:
-    timeout: 10000ms
-    connectionTimeout: 10000ms
-    connectionRequestTimeout: 10000ms
-
 processorParameters:
     uploaderServiceUrl: "http://localhost:11240/"
     processorIdentity:
@@ -20,4 +15,7 @@ downloadTaskClientParameters:
     serviceUrl: "http://localhost:11250/"
 
 ljDownloadTaskClientParameters:
-    serviceUrl: "http://localhost:11260/"
+    serviceUrl: "http://localhost:11260/task/"
+
+htmlParserClientParameters:
+    serviceUrl: "http://localhost:11020/"

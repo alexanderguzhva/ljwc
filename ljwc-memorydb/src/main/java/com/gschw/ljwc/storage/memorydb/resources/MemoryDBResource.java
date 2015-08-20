@@ -14,8 +14,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.core.Response;
 
+import com.gschw.ljwc.storage.memorydb.core.MemoryDBSettings;
 import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -26,6 +29,8 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class MemoryDBResource implements IDBStorageResource {
+    private static Logger logger = LoggerFactory.getLogger(MemoryDBResource.class);
+
     private MemoryDB memoryDB;
 
     public MemoryDBResource(MemoryDB memoryDB) {
@@ -61,6 +66,8 @@ public class MemoryDBResource implements IDBStorageResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response write(DBStorageElementsCollection elementsCollection) {
+        logger.info("write");
+
         if (elementsCollection == null)
             return Response.status(Response.Status.BAD_REQUEST).build();
 
@@ -75,6 +82,8 @@ public class MemoryDBResource implements IDBStorageResource {
     @Override
     @DELETE
     public Response clear() {
+        logger.info("clear");
+
         if (memoryDB.clear())
             return Response.ok().build();
 
@@ -84,6 +93,8 @@ public class MemoryDBResource implements IDBStorageResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response read() {
+        logger.info("read");
+
         List<DBStorageElement> dbStorageElements = memoryDB.read();
         if (dbStorageElements == null)
             return Response.status(Response.Status.NO_CONTENT).build();
@@ -99,6 +110,8 @@ public class MemoryDBResource implements IDBStorageResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response readElement(@PathParam("key") @NotBlank String key, @QueryParam("timestamp") String timestamp) {
+        logger.info("readElement: key {}, timestamp {}");
+
         if (timestamp == null || timestamp.isEmpty()) {
             //// exact time is not known, so read everything
             List<DBStorageElement> dbStorageElements = memoryDB.read(key);
@@ -129,6 +142,8 @@ public class MemoryDBResource implements IDBStorageResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response readLast(@PathParam("key") @NotBlank String key) {
+        logger.info("readLast: key {}");
+
         DBStorageElement dbStorageElement = memoryDB.readLast(key);
         if (dbStorageElement == null)
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -145,6 +160,8 @@ public class MemoryDBResource implements IDBStorageResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response exists(@PathParam("key") @NotBlank String key, @QueryParam("timestamp") String timestamp) {
+        logger.info("exists: key {}, timestamp {}");
+
         if (timestamp == null || timestamp.isEmpty()) {
             //// exact time is not known
             if (memoryDB.exists(key))
@@ -174,6 +191,8 @@ public class MemoryDBResource implements IDBStorageResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response remove(@PathParam("key") @NotBlank String key, @QueryParam("timestamp") String timestamp) {
+        logger.info("remove: key {}, timestamp {}");
+
         if (timestamp == null || timestamp.isEmpty()) {
             //// exact time is not known
             if (memoryDB.remove(key))

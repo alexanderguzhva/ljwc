@@ -19,7 +19,6 @@ public class SimpleDownloaderParameters {
     }
 
     //
-
     public SimpleDownloaderParameters() {
     }
 }

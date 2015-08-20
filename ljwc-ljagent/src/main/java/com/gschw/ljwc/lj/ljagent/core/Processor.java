@@ -88,10 +88,10 @@ public class Processor {
                     continue;
                 }
 
-                if (result.getData() == null) {
-                    logger.info("Data is null for {}", element.getUrl());
-                    continue;
-                }
+                //if (result.getData() == null) {
+                //    logger.info("Data is null for {}", element.getUrl());
+                //    continue;
+                //}
 
                 //// ok, step 2
                 ElementsCollection parsedElements = htmlParserClient.parse(element.getUrl());

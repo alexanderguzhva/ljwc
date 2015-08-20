@@ -26,6 +26,7 @@ public class DWConfiguration extends Configuration {
 
 
     //
+    @NotNull
     private ProcessorParameters processorParameters;
 
     @JsonProperty("processorParameters")
@@ -54,6 +55,7 @@ public class DWConfiguration extends Configuration {
 
 
     //
+    @NotNull
     private LJDownloadTaskClientParameters ljDownloadTaskClientParameters;
 
     @JsonProperty("ljDownloadTaskClientParameters")
@@ -68,14 +70,15 @@ public class DWConfiguration extends Configuration {
 
 
     //
+    @NotNull
     private HTMLParserClientParameters htmlParserClientParameters;
 
-    @JsonProperty
+    @JsonProperty("htmlParserClientParameters")
     public HTMLParserClientParameters getHtmlParserClientParameters() {
         return htmlParserClientParameters;
     }
 
-    @JsonProperty
+    @JsonProperty("htmlParserClientParameters")
     public void setHtmlParserClientParameters(HTMLParserClientParameters htmlParserClientParameters) {
         this.htmlParserClientParameters = htmlParserClientParameters;
     }

@@ -5,3 +5,6 @@ server:
     adminConnectors:
         - type: http
           port: 11021
+
+simpleDownloaderParameters:
+    serviceUrl: http://localhost:11090/

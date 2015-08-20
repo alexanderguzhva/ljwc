@@ -10,16 +10,16 @@ import org.hibernate.validator.constraints.URL;
 public class HTMLParserClientParameters {
     @URL
     @NotBlank
-    private String serviceURL;
+    private String serviceUrl;
 
-    @JsonProperty
-    public String getServiceURL() {
-        return serviceURL;
+    @JsonProperty("serviceUrl")
+    public String getServiceUrl() {
+        return serviceUrl;
     }
 
-    @JsonProperty
-    public void setServiceURL(String serviceURL) {
-        this.serviceURL = serviceURL;
+    @JsonProperty("serviceUrl")
+    public void setServiceUrl(String serviceUrl) {
+        this.serviceUrl = serviceUrl;
     }
 
     //

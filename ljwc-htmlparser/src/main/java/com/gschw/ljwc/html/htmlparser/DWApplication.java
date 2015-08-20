@@ -1,14 +1,19 @@
 package com.gschw.ljwc.html.htmlparser;
 
+import com.gschw.ljwc.html.htmlparser.core.SimpleDownloader;
+import com.gschw.ljwc.html.htmlparser.core.SimpleDownloaderParameters;
 import com.gschw.ljwc.html.htmlparser.parse.ParserResource;
 import io.dropwizard.Application;
+import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.glassfish.jersey.client.ClientProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.client.Client;
 import java.net.URISyntaxException;
 
 /**
@@ -20,7 +25,7 @@ public class DWApplication extends Application<DWConfiguration> {
 
     @Override
     public String getName() {
-        return "ljwc-htmparser";
+        return "ljwc-htmlparser";
     }
 
     @Override
@@ -36,7 +41,21 @@ public class DWApplication extends Application<DWConfiguration> {
     @Override
     public void run(DWConfiguration configuration,
                     Environment environment) {
-        ParserResource parserResource = new ParserResource();
+        final Client client = new JerseyClientBuilder(environment)
+                .using(configuration.getJerseyClientConfiguration())
+                .build(getName());
+
+        client.property(ClientProperties.CONNECT_TIMEOUT, 10000);
+        client.property(ClientProperties.READ_TIMEOUT, 10000);
+
+
+        ////
+        SimpleDownloaderParameters simpleDownloaderParameters =
+                configuration.getSimpleDownloaderParameters();
+        SimpleDownloader simpleDownloader =
+                new SimpleDownloader(client, simpleDownloaderParameters);
+
+        ParserResource parserResource = new ParserResource(simpleDownloader);
         environment.jersey().register(parserResource);
     }
 

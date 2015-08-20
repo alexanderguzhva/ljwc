@@ -1,1 +1,1 @@
-curl http://localhost:11090/meow
+curl "http://localhost:11090/http%3A%2F%2Fcrustgroup.livejournal.com%2F80327.html"

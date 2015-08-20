@@ -28,7 +28,7 @@ public class PortalResource {
     @GET
     @Path("{filename}")
     public Response doGet(@PathParam("filename") @NotBlank String filename) {
-        logger.debug("Retrieving {}", filename);
+        logger.info("Retrieving {}", filename);
 
         DBStorageElement element = dbStorageClient.readLast(filename);
         if (element == null)

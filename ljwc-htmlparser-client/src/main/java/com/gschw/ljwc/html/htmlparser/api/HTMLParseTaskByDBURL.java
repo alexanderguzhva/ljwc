@@ -18,4 +18,6 @@ public class HTMLParseTaskByDBURL {
     public String getUrl() {
         return url;
     }
+
+
 }

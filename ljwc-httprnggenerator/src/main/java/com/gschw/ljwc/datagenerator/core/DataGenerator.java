@@ -1,7 +1,7 @@
 package com.gschw.ljwc.datagenerator.core;
 
 /**
- * Created by hadoop on 7/2/15.
+ * Generates an array of bytes of random length that contains random data.
  */
 public class DataGenerator {
     private DataGeneratorParameters parameters;

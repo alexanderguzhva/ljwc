@@ -3,15 +3,23 @@ package com.gschw.ljwc.auth;
 import java.util.UUID;
 
 /**
- * Created by nop on 8/10/15.
- *
- * Generates an identity
+ * Generates an identity.
  */
 public class SequentialIdentityGenerator implements IIdentityGenerator {
 
+    /**
+     * A locker object.
+     */
     private final Object locker = new Object();
 
+    /**
+     * A counter.
+     */
     private long lowLong = 0;
+
+    /**
+     * Upper part of the underlying UUID.
+     */
     private long hiLong;
 
     public SequentialIdentityGenerator() {
@@ -22,15 +30,25 @@ public class SequentialIdentityGenerator implements IIdentityGenerator {
         this.hiLong = hiLong;
     }
 
+    /**
+     * Generate an identity.
+     * @return Identity.
+     */
     @Override
     public Identity generate() {
+        long localLowLong;
+        long localHiLong;
+
         synchronized (locker) {
-            UUID uuid = new UUID(hiLong, lowLong);
+            localLowLong = lowLong;
+            localHiLong = hiLong;
 
             //// it's good for debugging only, btw
             lowLong += 1;
-
-            return new Identity(uuid.toString());
         }
+
+        UUID uuid = new UUID(localHiLong, localLowLong);
+
+        return new Identity(uuid.toString());
     }
 }

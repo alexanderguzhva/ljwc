@@ -1,7 +1,7 @@
 package com.gschw.lj.common;
 
 /**
- * Created by nop on 8/16/15.
+ * Interface for objects that mimic .NET's EventWaitHandle-based classes.
  */
 public interface IResetEvent {
     void set();

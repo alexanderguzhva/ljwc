@@ -1,7 +1,7 @@
 package com.gschw.lj.common;
 
 /**
- * Created by mileslux on 8/16/2015.
+ * Andy's version of .NET's ManualResetEvent class.
  */
 public class ManualResetEvent2 implements IResetEvent {
     private final Object lockObj = new Object();

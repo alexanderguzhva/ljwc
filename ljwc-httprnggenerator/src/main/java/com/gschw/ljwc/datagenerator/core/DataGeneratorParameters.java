@@ -1,6 +1,5 @@
 package com.gschw.ljwc.datagenerator.core;
 
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Random;
 
 /**
- * Created by hadoop on 7/2/15.
+ *  Parameters for a @see com.gschw.ljwc.datagenerator.DataGenerator class.
  */
 public class DataGeneratorParameters {
     @JsonIgnore

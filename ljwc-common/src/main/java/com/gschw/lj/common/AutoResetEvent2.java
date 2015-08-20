@@ -1,7 +1,7 @@
 package com.gschw.lj.common;
 
 /**
- * Created by mileslux on 8/16/15.
+ * Andy's version of .NET's AutoResetEvent class.
  */
 public class AutoResetEvent2 implements IResetEvent {
 

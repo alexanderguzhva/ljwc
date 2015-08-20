@@ -4,7 +4,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by nop on 8/16/15.
+ * My version .NET's ManualResetEvent class.
  */
 public class ManualResetEvent implements IResetEvent {
     private volatile int count;

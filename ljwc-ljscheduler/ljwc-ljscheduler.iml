@@ -14,9 +14,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
-    <orderEntry type="module" module-name="ljwc-auth" exported="" />
-    <orderEntry type="module" module-name="ljwc-ljscheduler-client" exported="" />
+    <orderEntry type="module" module-name="ljwc-auth" />
+    <orderEntry type="module" module-name="ljwc-ljscheduler-client" />
     <orderEntry type="library" exported="" name="Gradle: ch.qos.logback:logback-core:1.1.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: ch.qos.logback:logback-classic:1.1.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.google.guava:guava:18.0" level="project" />
@@ -101,9 +100,19 @@
     <orderEntry type="library" exported="" name="Gradle: commons-codec:commons-codec:1.6" level="project" />
     <orderEntry type="library" exported="" name="Gradle: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.slf4j:slf4j-api:1.7.10" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.12" level="project" />
-    <orderEntry type="module" module-name="ljwc-common" exported="" />
-    <orderEntry type="module" module-name="ljwc-abstractstorage" exported="" />
+    <orderEntry type="module" module-name="ljwc-common" />
+    <orderEntry type="module" module-name="ljwc-abstractstorage" />
+    <orderEntry type="module" module-name="ljwc-datagrabber-client" />
+    <orderEntry type="library" name="Gradle: io.dropwizard:dropwizard-testing:0.8.1" level="project" />
+    <orderEntry type="library" name="Gradle: junit:junit:4.12" level="project" />
+    <orderEntry type="library" name="Gradle: org.mockito:mockito-core:1.10.17" level="project" />
+    <orderEntry type="library" name="Gradle: org.objenesis:objenesis:2.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.assertj:assertj-core:2.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-inmemory:2.17" level="project" />
+    <orderEntry type="library" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.marschall:memoryfilesystem:0.6.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.glassfish.jersey.test-framework:jersey-test-framework-core:2.17" level="project" />
+    <orderEntry type="library" name="Gradle: org.ow2.asm:asm-debug-all:5.0.2" level="project" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

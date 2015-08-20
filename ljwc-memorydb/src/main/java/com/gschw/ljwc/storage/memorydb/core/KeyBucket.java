@@ -61,6 +61,12 @@ public class KeyBucket {
     }
 
     //
+    public DBStorageElement getElementWithoutData() {
+        DBStorageElement element = new DBStorageElement(key);
+        return element;
+    }
+
+    //
     public boolean contains(DateTime timestamp) {
         return elements.containsKey(timestamp);
     }

@@ -57,7 +57,7 @@ public interface IDBStorageResource {
     //@Path("/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    Response read();
+    Response read(@QueryParam("skipData") Boolean skipData);
 
     //List<DBStorageElement> read(String key);
     //GET /{key}/element

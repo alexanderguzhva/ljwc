@@ -66,6 +66,18 @@ public class MemoryDB implements IDBStorage {
         return elements;
     }
 
+    public List<DBStorageElement> readWithoutData() {
+        List<DBStorageElement> elements = new ArrayList<>();
+        for (KeyBucket bucket : buckets.values()) {
+            elements.add(bucket.getElementWithoutData());
+        }
+
+        if (elements.size() == 0)
+            return null;
+
+        return elements;
+    }
+
 
     @Override
     public List<DBStorageElement> read(String key) {

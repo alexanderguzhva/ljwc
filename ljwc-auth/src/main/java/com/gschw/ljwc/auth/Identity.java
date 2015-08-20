@@ -5,18 +5,28 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
- * Created by nop on 7/6/15.
+ * An unique identifier.
  */
 public class Identity {
+    /**
+     * ID
+     */
     @NotBlank
     private String id;
 
-    // this is required by JAX-RS
+    /**
+     * Initializes an object with an unique id.
+     * @param id ID.
+     */
     @JsonCreator
     public Identity(@JsonProperty("id") String id) {
         this.id = id;
     }
 
+    /**
+     * Returns an ID.
+     * @return ID.
+     */
     @JsonProperty
     public String getId() {
         return id;

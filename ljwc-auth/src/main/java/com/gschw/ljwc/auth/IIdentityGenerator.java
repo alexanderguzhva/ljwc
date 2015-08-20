@@ -1,9 +1,7 @@
 package com.gschw.ljwc.auth;
 
 /**
- * Created by nop on 8/10/15.
- *
- * Generates an identity.
+ * An interface for identity generators.
  */
 public interface IIdentityGenerator {
     Identity generate();

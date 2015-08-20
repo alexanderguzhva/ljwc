@@ -4,6 +4,8 @@ import java.util.UUID;
 
 /**
  * Created by nop on 8/10/15.
+ *
+ * Generates an identity
  */
 public class SequentialIdentityGenerator implements IIdentityGenerator {
 

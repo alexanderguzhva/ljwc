@@ -3,7 +3,7 @@ package com.gschw.ljwc.lj.ljcalendaragent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gschw.ljwc.grabber.datagrabber.client.DGDownloadTaskClientParameters;
 import com.gschw.ljwc.lj.ljcalendaragent.calendar.ProcessorParameters;
-import com.gschw.ljwc.lj.ljscheduler.client.LJCalendarTaskClientParameters;
+import com.gschw.ljwc.lj.ljscheduler.client.LJTaskClientParameters;
 import io.dropwizard.Configuration;
 import io.dropwizard.client.JerseyClientConfiguration;
 
@@ -52,15 +52,15 @@ public class DWConfiguration extends Configuration {
     }
 
     //
-    private LJCalendarTaskClientParameters calendarTaskClientParameters;
+    private LJTaskClientParameters calendarTaskClientParameters;
 
     @JsonProperty("ljCalendarTaskClientParameters")
-    public LJCalendarTaskClientParameters getCalendarTaskClientParameters() {
+    public LJTaskClientParameters getCalendarTaskClientParameters() {
         return calendarTaskClientParameters;
     }
 
     @JsonProperty("ljCalendarTaskClientParameters")
-    public void setCalendarTaskClientParameters(LJCalendarTaskClientParameters calendarTaskClientParameters) {
+    public void setCalendarTaskClientParameters(LJTaskClientParameters calendarTaskClientParameters) {
         this.calendarTaskClientParameters = calendarTaskClientParameters;
     }
 }

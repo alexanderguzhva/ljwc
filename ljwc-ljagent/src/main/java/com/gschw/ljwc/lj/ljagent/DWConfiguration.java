@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gschw.ljwc.grabber.datagrabber.client.DGDownloadTaskClientParameters;
 import com.gschw.ljwc.html.htmlparser.client.HTMLParserClientParameters;
 import com.gschw.ljwc.lj.ljagent.core.ProcessorParameters;
-import com.gschw.ljwc.lj.ljscheduler.client.LJDownloadTaskClientParameters;
+import com.gschw.ljwc.lj.ljscheduler.client.LJTaskClientParameters;
 import io.dropwizard.Configuration;
 import io.dropwizard.client.JerseyClientConfiguration;
 
@@ -56,16 +56,16 @@ public class DWConfiguration extends Configuration {
 
     //
     @NotNull
-    private LJDownloadTaskClientParameters ljDownloadTaskClientParameters;
+    private LJTaskClientParameters ljSinglePageTaskClientParameters;
 
-    @JsonProperty("ljDownloadTaskClientParameters")
-    public LJDownloadTaskClientParameters getLjDownloadTaskClientParameters() {
-        return ljDownloadTaskClientParameters;
+    @JsonProperty("ljSinglePageTaskClientParameters")
+    public LJTaskClientParameters getLjSinglePageTaskClientParameters() {
+        return ljSinglePageTaskClientParameters;
     }
 
-    @JsonProperty("ljDownloadTaskClientParameters")
-    public void setLjDownloadTaskClientParameters(LJDownloadTaskClientParameters ljDownloadTaskClientParameters) {
-        this.ljDownloadTaskClientParameters = ljDownloadTaskClientParameters;
+    @JsonProperty("ljSinglePageTaskClientParameters")
+    public void setLjSinglePageTaskClientParameters(LJTaskClientParameters ljSinglePageTaskClientParameters) {
+        this.ljSinglePageTaskClientParameters = ljSinglePageTaskClientParameters;
     }
 
 

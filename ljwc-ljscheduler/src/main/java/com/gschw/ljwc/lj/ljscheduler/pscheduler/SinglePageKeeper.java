@@ -25,4 +25,14 @@ public class SinglePageKeeper extends Keeper<LJSinglePageTask, LJSinglePageTaskR
             logger.info("Got {}, {} for {}", element.getUrl(), element.getCategory(), result.getTaskIdentity());
         }
     }
+
+    @Override
+    public LJSinglePageTask acquireTask(Identity clientIdentity) {
+        LJSinglePageTask task = super.acquireTask(clientIdentity);
+        if (task == null)
+            return task;
+
+        task.setAssignedTo(clientIdentity);
+        return task;
+    }
 }

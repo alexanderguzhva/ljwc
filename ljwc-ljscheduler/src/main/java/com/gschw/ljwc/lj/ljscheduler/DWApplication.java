@@ -3,9 +3,7 @@ package com.gschw.ljwc.lj.ljscheduler;
 import com.gschw.ljwc.lj.ljscheduler.pscheduler.CalendarKeeper;
 import com.gschw.ljwc.lj.ljscheduler.pscheduler.SinglePageKeeper;
 import com.gschw.ljwc.lj.ljscheduler.resources.CalendarResource;
-import com.gschw.ljwc.lj.ljscheduler.resources.LJDownloadTaskResource;
 import com.gschw.ljwc.lj.ljscheduler.resources.LJSinglePageResource;
-import com.gschw.ljwc.lj.ljscheduler.scheduler.*;
 import io.dropwizard.Application;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
@@ -39,13 +37,6 @@ public class DWApplication extends Application<DWConfiguration> {
     @Override
     public void run(DWConfiguration configuration,
                     Environment environment) {
-        final TasksKeeperParameters tasksKeeperParameters =
-                configuration.getTasksKeeperParameters();
-        TasksKeeper tasksKeeper = new TasksKeeper(tasksKeeperParameters);
-
-        LJDownloadTaskResource taskResource = new LJDownloadTaskResource(tasksKeeper);
-        environment.jersey().register(taskResource);
-
         ////
         CalendarKeeper calendarKeeper = new CalendarKeeper();
         CalendarResource calendarResource = new CalendarResource(calendarKeeper);

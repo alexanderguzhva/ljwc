@@ -2,14 +2,16 @@ package com.gschw.ljwc.lj.ljagent;
 
 import com.gschw.ljwc.grabber.datagrabber.client.DGDownloadTaskClient;
 import com.gschw.ljwc.grabber.datagrabber.client.DGDownloadTaskClientParameters;
+import com.gschw.ljwc.grabber.datagrabber.client.IDGDownloadTaskClient;
 import com.gschw.ljwc.html.htmlparser.client.HTMLParserClient;
 import com.gschw.ljwc.html.htmlparser.client.HTMLParserClientParameters;
 import com.gschw.ljwc.html.htmlparser.client.IHTMLParserClient;
 import com.gschw.ljwc.lj.ljagent.core.Processor;
 import com.gschw.ljwc.lj.ljagent.core.ProcessorParameters;
 import com.gschw.ljwc.lj.ljagent.resources.ControllerResource;
-import com.gschw.ljwc.lj.ljscheduler.client.LJDownloadTaskClient;
-import com.gschw.ljwc.lj.ljscheduler.client.LJDownloadTaskClientParameters;
+import com.gschw.ljwc.lj.ljscheduler.client.ILJSinglePageTaskClient;
+import com.gschw.ljwc.lj.ljscheduler.client.LJSinglePageTaskClient;
+import com.gschw.ljwc.lj.ljscheduler.client.LJTaskClientParameters;
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
@@ -58,13 +60,13 @@ public class DWApplication extends Application<DWConfiguration> {
         ////
         DGDownloadTaskClientParameters dgDownloadTaskClientParameters =
                 configuration.getDownloadTaskClientParameters();
-        DGDownloadTaskClient dgDownloadTaskClient =
+        IDGDownloadTaskClient dgDownloadTaskClient =
                 new DGDownloadTaskClient(client, dgDownloadTaskClientParameters);
 
-        LJDownloadTaskClientParameters ljDownloadTaskClientParameters =
-                configuration.getLjDownloadTaskClientParameters();
-        LJDownloadTaskClient ljDownloadTaskClient =
-                new LJDownloadTaskClient(client, ljDownloadTaskClientParameters);
+        LJTaskClientParameters ljSinglePageTaskClientParameters =
+                configuration.getLjSinglePageTaskClientParameters();
+        ILJSinglePageTaskClient ljSinglePageTaskClient =
+                new LJSinglePageTaskClient(client, ljSinglePageTaskClientParameters);
 
         HTMLParserClientParameters htmlParserClientParameters =
                 configuration.getHtmlParserClientParameters();
@@ -75,7 +77,7 @@ public class DWApplication extends Application<DWConfiguration> {
                 configuration.getProcessorParameters();
         Processor processor = new Processor(
                 dgDownloadTaskClient,
-                ljDownloadTaskClient,
+                ljSinglePageTaskClient,
                 htmlParserClient,
                 processorParameters);
 

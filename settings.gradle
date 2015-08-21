@@ -20,3 +20,5 @@ include 'ljwc-ljreader'
 include 'ljwc-ljcalendaragent'
 include 'ljwc-common'
 
+include 'ljwc-ljexecutor'
+

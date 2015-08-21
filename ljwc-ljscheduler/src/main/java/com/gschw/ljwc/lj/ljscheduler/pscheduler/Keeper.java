@@ -16,13 +16,14 @@ import java.util.Queue;
  */
 public abstract class Keeper<
         T extends ILJTaskIdentifiable,
-        U extends ILJTaskIdentifiable> {
+        U extends ILJTaskIdentifiable,
+        V extends Agent<T>> {
     private static Logger logger = LoggerFactory.getLogger(Keeper.class);
 
     private Queue<Identity> tasksQueue;
     private Map<Identity, TasksSupp<T, U>> tasksSupp;
 
-    private Map<Identity, Agent<T>> agents;
+    private Map<Identity, V> agents;
 
     private final Object locker = new Object();
 
@@ -32,10 +33,12 @@ public abstract class Keeper<
         this.tasksSupp = new HashMap<>();
     }
 
-    private Agent<T> getOrCreateAgent(Identity clientIdentity) {
-        Agent<T> agent = agents.get(clientIdentity);
+    protected abstract V createAgent(Identity clientIdentity);
+
+    private V getOrCreateAgent(Identity clientIdentity) {
+        V agent = agents.get(clientIdentity);
         if (agent == null) {
-            agent = new Agent<>(clientIdentity);
+            agent = createAgent(clientIdentity);
             agents.put(clientIdentity, agent);
         }
 
@@ -56,7 +59,7 @@ public abstract class Keeper<
             }
 
             ////
-            Agent<T> agent = getOrCreateAgent(clientIdentity);
+            V agent = getOrCreateAgent(clientIdentity);
             supp.setAgent(agent);
 
             agent.addTask(supp.getTask());

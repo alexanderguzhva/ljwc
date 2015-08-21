@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Created by hadoop on 8/21/15.
  */
-public class LJTask implements ILJTaskIdentifiable {
+public class LJSinglePageTask implements ILJTaskIdentifiable {
     @NotNull
     private Identity taskIdentity;
 
@@ -22,8 +22,21 @@ public class LJTask implements ILJTaskIdentifiable {
     @NotBlank
     private String url;
 
+
+    @NotNull
+    private Identity assignedTo;
+
+    public Identity getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(Identity assignedTo) {
+        this.assignedTo = assignedTo;
+    }
+
+
     @JsonCreator
-    public LJTask (@JsonProperty("taskIdentity") Identity taskIdentity, @JsonProperty("url") String url) {
+    public LJSinglePageTask(@JsonProperty("taskIdentity") Identity taskIdentity, @JsonProperty("url") String url) {
         this.taskIdentity = taskIdentity;
         this.url = url;
     }

@@ -18,4 +18,14 @@ public class LJCalendarTaskClient extends LJTaskClient<LJCalendarTask, LJCalenda
     public LJCalendarTask acquireTask(Identity clientIdentity) {
         return super.acquireTask(clientIdentity, LJCalendarTask.class);
     }
+
+    @Override
+    public LJCalendarTaskResult download(LJCalendarTask task, long timeoutInMsec) {
+        return super.download(task, timeoutInMsec, LJCalendarTaskResult.class);
+    }
+
+    @Override
+    public LJCalendarTaskResult download(LJCalendarTask task) {
+        return super.download(task, LJCalendarTaskResult.class);
+    }
 }

@@ -8,6 +8,6 @@ import com.gschw.ljwc.auth.Identity;
 public interface ILJTaskClient<T, U> {
     T acquireTask(Identity clientIdentity);
     boolean complete(U result);
-    boolean download(T task, long timeoutInMsec);
-    boolean download(T task);
+    U download(T task, long timeoutInMsec);
+    U download(T task);
 }

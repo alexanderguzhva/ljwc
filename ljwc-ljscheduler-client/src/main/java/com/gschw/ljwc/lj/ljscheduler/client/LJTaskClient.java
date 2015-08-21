@@ -84,7 +84,7 @@ public abstract class LJTaskClient<T, U> implements ILJTaskClient<T, U>{
         }
     }
 
-    private boolean download(T task, Long timeoutInMsec) {
+    private U download(T task, Long timeoutInMsec, Class<U> uClass) {
         String url = parameters.getServiceUrl();
 
         try {
@@ -101,23 +101,28 @@ public abstract class LJTaskClient<T, U> implements ILJTaskClient<T, U>{
 
             logger.info("{} returned {}", url, response.getStatusInfo());
             if (response.getStatus() != Response.Status.OK.getStatusCode())
-                return false;
+                return null;
 
-            return true;
+            U result = response.readEntity(uClass);
+            return result;
 
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
-            return false;
+            return null;
         }
     }
 
     @Override
-    public boolean download(T task, long timeoutInMsec) {
-        return download(task, new Long(timeoutInMsec));
-    }
+    public abstract U download(T task, long timeoutInMsec);
 
     @Override
-    public boolean download(T task) {
-        return download(task, null);
+    public abstract U download(T task);
+
+    protected U download(T task, long timeoutInMsec, Class<U> uClass) {
+        return download(task, new Long(timeoutInMsec), uClass);
+    }
+
+    protected U download(T task, Class<U> uClass) {
+        return download(task, null, uClass);
     }
 }

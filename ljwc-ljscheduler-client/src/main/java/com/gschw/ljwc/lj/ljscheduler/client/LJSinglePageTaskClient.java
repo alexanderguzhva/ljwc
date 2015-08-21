@@ -23,4 +23,14 @@ public class LJSinglePageTaskClient extends LJTaskClient<LJSinglePageTask, LJSin
     public LJSinglePageTask acquireTask(Identity clientIdentity) {
         return super.acquireTask(clientIdentity, LJSinglePageTask.class);
     }
+
+    @Override
+    public LJSinglePageTaskResult download(LJSinglePageTask task, long timeoutInMsec) {
+        return super.download(task, timeoutInMsec, LJSinglePageTaskResult.class);
+    }
+
+    @Override
+    public LJSinglePageTaskResult download(LJSinglePageTask task) {
+        return super.download(task, LJSinglePageTaskResult.class);
+    }
 }

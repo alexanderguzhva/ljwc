@@ -7,13 +7,12 @@ import com.gschw.ljwc.auth.Identity;
 import javax.validation.constraints.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by nop on 8/12/15.
  */
-public class LJCalendarTaskResult {
+public class LJCalendarTaskResult implements ILJTaskIdentifiable {
     @NotNull
     private Identity taskIdentity;
 

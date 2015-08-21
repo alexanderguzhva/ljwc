@@ -22,6 +22,7 @@ public class LJSinglePageElement {
         this.url = url;
     }
 
+
     //
     private LJSinglePageElementCategory category;
 
@@ -32,6 +33,17 @@ public class LJSinglePageElement {
 
     @JsonProperty("category")
     public void setCategory(LJSinglePageElementCategory category) {
+        this.category = category;
+    }
+
+
+    //
+    public LJSinglePageElement() {
+        category = LJSinglePageElementCategory.UNKNOWN;
+    }
+
+    public LJSinglePageElement(String url, LJSinglePageElementCategory category) {
+        this.url = url;
         this.category = category;
     }
 }

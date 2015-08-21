@@ -56,9 +56,9 @@ public class DWApplication extends Application<DWConfiguration> {
         LJTaskClientParameters ljCalendarClientParameters =
                 configuration.getLjCalendarClientParameters();
         LJCalendarTaskClient calendarTaskClient =
-                new LJCalendarTaskClient(client, ljSinglePageClientParameters);
+                new LJCalendarTaskClient(client, ljCalendarClientParameters);
 
-        
+
 
     }
 }

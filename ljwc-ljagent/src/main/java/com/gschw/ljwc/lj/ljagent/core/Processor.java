@@ -89,6 +89,10 @@ public class Processor {
                 return false;
             }
 
+            //// add to result
+            LJSinglePageElement elementPage = new LJSinglePageElement(task.getUrl(), LJSinglePageElementCategory.PAGE);
+            spResult.addElement(elementPage);
+
             //// ok, step 2
             ElementsCollection parsedElements = htmlParserClient.parse(task.getUrl());
             if (parsedElements == null) {
@@ -113,9 +117,7 @@ public class Processor {
 
                 logger.info("UploadStatus for {} is {}", imageElement.src, localResult.isUploadSuccess());
 
-                LJSinglePageElement element = new LJSinglePageElement();
-                element.setUrl(imageElement.src);
-                element.setCategory(LJSinglePageElementCategory.IMAGE);
+                LJSinglePageElement element = new LJSinglePageElement(imageElement.src, LJSinglePageElementCategory.IMAGE);
                 spResult.addElement(element);
             }
 

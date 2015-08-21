@@ -14,6 +14,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 
     compile project(':ljwc-ljscheduler-client')
+    compile project(':ljwc-auth')
 
     compile 'ch.qos.logback:logback-core:1.1.2'
     compile 'ch.qos.logback:logback-classic:1.1.2'

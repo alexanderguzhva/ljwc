@@ -13,6 +13,7 @@ import java.util.Map;
  */
 public enum LJSinglePageElementCategory {
     UNKNOWN,
+    PAGE,
     IMAGE;
 
     private static Map<String, LJSinglePageElementCategory> names2ValueMap =
@@ -20,6 +21,7 @@ public enum LJSinglePageElementCategory {
 
     static {
         names2ValueMap.put("unknown", UNKNOWN);
+        names2ValueMap.put("page", PAGE);
         names2ValueMap.put("image", IMAGE);
     }
 
@@ -36,5 +38,11 @@ public enum LJSinglePageElementCategory {
         }
 
         return null;
+    }
+
+
+    @Override
+    public String toString() {
+        return toStringValue();
     }
 }

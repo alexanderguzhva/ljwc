@@ -1,6 +1,5 @@
 package com.gschw.ljwc.lj.ljscheduler;
 
-import com.gschw.ljwc.lj.ljscheduler.calendar.CalendarKeeperParameters;
 import com.gschw.ljwc.lj.ljscheduler.scheduler.TasksKeeperParameters;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
@@ -21,16 +20,4 @@ public class DWConfiguration extends Configuration {
         this.tasksKeeperParameters = tasksKeeperParameters;
     }
 
-    //
-    private CalendarKeeperParameters calendarKeeperParameters;
-
-    @JsonProperty
-    public CalendarKeeperParameters getCalendarKeeperParameters() {
-        return calendarKeeperParameters;
-    }
-
-    @JsonProperty
-    public void setCalendarKeeperParameters(CalendarKeeperParameters calendarKeeperParameters) {
-        this.calendarKeeperParameters = calendarKeeperParameters;
-    }
 }

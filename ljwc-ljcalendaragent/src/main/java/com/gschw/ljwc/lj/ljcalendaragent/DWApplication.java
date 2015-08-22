@@ -8,7 +8,7 @@ import com.gschw.ljwc.lj.ljcalendaragent.calendar.ProcessorParameters;
 import com.gschw.ljwc.lj.ljcalendaragent.resources.ControllerResource;
 import com.gschw.ljwc.lj.ljscheduler.client.ILJCalendarTaskClient;
 import com.gschw.ljwc.lj.ljscheduler.client.LJCalendarTaskClient;
-import com.gschw.ljwc.lj.ljscheduler.client.LJCalendarTaskClientParameters;
+import com.gschw.ljwc.lj.ljscheduler.client.LJTaskClientParameters;
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
@@ -58,7 +58,7 @@ public class DWApplication extends Application<DWConfiguration> {
         IDGDownloadTaskClient downloadTaskClient =
                 new DGDownloadTaskClient(client, downloadTaskClientParameters);
 
-        LJCalendarTaskClientParameters calendarTaskClientParameters =
+        LJTaskClientParameters calendarTaskClientParameters =
                 configuration.getCalendarTaskClientParameters();
         ILJCalendarTaskClient calendarTaskClient =
                 new LJCalendarTaskClient(client, calendarTaskClientParameters);

@@ -1,10 +1,9 @@
 package com.gschw.ljwc.lj.ljscheduler;
 
-import com.gschw.ljwc.lj.ljscheduler.calendar.CalendarKeeper;
-import com.gschw.ljwc.lj.ljscheduler.calendar.CalendarKeeperParameters;
+import com.gschw.ljwc.lj.ljscheduler.pscheduler.CalendarKeeper;
+import com.gschw.ljwc.lj.ljscheduler.pscheduler.SinglePageKeeper;
 import com.gschw.ljwc.lj.ljscheduler.resources.CalendarResource;
-import com.gschw.ljwc.lj.ljscheduler.resources.LJDownloadTaskResource;
-import com.gschw.ljwc.lj.ljscheduler.scheduler.*;
+import com.gschw.ljwc.lj.ljscheduler.resources.LJSinglePageResource;
 import io.dropwizard.Application;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
@@ -38,19 +37,14 @@ public class DWApplication extends Application<DWConfiguration> {
     @Override
     public void run(DWConfiguration configuration,
                     Environment environment) {
-        final TasksKeeperParameters tasksKeeperParameters =
-                configuration.getTasksKeeperParameters();
-        TasksKeeper tasksKeeper = new TasksKeeper(tasksKeeperParameters);
-
-        LJDownloadTaskResource taskResource = new LJDownloadTaskResource(tasksKeeper);
-        environment.jersey().register(taskResource);
-
         ////
-        CalendarKeeperParameters calendarKeeperParameters =
-                configuration.getCalendarKeeperParameters();
-        CalendarKeeper calendarKeeper = new CalendarKeeper(calendarKeeperParameters);
-
+        CalendarKeeper calendarKeeper = new CalendarKeeper();
         CalendarResource calendarResource = new CalendarResource(calendarKeeper);
         environment.jersey().register(calendarResource);
+
+        ////
+        SinglePageKeeper singlePageKeeper = new SinglePageKeeper();
+        LJSinglePageResource singlePageResource = new LJSinglePageResource(singlePageKeeper);
+        environment.jersey().register(singlePageResource);
     }
 }

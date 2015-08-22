@@ -2,29 +2,41 @@ package com.gschw.ljwc.lj.ljscheduler.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gschw.ljwc.auth.Identity;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.NotNull;
 
-import com.gschw.ljwc.auth.Identity;
-
 /**
- * Created by nop on 8/12/15.
+ * Created by hadoop on 8/21/15.
  */
-public class LJCalendarTask implements ILJTaskIdentifiable {
+public class LJSinglePageTask implements ILJTaskIdentifiable {
     @NotNull
     private Identity taskIdentity;
 
     /**
-     * An url of a blog page. For ex., http://tema.livejournal.com
+     * An url that needs to be processed.
      */
     @URL
     @NotBlank
     private String url;
 
+
+    @NotNull
+    private Identity assignedTo;
+
+    public Identity getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(Identity assignedTo) {
+        this.assignedTo = assignedTo;
+    }
+
+
     @JsonCreator
-    public LJCalendarTask(@JsonProperty("taskIdentity") Identity taskIdentity, @JsonProperty("url") String url) {
+    public LJSinglePageTask(@JsonProperty("taskIdentity") Identity taskIdentity, @JsonProperty("url") String url) {
         this.taskIdentity = taskIdentity;
         this.url = url;
     }

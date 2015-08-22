@@ -21,3 +21,5 @@ include 'ljwc-ljcalendaragent'
 include 'ljwc-common'
 include 'ljwc-hbasebridge'
 
+include 'ljwc-ljexecutor'
+

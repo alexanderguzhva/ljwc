@@ -5,14 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gschw.ljwc.auth.Identity;
 
 import javax.validation.constraints.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by nop on 8/12/15.
+ * Created by hadoop on 8/21/15.
  */
-public class LJCalendarTaskResult implements ILJTaskIdentifiable {
+public class LJSinglePageTaskResult implements ILJTaskIdentifiable {
     @NotNull
     private Identity taskIdentity;
 
@@ -21,21 +20,24 @@ public class LJCalendarTaskResult implements ILJTaskIdentifiable {
         return taskIdentity;
     }
 
-    @JsonCreator
-    public LJCalendarTaskResult(@JsonProperty("taskIdentity") @NotNull Identity taskIdentity) {
-        this.taskIdentity = taskIdentity;
-
-        this.elements = new ArrayList<>();
-    }
 
     //
-    private List<LJCalendarTaskResultElement> elements;
+    private List<LJSinglePageElement> elements;
 
-    public List<LJCalendarTaskResultElement> getElements() {
+    @JsonProperty
+    public List<LJSinglePageElement> getElements() {
         return elements;
     }
 
-    public void addElement(LJCalendarTaskResultElement element) {
+    public void addElement(LJSinglePageElement element) {
         elements.add(element);
+    }
+
+    //
+    @JsonCreator
+    public LJSinglePageTaskResult(@JsonProperty("taskIdentity") @NotNull Identity taskIdentity) {
+        this.taskIdentity = taskIdentity;
+
+        this.elements = new ArrayList<>();
     }
 }

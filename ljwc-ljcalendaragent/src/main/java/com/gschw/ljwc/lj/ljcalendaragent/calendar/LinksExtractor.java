@@ -41,7 +41,7 @@ public class LinksExtractor {
         task.setTaskIdentity(identityGenerator.generate());
         task.setUrl(baseURL);
         task.setReturnDataInReply(true);
-        task.setUploadDataToBase(false);
+        task.setUploadDataToBase(true);
 
         DGDownloadResult result = downloadTaskClient.download(sessionIdentity, task);
         if (result == null) {

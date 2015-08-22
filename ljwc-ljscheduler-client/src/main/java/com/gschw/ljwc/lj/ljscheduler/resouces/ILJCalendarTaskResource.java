@@ -3,7 +3,6 @@ package com.gschw.ljwc.lj.ljscheduler.resouces;
 import com.gschw.ljwc.auth.Identity;
 import com.gschw.ljwc.lj.ljscheduler.api.LJCalendarTask;
 import com.gschw.ljwc.lj.ljscheduler.api.LJCalendarTaskResult;
-import com.gschw.ljwc.lj.ljscheduler.api.LJDownloadTask;
 
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;

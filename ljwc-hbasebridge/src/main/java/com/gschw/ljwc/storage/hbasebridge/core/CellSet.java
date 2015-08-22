@@ -1,4 +1,4 @@
-package com.gschw.ljwc.storage.hbase.core;
+package com.gschw.ljwc.storage.hbasebridge.core;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

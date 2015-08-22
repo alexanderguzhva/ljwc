@@ -1,4 +1,4 @@
-package com.gschw.ljwc.storage.hbase.core;
+package com.gschw.ljwc.storage.hbasebridge.core;
 
 /**
  * Created by nop on 6/24/15.

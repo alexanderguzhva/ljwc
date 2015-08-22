@@ -1,10 +1,11 @@
-package com.gschw.ljwc.storage.hbase.core;
+package com.gschw.ljwc.storage.hbasebridge.core;
 
 import java.util.List;
 import java.util.ArrayList;
 
 import com.google.common.base.Throwables;
-import com.gschw.ljwc.storage.*;
+import com.gschw.ljwc.storage.DBStorageElement;
+import com.gschw.ljwc.storage.IDBStorage;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * Created by nop on 6/24/15.
  */
-public class HBaseDB implements IAbstractStorage {
+public class HBaseDB implements IDBStorage {
     private static Logger logger = LoggerFactory.getLogger(HBaseDB.class);
 
     private HBaseDBSettings settings;
@@ -88,4 +89,58 @@ public class HBaseDB implements IAbstractStorage {
     }
 
 
+    @Override
+    public boolean write(DBStorageElement element) {
+        return false;
+    }
+
+    @Override
+    public boolean write(List<DBStorageElement> elements) {
+        return false;
+    }
+
+    @Override
+    public List<DBStorageElement> read() {
+        return null;
+    }
+
+    @Override
+    public List<DBStorageElement> read(String key) {
+        return null;
+    }
+
+    @Override
+    public DBStorageElement read(String key, DateTime timestamp) {
+        return null;
+    }
+
+    @Override
+    public DBStorageElement readLast(String key) {
+        return null;
+    }
+
+    @Override
+    public boolean exists(String key) {
+        return false;
+    }
+
+    @Override
+    public boolean exists(String key, DateTime timestamp) {
+        return false;
+    }
+
+    @Override
+    public boolean remove(String key) {
+        return false;
+    }
+
+    @Override
+    public boolean remove(String key, DateTime timestamp) {
+        return false;
+    }
+
+    @Override
+    public boolean clear() {
+        return false;
+    }
 }

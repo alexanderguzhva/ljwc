@@ -14,8 +14,8 @@ processorParameters:
 downloadTaskClientParameters:
     serviceUrl: "http://localhost:11250/"
 
-ljDownloadTaskClientParameters:
-    serviceUrl: "http://localhost:11260/task/"
+ljSinglePageTaskClientParameters:
+    serviceUrl: "http://localhost:11260/singlepage/"
 
 htmlParserClientParameters:
     serviceUrl: "http://localhost:11020/"

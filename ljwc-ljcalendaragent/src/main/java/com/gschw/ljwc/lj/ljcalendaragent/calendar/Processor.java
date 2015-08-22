@@ -55,7 +55,7 @@ public class Processor {
         logger.info("Created a session {}", sessionIdentity);
 
         try {
-            LinksExtractor extractor = new LinksExtractor(downloadTaskClient, sessionIdentity);
+            LinksExtractor extractor = new LinksExtractor(downloadTaskClient, sessionIdentity, parameters.getUploadServiceUrl());
             CalendarAnalyzer calendarAnalyzer = new CalendarAnalyzer(extractor);
 
             ////

@@ -14,10 +14,6 @@ public class ProcessorParameters {
     @NotNull
     private Identity processorIdentity;
 
-
-    public ProcessorParameters() {
-    }
-
     @JsonProperty("processorIdentity")
     public Identity getProcessorIdentity() {
         return processorIdentity;
@@ -27,4 +23,25 @@ public class ProcessorParameters {
     public void setProcessorIdentity(Identity processorIdentity) {
         this.processorIdentity = processorIdentity;
     }
+
+    //
+    @URL
+    @NotBlank
+    private String uploadServiceUrl;
+
+    @JsonProperty("uploadServiceUrl")
+    public String getUploadServiceUrl() {
+        return uploadServiceUrl;
+    }
+
+    @JsonProperty("uploadServiceUrl")
+    public void setUploadServiceUrl(String uploadServiceUrl) {
+        this.uploadServiceUrl = uploadServiceUrl;
+    }
+
+    //
+    public ProcessorParameters() {
+    }
+
+
 }

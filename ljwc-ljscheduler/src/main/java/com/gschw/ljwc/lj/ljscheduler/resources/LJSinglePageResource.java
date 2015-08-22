@@ -59,17 +59,17 @@ public class LJSinglePageResource implements ILJSinglePageTaskResource {
         logger.info("Going to process {}", task.getUrl());
 
         if (timeout == null) {
-            boolean b = singlePageKeeper.download(task);
-            if (!b)
+            LJSinglePageTaskResult result = singlePageKeeper.download(task);
+            if (result == null)
                 return Response.status(Response.Status.BAD_REQUEST).build();
 
-            return Response.ok().build();
+            return Response.ok().entity(result).build();
         } else {
-            boolean b = singlePageKeeper.download(task, timeout);
-            if (!b)
+            LJSinglePageTaskResult result = singlePageKeeper.download(task, timeout);
+            if (result == null)
                 return Response.status(Response.Status.BAD_REQUEST).build();
 
-            return Response.ok().build();
+            return Response.ok().entity(result).build();
         }
     }
 }

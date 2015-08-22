@@ -31,7 +31,7 @@ public class SimpleDownloader {
             String encodedElementUrl = UriComponent.encode(url, UriComponent.Type.UNRESERVED);
 
             WebTarget target = client
-                    .target(parameters.getServiceURL())
+                    .target(parameters.getServiceUrl())
                     .path(encodedElementUrl);
             Response response = target.request().get();
 

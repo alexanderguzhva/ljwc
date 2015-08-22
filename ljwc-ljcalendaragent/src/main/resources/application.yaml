@@ -9,6 +9,7 @@ server:
 processorParameters:
     processorIdentity:
         id: "ljagent"
+    uploadServiceUrl: "http://localhost:11240/"
 
 downloadTaskClientParameters:
     serviceUrl: "http://localhost:11250/"

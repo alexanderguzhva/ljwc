@@ -6,16 +6,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by hadoop on 8/19/15.
  */
 public class SimpleDownloaderParameters {
-    private String serviceURL;
+    private String serviceUrl;
 
     @JsonProperty
-    public String getServiceURL() {
-        return serviceURL;
+    public String getServiceUrl() {
+        return serviceUrl;
     }
 
     @JsonProperty
-    public void setServiceURL(String serviceURL) {
-        this.serviceURL = serviceURL;
+    public void setServiceUrl(String serviceUrl) {
+        this.serviceUrl = serviceUrl;
     }
 
     //

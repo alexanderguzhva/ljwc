@@ -58,12 +58,6 @@ public class X {
                 logger.info("Downloaded {}, {}", spElement.getUrl(), spElement.getCategory().toStringValue());
             }
         }
-
-
     }
 
-
-    public void downloadSinglePage(String singlePage) {
-
-    }
 }

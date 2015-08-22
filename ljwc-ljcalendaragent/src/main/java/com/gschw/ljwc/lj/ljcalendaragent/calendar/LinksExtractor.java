@@ -26,11 +26,16 @@ public class LinksExtractor {
     private IDGDownloadTaskClient downloadTaskClient;
     private Identity sessionIdentity;
 
+    private String uploadServiceUrl;
+
     private IIdentityGenerator identityGenerator;
 
-    public LinksExtractor(IDGDownloadTaskClient downloadTaskClient, Identity sessionIdentity) {
+    public LinksExtractor(IDGDownloadTaskClient downloadTaskClient,
+                          Identity sessionIdentity,
+                          String uploadServiceUrl) {
         this.downloadTaskClient = downloadTaskClient;
         this.sessionIdentity = sessionIdentity;
+        this.uploadServiceUrl = uploadServiceUrl;
 
         this.identityGenerator = new StandardIdentityRandomGenerator();
     }
@@ -40,6 +45,7 @@ public class LinksExtractor {
         DGDownloadTask task = new DGDownloadTask();
         task.setTaskIdentity(identityGenerator.generate());
         task.setUrl(baseURL);
+        task.setUploadServiceURL(uploadServiceUrl);
         task.setReturnDataInReply(true);
         task.setUploadDataToBase(true);
 

@@ -6,4 +6,9 @@ server:
         - type: http
           port: 11221
 
+singlePageClientParameters:
+    serviceUrl: "http://localhost:11260/singlepage/"
+
+calendarClientParameters:
+    serviceUrl: "http://localhost:11260/calendar/"
 

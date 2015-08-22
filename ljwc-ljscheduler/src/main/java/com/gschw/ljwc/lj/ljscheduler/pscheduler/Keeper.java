@@ -107,7 +107,7 @@ public abstract class Keeper<
 
     protected abstract void processCompletedElement(U result);
 
-    private boolean internalDownload(T task, Long timeoutInMsec) {
+    private U internalDownload(T task, Long timeoutInMsec) {
         TasksSupp<T, U> supp;
 
         synchronized (locker) {
@@ -127,18 +127,21 @@ public abstract class Keeper<
         ////
         try {
             boolean b = supp.waitUntilComplete(timeoutInMsec);
-            return b;
+            if (!b)
+                return null;
+
+            return supp.getResult();
         } catch(InterruptedException e) {
             logger.error(Throwables.getStackTraceAsString(e));
-            return false;
+            return null;
         }
     }
 
-    public boolean download(T task, long timeoutInMsec) {
+    public U download(T task, long timeoutInMsec) {
         return internalDownload(task, new Long(timeoutInMsec));
     }
 
-    public boolean download(T task) {
+    public U download(T task) {
         return internalDownload(task, null);
     }
 

@@ -6,26 +6,3 @@ server:
         - type: http
           port: 11261
 
-tasksKeeperParameters:
-    tasksToProcess:
-        - identity:
-            id: task1
-          elements:
-            - identity:
-                id: element11
-              url: http://localhost:11210/generate/1_1
-            - identity:
-                id: element12
-              url: http://localhost:11210/generate/1_2
-        - identity:
-            id: task2
-          elements:
-            - identity:
-                id: element21
-              url: http://localhost:11210/generate/2_1
-            - identity:
-                id: element22
-              url: http://localhost:11210/generate/2_2
-
-calendarKeeperParameters:
-    defaultTimeoutMsec: 1000

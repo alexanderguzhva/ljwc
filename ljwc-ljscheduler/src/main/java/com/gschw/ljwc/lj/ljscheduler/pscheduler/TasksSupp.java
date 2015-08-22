@@ -27,14 +27,21 @@ public class TasksSupp<T, U> {
 
 
     //
+    private final Object locker = new Object();
+
+    //
     private U result;
 
     public U getResult() {
-        return result;
+        synchronized (locker) {
+            return result;
+        }
     }
 
     public void setResult(U result) {
-        this.result = result;
+        synchronized (locker) {
+            this.result = result;
+        }
     }
 
     //

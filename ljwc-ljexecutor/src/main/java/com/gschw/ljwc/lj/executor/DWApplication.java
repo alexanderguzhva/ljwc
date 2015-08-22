@@ -1,5 +1,7 @@
 package com.gschw.ljwc.lj.executor;
 
+import com.gschw.ljwc.lj.executor.core.X;
+import com.gschw.ljwc.lj.executor.resources.DownloadResource;
 import com.gschw.ljwc.lj.ljscheduler.client.LJCalendarTaskClient;
 import com.gschw.ljwc.lj.ljscheduler.client.LJSinglePageTaskClient;
 import com.gschw.ljwc.lj.ljscheduler.client.LJTaskClientParameters;
@@ -59,6 +61,9 @@ public class DWApplication extends Application<DWConfiguration> {
                 new LJCalendarTaskClient(client, ljCalendarClientParameters);
 
 
+        X x = new X(calendarTaskClient, singlePageTaskClient);
+        DownloadResource downloadResource = new DownloadResource(x);
 
+        environment.jersey().register(downloadResource);
     }
 }

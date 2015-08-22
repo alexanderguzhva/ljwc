@@ -6,16 +6,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by nop on 6/24/15.
  */
 public class HBaseConnectionSettings {
-    private String restServiceURI;
+    private String serviceUrl;
 
-    @JsonProperty("RESTServiceURI")
-    public String getRESTServiceURI() {
-        return restServiceURI;
+    @JsonProperty("serviceUrl")
+    public String getServiceUrl() {
+        return serviceUrl;
     }
 
-    @JsonProperty("RESTServiceURI")
-    public void setRESTServiceURI(String restServiceURI) {
-        this.restServiceURI = restServiceURI;
+    @JsonProperty("serviceUrl")
+    public void setServiceUrl(String serviceUrl) {
+        this.serviceUrl = serviceUrl;
     }
 
 
@@ -37,8 +37,8 @@ public class HBaseConnectionSettings {
     public HBaseConnectionSettings() {
     }
 
-    public HBaseConnectionSettings(String restServiceURI, String tableName) {
-        this.restServiceURI = restServiceURI;
+    public HBaseConnectionSettings(String serviceUrl, String tableName) {
+        this.serviceUrl = serviceUrl;
         this.tableName = tableName;
     }
 }

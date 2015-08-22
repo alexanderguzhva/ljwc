@@ -23,3 +23,5 @@ dependencies {
     compile 'io.dropwizard:dropwizard-core:0.8.1'
     compile 'io.dropwizard:dropwizard-client:0.8.1'
 }
+
+mainClassName = 'com.gschw.ljwc.storage.hbasebridge.Main'

@@ -8,6 +8,8 @@ import com.gschw.ljwc.html.htmlparser.client.HTMLParserClientParameters;
 import com.gschw.ljwc.html.htmlparser.client.IHTMLParserClient;
 import com.gschw.ljwc.lj.ljagent.core.Processor;
 import com.gschw.ljwc.lj.ljagent.core.ProcessorParameters;
+import com.gschw.ljwc.lj.ljagent.managed.ProcessorManager;
+import com.gschw.ljwc.lj.ljagent.managed.ProcessorManagerParameters;
 import com.gschw.ljwc.lj.ljagent.resources.ControllerResource;
 import com.gschw.ljwc.lj.ljscheduler.client.ILJSinglePageTaskClient;
 import com.gschw.ljwc.lj.ljscheduler.client.LJSinglePageTaskClient;
@@ -82,9 +84,16 @@ public class DWApplication extends Application<DWConfiguration> {
                 processorParameters);
 
 
-        ControllerResource controllerResource =
-                new ControllerResource(processor);
+//        ControllerResource controllerResource =
+//                new ControllerResource(processor);
+//        environment.jersey().register(controllerResource);
 
-        environment.jersey().register(controllerResource);
+        ProcessorManagerParameters processorManagerParameters =
+                configuration.getProcessorManagerParameters();
+        ProcessorManager processorManager =
+                new ProcessorManager(processor, processorManagerParameters);
+
+        environment.lifecycle().manage(processorManager);
+
     }
 }

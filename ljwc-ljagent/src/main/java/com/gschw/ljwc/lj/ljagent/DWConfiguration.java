@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gschw.ljwc.grabber.datagrabber.client.DGDownloadTaskClientParameters;
 import com.gschw.ljwc.html.htmlparser.client.HTMLParserClientParameters;
 import com.gschw.ljwc.lj.ljagent.core.ProcessorParameters;
+import com.gschw.ljwc.lj.ljagent.managed.ProcessorManagerParameters;
 import com.gschw.ljwc.lj.ljscheduler.client.LJTaskClientParameters;
 import io.dropwizard.Configuration;
 import io.dropwizard.client.JerseyClientConfiguration;
@@ -82,4 +83,20 @@ public class DWConfiguration extends Configuration {
     public void setHtmlParserClientParameters(HTMLParserClientParameters htmlParserClientParameters) {
         this.htmlParserClientParameters = htmlParserClientParameters;
     }
+
+
+    //
+    @NotNull
+    private ProcessorManagerParameters processorManagerParameters;
+
+    @JsonProperty("processorManagerParameters")
+    public ProcessorManagerParameters getProcessorManagerParameters() {
+        return processorManagerParameters;
+    }
+
+    @JsonProperty("processorManagerParameters")
+    public void setProcessorManagerParameters(ProcessorManagerParameters processorManagerParameters) {
+        this.processorManagerParameters = processorManagerParameters;
+    }
+
 }

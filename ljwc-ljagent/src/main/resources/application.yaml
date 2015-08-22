@@ -19,3 +19,7 @@ ljSinglePageTaskClientParameters:
 
 htmlParserClientParameters:
     serviceUrl: "http://localhost:11020/"
+
+processorManagerParameters:
+    shutdownTimeoutMsec: 5000
+    queueTimerRateMsec: 2000

@@ -5,6 +5,8 @@ import com.gschw.ljwc.grabber.datagrabber.client.DGDownloadTaskClientParameters;
 import com.gschw.ljwc.grabber.datagrabber.client.IDGDownloadTaskClient;
 import com.gschw.ljwc.lj.ljcalendaragent.calendar.Processor;
 import com.gschw.ljwc.lj.ljcalendaragent.calendar.ProcessorParameters;
+import com.gschw.ljwc.lj.ljcalendaragent.managed.ProcessorManager;
+import com.gschw.ljwc.lj.ljcalendaragent.managed.ProcessorManagerParameters;
 import com.gschw.ljwc.lj.ljcalendaragent.resources.ControllerResource;
 import com.gschw.ljwc.lj.ljscheduler.client.ILJCalendarTaskClient;
 import com.gschw.ljwc.lj.ljscheduler.client.LJCalendarTaskClient;
@@ -71,10 +73,15 @@ public class DWApplication extends Application<DWConfiguration> {
                     calendarTaskClient,
                     processorParameters);
 
-        ControllerResource controllerResource =
-                new ControllerResource(processor);
+//        ControllerResource controllerResource =
+//                new ControllerResource(processor);
+//        environment.jersey().register(controllerResource);
+        ProcessorManagerParameters processorManagerParameters =
+                configuration.getProcessorManagerParameters();
+        ProcessorManager processorManager =
+                new ProcessorManager(processor, processorManagerParameters);
 
-        environment.jersey().register(controllerResource);
+        environment.lifecycle().manage(processorManager);
     }
 
 }

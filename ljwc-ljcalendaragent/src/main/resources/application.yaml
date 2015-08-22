@@ -17,3 +17,6 @@ downloadTaskClientParameters:
 ljCalendarTaskClientParameters:
     serviceUrl: "http://localhost:11260/calendar/"
 
+processorManagerParameters:
+    shutdownTimeoutMsec: 5000
+    queueTimerRateMsec: 2000

@@ -3,6 +3,7 @@ package com.gschw.ljwc.lj.ljcalendaragent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gschw.ljwc.grabber.datagrabber.client.DGDownloadTaskClientParameters;
 import com.gschw.ljwc.lj.ljcalendaragent.calendar.ProcessorParameters;
+import com.gschw.ljwc.lj.ljcalendaragent.managed.ProcessorManagerParameters;
 import com.gschw.ljwc.lj.ljscheduler.client.LJTaskClientParameters;
 import io.dropwizard.Configuration;
 import io.dropwizard.client.JerseyClientConfiguration;
@@ -25,7 +26,7 @@ public class DWConfiguration extends Configuration {
 
 
 
-
+    @NotNull
     private ProcessorParameters processorParameters;
 
     @JsonProperty("processorParameters")
@@ -39,6 +40,7 @@ public class DWConfiguration extends Configuration {
     }
 
     //
+    @NotNull
     private DGDownloadTaskClientParameters downloadTaskClientParameters;
 
     @JsonProperty("downloadTaskClientParameters")
@@ -52,6 +54,7 @@ public class DWConfiguration extends Configuration {
     }
 
     //
+    @NotNull
     private LJTaskClientParameters calendarTaskClientParameters;
 
     @JsonProperty("ljCalendarTaskClientParameters")
@@ -62,5 +65,20 @@ public class DWConfiguration extends Configuration {
     @JsonProperty("ljCalendarTaskClientParameters")
     public void setCalendarTaskClientParameters(LJTaskClientParameters calendarTaskClientParameters) {
         this.calendarTaskClientParameters = calendarTaskClientParameters;
+    }
+
+
+    //
+    @NotNull
+    private ProcessorManagerParameters processorManagerParameters;
+
+    @JsonProperty("processorManagerParameters")
+    public ProcessorManagerParameters getProcessorManagerParameters() {
+        return processorManagerParameters;
+    }
+
+    @JsonProperty("processorManagerParameters")
+    public void setProcessorManagerParameters(ProcessorManagerParameters processorManagerParameters) {
+        this.processorManagerParameters = processorManagerParameters;
     }
 }

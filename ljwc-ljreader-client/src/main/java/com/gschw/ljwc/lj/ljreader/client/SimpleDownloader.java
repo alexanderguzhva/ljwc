@@ -1,4 +1,4 @@
-package com.gschw.ljwc.html.htmlparser.core;
+package com.gschw.ljwc.lj.ljreader.client;
 
 import com.google.common.base.Throwables;
 import com.google.common.io.ByteStreams;
@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 import java.io.InputStream;
 
 /**
- * Created by hadoop on 8/19/15.
+ * Created by nop on 8/22/15.
  */
 public class SimpleDownloader {
     private static Logger logger = LoggerFactory.getLogger(SimpleDownloader.class);

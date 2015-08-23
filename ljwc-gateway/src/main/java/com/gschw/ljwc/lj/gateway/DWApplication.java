@@ -1,35 +1,35 @@
-package com.gschw.ljwc.html.htmlparser;
+package com.gschw.ljwc.lj.gateway;
 
+import com.gschw.ljwc.lj.gateway.servlet.GatewayServlet;
+import com.gschw.ljwc.lj.gateway.servlet.GatewayServletParameters;
 import com.gschw.ljwc.lj.ljreader.client.SimpleDownloader;
 import com.gschw.ljwc.lj.ljreader.client.SimpleDownloaderParameters;
-import com.gschw.ljwc.html.htmlparser.parse.ParserResource;
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import org.glassfish.jersey.client.ClientProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.client.Client;
 
 /**
- * Created by nop on 6/29/15.
+ * Created by nop on 8/22/15.
  */
-public class DWApplication extends Application<DWConfiguration> {
+public class DWApplication extends Application<DWConfiguration>{
 
     private static Logger logger = LoggerFactory.getLogger(DWApplication.class);
 
     @Override
     public String getName() {
-        return "ljwc-htmlparser";
+        return "ljwc-ljgateway";
     }
 
     @Override
     public void initialize(Bootstrap<DWConfiguration> bootstrap) {
-        //bootstrap.addBundle(discoveryBundle);
+        // Enable variable substitution with environment variables
         bootstrap.setConfigurationSourceProvider(
                 new SubstitutingSourceProvider(bootstrap.getConfigurationSourceProvider(),
                         new EnvironmentVariableSubstitutor()
@@ -44,18 +44,24 @@ public class DWApplication extends Application<DWConfiguration> {
                 .using(configuration.getJerseyClientConfiguration())
                 .build(getName());
 
-        client.property(ClientProperties.CONNECT_TIMEOUT, 10000);
-        client.property(ClientProperties.READ_TIMEOUT, 10000);
 
-
-        ////
         SimpleDownloaderParameters simpleDownloaderParameters =
                 configuration.getSimpleDownloaderParameters();
         SimpleDownloader simpleDownloader =
-                new SimpleDownloader(client, simpleDownloaderParameters);
+                new SimpleDownloader(
+                        client,
+                        simpleDownloaderParameters);
 
-        ParserResource parserResource = new ParserResource(simpleDownloader);
-        environment.jersey().register(parserResource);
+        GatewayServletParameters gatewayServletParameters =
+                configuration.getGatewayServletParameters();
+
+        GatewayServlet gatewayServlet =
+                new GatewayServlet(
+                        simpleDownloader,
+                        gatewayServletParameters);
+        environment.servlets()
+                .addServlet("gateway", gatewayServlet)
+                .addMapping(
+                        String.format("%s*", gatewayServletParameters.getRootUrl()));
     }
-
 }

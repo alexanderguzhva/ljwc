@@ -22,4 +22,6 @@ include 'ljwc-common'
 include 'ljwc-hbasebridge'
 
 include 'ljwc-ljexecutor'
+include 'ljwc-gateway'
+include 'ljwc-ljreader-client'
 

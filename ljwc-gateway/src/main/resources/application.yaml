@@ -1,0 +1,13 @@
+server:
+    applicationConnectors:
+        - type: http
+          port: 11350
+    adminConnectors:
+        - type: http
+          port: 11351
+
+gatewayServletParameters:
+    rootUrl: /gw/
+
+simpleDownloaderParameters:
+    serviceUrl: "http://localhost:11090"

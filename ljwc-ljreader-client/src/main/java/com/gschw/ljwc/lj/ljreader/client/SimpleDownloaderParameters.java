@@ -1,9 +1,9 @@
-package com.gschw.ljwc.html.htmlparser.core;
+package com.gschw.ljwc.lj.ljreader.client;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Created by hadoop on 8/19/15.
+ * Created by nop on 8/22/15.
  */
 public class SimpleDownloaderParameters {
     private String serviceUrl;

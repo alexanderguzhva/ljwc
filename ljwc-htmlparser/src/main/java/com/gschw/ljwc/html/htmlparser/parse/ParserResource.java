@@ -3,7 +3,7 @@ package com.gschw.ljwc.html.htmlparser.parse;
 import com.gschw.ljwc.html.htmlparser.api.*;
 import com.gschw.ljwc.html.htmlparser.core.BetterHTMLParser;
 
-import com.gschw.ljwc.html.htmlparser.core.SimpleDownloader;
+import com.gschw.ljwc.lj.ljreader.client.SimpleDownloader;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
@@ -13,8 +13,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 import java.io.ByteArrayInputStream;

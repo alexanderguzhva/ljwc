@@ -195,8 +195,22 @@ public class HBaseDB implements IDBStorage {
                 for (Cell cell : row.getCells()) {
                     String columnName = new String(cell.getColumn());
 
+                    String[] sSplit = columnName.split(":");
+                    if (sSplit.length != 2) {
+                        logger.warn("Strange column name {}, skipping it", columnName);
+                        continue;
+                    }
+
+                    if (sSplit[0] == "d") {
+                        element.getData().put(sSplit[1], cell.getValue());
+                    } else if (sSplit[0] == "m") {
+                        element.getMeta().put(sSplit[1], cell.getValue());
+                    } else {
+                        logger.warn("Strange column name {}, skipping it", columnName);
+                        continue;
+                    }
+
                     ////
-                    element.getData().put(columnName, cell.getValue());
                     element.setTimestamp(new DateTime(cell.getTimestamp()));
                 }
 

@@ -25,3 +25,8 @@ dependencies {
 }
 
 mainClassName = 'com.gschw.ljwc.storage.hbasebridge.Main'
+
+applicationDistribution.from('src/main/resources') {
+    include 'application.yaml'
+    into 'config'
+}

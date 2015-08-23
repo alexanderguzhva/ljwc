@@ -1,0 +1,10 @@
+server:
+    applicationConnectors:
+        - type: http
+          port: 11240
+    adminConnectors:
+        - type: http
+          port: 11241
+
+dbStorageClientParameters:
+    serviceUrl: "http://localhost:11360/"

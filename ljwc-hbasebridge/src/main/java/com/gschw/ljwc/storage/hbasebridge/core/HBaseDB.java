@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.google.common.base.Throwables;
 import com.gschw.ljwc.storage.DBStorageElement;
 import com.gschw.ljwc.storage.IDBStorage;
+import org.glassfish.jersey.uri.UriComponent;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +14,12 @@ import org.slf4j.LoggerFactory;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 /**
  * Created by nop on 6/24/15.
@@ -29,10 +32,12 @@ public class HBaseDB implements IDBStorage {
     private Client client;
 
     //
-    public HBaseDB(HBaseDBSettings settings, Client client) {
+    public HBaseDB(Client client, HBaseDBSettings settings) {
         this.settings = settings;
         this.client = client;
     }
+
+
 
 //    //
 //    public StorageWriteOperationResult write(StorageElementCollection elements) {
@@ -91,12 +96,69 @@ public class HBaseDB implements IDBStorage {
 
     @Override
     public boolean write(DBStorageElement element) {
-        return false;
+        List<DBStorageElement> elements = new ArrayList<>();
+        elements.add(element);
+
+        return write(element);
     }
 
     @Override
     public boolean write(List<DBStorageElement> elements) {
-        return false;
+        if (elements == null || elements.size() == 0)
+            return true;
+
+        //// process
+        CellSet cellSet = new CellSet();
+
+        for (DBStorageElement element : elements) {
+            Row row = new Row(element.getKey());
+
+            //// add data
+            for (Map.Entry<String, byte[]> entry : element.getData().entrySet()) {
+                String cellName = String.format("d:%s", entry.getKey());
+                Cell cell = new Cell(cellName.getBytes(),
+                        element.getTimestamp().getMillis(),
+                        entry.getValue());
+
+                row.addCell(cell);
+            }
+
+            //// add meta
+            for (Map.Entry<String, byte[]> entry : element.getMeta().entrySet()) {
+                String cellName = String.format("m:%s", entry.getKey());
+                Cell cell = new Cell(cellName.getBytes(),
+                        element.getTimestamp().getMillis(),
+                        entry.getValue());
+
+                row.addCell(cell);
+            }
+
+            ////
+            cellSet.addRow(row);
+        }
+
+        ////
+        HBaseConnectionSettings connectionSettings = settings.getConnectionSettings();
+
+        ////
+        try {
+            Response response = client
+                    .target(connectionSettings.getServiceUrl())
+                    .path(String.format("/%s/fake", connectionSettings.getTableName()))
+                    .request(MediaType.APPLICATION_JSON_TYPE)
+                    .buildPost(Entity.entity(cellSet, MediaType.APPLICATION_JSON_TYPE))
+                    .invoke();
+
+            logger.info("hbase returned {}", response.getStatusInfo());
+            if (response.getStatus() != Response.Status.OK.getStatusCode())
+                return false;
+
+            return true;
+
+        } catch(Exception e) {
+            logger.error(Throwables.getStackTraceAsString(e));
+            return false;
+        }
     }
 
     @Override
@@ -106,7 +168,47 @@ public class HBaseDB implements IDBStorage {
 
     @Override
     public List<DBStorageElement> read(String key) {
-        return null;
+        String encodedElementUrl = UriComponent.encode(key, UriComponent.Type.UNRESERVED);
+
+        HBaseConnectionSettings connectionSettings = settings.getConnectionSettings();
+
+        try {
+            Response response = client
+                    .target(connectionSettings.getServiceUrl())
+                    .path(String.format("/%s/%s", connectionSettings.getTableName(), encodedElementUrl))
+                    .request(MediaType.APPLICATION_JSON_TYPE)
+                    .buildGet()
+                    .invoke();
+
+            logger.info("hbase returned {}", response.getStatusInfo());
+            if (response.getStatus() != Response.Status.OK.getStatusCode())
+                return null;
+
+            //
+            CellSet cellSet = response.readEntity(CellSet.class);
+
+            List<DBStorageElement> elements = new ArrayList<>();
+            for (Row row : cellSet.getRows()) {
+                String name = new String(row.getKey());
+                DBStorageElement element = new DBStorageElement(name);
+
+                for (Cell cell : row.getCells()) {
+                    String columnName = new String(cell.getColumn());
+
+                    ////
+                    element.getData().put(columnName, cell.getValue());
+                    element.setTimestamp(new DateTime(cell.getTimestamp()));
+                }
+
+                elements.add(element);
+            }
+
+            return elements;
+
+        } catch(Exception e) {
+            logger.error(Throwables.getStackTraceAsString(e));
+            return null;
+        }
     }
 
     @Override

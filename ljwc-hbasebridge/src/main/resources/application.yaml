@@ -1,0 +1,12 @@
+server:
+    applicationConnectors:
+        - type: http
+          port: 11360
+    adminConnectors:
+        - type: http
+          port: 11361
+
+hbaseDBSettings:
+    connectionSettings:
+        serviceUrl: "http://localhost:60001/"
+        tableName: "ljdb"

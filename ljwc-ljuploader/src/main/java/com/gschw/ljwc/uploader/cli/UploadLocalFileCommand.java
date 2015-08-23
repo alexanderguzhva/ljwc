@@ -11,6 +11,7 @@ import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.setup.Environment;
 import net.sourceforge.argparse4j.inf.Namespace;
 import net.sourceforge.argparse4j.inf.Subparser;
+import org.glassfish.jersey.client.ClientProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +46,9 @@ public class UploadLocalFileCommand extends EnvironmentCommand<DWConfiguration> 
         final Client client = new JerseyClientBuilder(environment)
                 .using(configuration.getJerseyClientConfiguration())
                 .build(getName());
+
+        client.property(ClientProperties.CONNECT_TIMEOUT, 10000);
+        client.property(ClientProperties.READ_TIMEOUT, 10000);
 
 
         ////

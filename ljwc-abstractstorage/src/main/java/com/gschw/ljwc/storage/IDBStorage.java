@@ -5,7 +5,7 @@ import org.joda.time.DateTime;
 import java.util.List;
 
 /**
- * A simple interface for a DB.
+ * A simple interface for a DB. DB consists of {@link DBStorageElement} elements.
  */
 public interface IDBStorage {
     /**

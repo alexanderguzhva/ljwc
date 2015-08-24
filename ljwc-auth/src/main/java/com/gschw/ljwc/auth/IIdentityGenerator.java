@@ -1,7 +1,7 @@
 package com.gschw.ljwc.auth;
 
 /**
- * An interface for identity generators.
+ * An interface for {@link Identity} generators.
  */
 public interface IIdentityGenerator {
     Identity generate();

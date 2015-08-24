@@ -3,7 +3,7 @@ package com.gschw.ljwc.auth;
 import java.util.UUID;
 
 /**
- * Generates an identity.
+ * Generates an {@link Identity}.
  */
 public class SequentialIdentityGenerator implements IIdentityGenerator {
 

@@ -10,18 +10,88 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by hadoop on 7/9/15.
+ * An element of {@link IDBStorage}-based database
  */
 public class DBStorageElement {
+    /**
+     * A key.
+     */
     @NotBlank
     private String key;
 
+    /**
+     * Returns the key.
+     *
+     * @return Key.
+     */
+    @JsonProperty
+    public String getKey() {
+        return key;
+    }
+
+
+
+    /**
+     * A timestamp (number of milliseconds since 1970).
+     */
     @NotNull
     private long timestamp;
 
+    /**
+     * Returns the timestamp.
+     *
+     * @return Timestamp.
+     */
+    public DateTime getTimestamp() {
+        return new DateTime(timestamp);
+    }
+
+    /**
+     * Sets the timestamp.
+     *
+     * @param timestamp  Timestamp.
+     */
+    public void setTimestamp(DateTime timestamp) {
+        this.timestamp = timestamp.getMillis();
+    }
+
+
+    /**
+     * Data dictionary.
+     */
     private Map<String, byte[]> data;
+
+    /**
+     * Returns a data dictionary.
+     *
+     * @return Data dictionary.
+     */
+    @JsonProperty
+    public Map<String, byte[]> getData() {
+        return data;
+    }
+
+    /**
+     * Metadata dictionary.
+     */
     private Map<String, byte[]> meta;
 
+    /**
+     * Returns a metadata dictionary.
+     *
+     * @return Metadata dictionary.
+     */
+    @JsonProperty
+    public Map<String, byte[]> getMeta() {
+        return meta;
+    }
+
+
+    /**
+     * Constructor.
+     *
+     * @param key  Key.
+     */
     @JsonCreator
     public DBStorageElement(@JsonProperty("key") String key) {
         this.key = key;
@@ -30,27 +100,5 @@ public class DBStorageElement {
         meta = new HashMap<>();
     }
 
-    @JsonProperty
-    public String getKey() {
-        return key;
-    }
-
-    public DateTime getTimestamp() {
-        return new DateTime(timestamp);
-    }
-
-    public void setTimestamp(DateTime timestamp) {
-        this.timestamp = timestamp.getMillis();
-    }
-
-    @JsonProperty
-    public Map<String, byte[]> getData() {
-        return data;
-    }
-
-    @JsonProperty
-    public Map<String, byte[]> getMeta() {
-        return meta;
-    }
 
 }

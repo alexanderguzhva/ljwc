@@ -8,11 +8,22 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 /**
- * Created by nop on 7/12/15.
+ * The session for a {@link Grabber}. Contains cookies, context, etc.
  */
 public class GrabberSession {
+    /**
+     * Http client.
+     */
     private HttpClient httpClient;
+
+    /**
+     * Keeps cookies.
+     */
     private CookieStore cookieStore;
+
+    /**
+     * Http context.
+     */
     private HttpContext httpContext;
 
     public HttpClient getHttpClient() {

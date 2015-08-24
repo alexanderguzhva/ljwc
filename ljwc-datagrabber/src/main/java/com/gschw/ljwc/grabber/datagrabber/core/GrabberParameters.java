@@ -3,7 +3,7 @@ package com.gschw.ljwc.grabber.datagrabber.core;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Created by nop on 5/16/15.
+ * Parameters for {@link Grabber}.
  */
 public class GrabberParameters {
     private String userAgentString;

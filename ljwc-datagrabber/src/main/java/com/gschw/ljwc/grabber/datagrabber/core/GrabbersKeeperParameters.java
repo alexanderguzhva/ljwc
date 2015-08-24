@@ -3,7 +3,7 @@ package com.gschw.ljwc.grabber.datagrabber.core;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Created by nop on 7/12/15.
+ * Parameters for {@link GrabbersKeeper}.
  */
 public class GrabbersKeeperParameters {
     private int maximumNumberOfSessions;

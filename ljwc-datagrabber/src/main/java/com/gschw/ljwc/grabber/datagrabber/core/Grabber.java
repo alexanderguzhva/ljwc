@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by nop on 5/16/15.
+ * Downloads data.
  */
 public class Grabber {
     private static Logger logger = LoggerFactory.getLogger(Grabber.class);

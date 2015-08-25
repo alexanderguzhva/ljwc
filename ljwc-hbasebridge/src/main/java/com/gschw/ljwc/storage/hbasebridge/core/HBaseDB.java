@@ -18,9 +18,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -39,61 +36,6 @@ public class HBaseDB implements IDBStorage {
         this.client = client;
     }
 
-
-
-//    //
-//    public StorageWriteOperationResult write(StorageElementCollection elements) {
-//        //// process
-//        CellSet cellSet = new CellSet();
-//
-//        return null;
-//    }
-//
-//
-//    //
-//    public StorageReadOperationResult read(byte[] key) {
-//        String uri = new String(key);
-//
-//        String normalizedKeyName;
-//        try {
-//            normalizedKeyName = URLEncoder.encode(uri, StandardCharsets.UTF_8.toString());
-//        } catch (UnsupportedEncodingException e) {
-//            logger.error(Throwables.getStackTraceAsString(e));
-//            return StorageReadOperationResult.createFailed();
-//        }
-//
-//        ////
-//        HBaseConnectionSettings connectionSettings = settings.getConnectionSettings();
-//
-//        ////
-//        Response response = client.target(connectionSettings.getRESTServiceURI())
-//                .path(String.format("/%s/%s", connectionSettings.getTableName(), normalizedKeyName))
-//                .request(MediaType.APPLICATION_JSON_TYPE)
-//                .buildGet()
-//                .invoke();
-//
-//        CellSet cellSet = response.readEntity(CellSet.class);
-//
-//        ////
-//        List<StorageElement> elements = new ArrayList<>();
-//        for (Row row : cellSet.getRows()) {
-//            StorageElement element = new StorageElement(row.getKey());
-//
-//            for (Cell cell : row.getCells()) {
-//                String columnName = new String(cell.getColumn());
-//
-//                ////
-//                hBaseDataElement.setData(cell.getValue());
-//                element.setTimestamp(new DateTime(cell.getTimestamp()));
-//            }
-//
-//            elements.add(element);
-//        }
-//
-//        ////
-//        StorageElementCollection collection = new StorageElementCollection(elements);
-//        return new StorageReadOperationResult(key, collection);
-//    }
 
 
     @Override
@@ -144,14 +86,17 @@ public class HBaseDB implements IDBStorage {
 
         ////
         try {
-            Response response = client
-                    .target(connectionSettings.getServiceUrl())
-                    .path(String.format("/%s/fake", connectionSettings.getTableName()))
-                    .request(MediaType.APPLICATION_JSON_TYPE)
+            WebTarget target = client
+                            .target(connectionSettings.getServiceUrl())
+                            .path(connectionSettings.getTableName())
+                            .path("fake");
+
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = target.request(MediaType.APPLICATION_JSON_TYPE)
                     .buildPost(Entity.entity(cellSet, MediaType.APPLICATION_JSON_TYPE))
                     .invoke();
 
-            logger.info("hbase returned {}", response.getStatusInfo());
+            logger.debug("hbase returned {}", response.getStatusInfo());
             if (response.getStatus() != Response.Status.OK.getStatusCode())
                 return false;
 
@@ -236,12 +181,13 @@ public class HBaseDB implements IDBStorage {
                             .path(connectionSettings.getTableName())
                             .path(encodedElementUrl);
 
+            logger.debug("Calling {}", target.getUri().toString());
             Response response = target
                     .request(MediaType.APPLICATION_JSON_TYPE)
                     .buildGet()
                     .invoke();
 
-            logger.info("hbase returned {}", response.getStatusInfo());
+            logger.debug("hbase returned {}", response.getStatusInfo());
             if (response.getStatus() != Response.Status.OK.getStatusCode())
                 return null;
 
@@ -278,13 +224,14 @@ public class HBaseDB implements IDBStorage {
                     .path(connectionSettings.getTableName())
                     .path(encodedElementUrl);
             //.path(String.format("/%s/%s", connectionSettings.getTableName(), encodedElementUrl));
+            logger.debug("Calling {}", target.getUri().toString());
 
             Response response = target
                     .request(MediaType.APPLICATION_JSON_TYPE)
                     .buildGet()
                     .invoke();
 
-            logger.info("hbase returned {}", response.getStatusInfo());
+            logger.debug("hbase returned {}", response.getStatusInfo());
             if (response.getStatus() != Response.Status.OK.getStatusCode())
                 return null;
 

@@ -19,6 +19,7 @@ import com.google.common.base.Throwables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,15 +61,17 @@ public class DBStorageClient implements IDBStorage {
         DBStorageElementsCollection elementsCollection = new DBStorageElementsCollection(elements);
 
         try {
-            Response response =
-                    client
+            WebTarget target = client
                             .target(url)
-                            .path("/")
+                            .path("/");
+
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = target
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildPost(Entity.entity(elementsCollection, MediaType.APPLICATION_JSON_TYPE))
-                            .invoke();
+                    .invoke();
 
-            logger.info("{} returned {}", url, response.getStatusInfo());
+            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
             return (response.getStatus() == Response.Status.OK.getStatusCode());
 
         } catch (Exception e) {
@@ -84,15 +87,17 @@ public class DBStorageClient implements IDBStorage {
         String url = parameters.getServiceUrl();
 
         try {
-            Response response =
-                    client
-                            .target(url)
-                            .path("/")
+            WebTarget target = client
+                    .target(url)
+                    .path("/");
+
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = target
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildGet()
-                            .invoke();
+                    .invoke();
 
-            logger.info("{} returned {}", url, response.getStatusInfo());
+            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
             if (response.getStatus() != Response.Status.OK.getStatusCode())
                 return null;
 
@@ -127,12 +132,13 @@ public class DBStorageClient implements IDBStorage {
                             .path(encodedElementUrl)
                             .path("element");
 
+            logger.debug("Calling {}", target.getUri().toString());
             Response response = target
                     .request(MediaType.APPLICATION_JSON_TYPE)
                     .buildGet()
                     .invoke();
 
-            logger.info("{} returned {}", url, response.getStatusInfo());
+            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
             if (response.getStatus() != Response.Status.OK.getStatusCode())
                 return null;
 
@@ -171,12 +177,13 @@ public class DBStorageClient implements IDBStorage {
             if (timestamp != null)
                 target = target.queryParam("timestamp", new Long(timestamp.getMillis()).toString());
 
+            logger.debug("Calling {}", target.getUri().toString());
             Response response = target
                     .request(MediaType.APPLICATION_JSON_TYPE)
                     .buildGet()
                     .invoke();
 
-            logger.info("{} returned {}", url, response.getStatusInfo());
+            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
             if (response.getStatus() != Response.Status.OK.getStatusCode())
                 return null;
 
@@ -205,16 +212,18 @@ public class DBStorageClient implements IDBStorage {
         String encodedElementUrl = UriComponent.encode(key, UriComponent.Type.UNRESERVED);
 
         try {
-            Response response =
-                    client
+            WebTarget target = client
                             .target(url)
                             .path(encodedElementUrl)
-                            .path("lastelement")
+                            .path("lastelement");
+
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = target
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildGet()
                             .invoke();
 
-            logger.info("{} returned {}", url, response.getStatusInfo());
+            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
             if (response.getStatus() != Response.Status.OK.getStatusCode())
                 return null;
 
@@ -239,15 +248,17 @@ public class DBStorageClient implements IDBStorage {
         String encodedElementUrl = UriComponent.encode(key, UriComponent.Type.UNRESERVED);
 
         try {
-            Response response =
-                    client
-                            .target(url)
-                            .path(encodedElementUrl)
+            WebTarget target = client
+                    .target(url)
+                    .path(encodedElementUrl);
+
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = target
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildGet()
                             .invoke();
 
-            logger.info("{} returned {}", url, response.getStatusInfo());
+            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
             return (response.getStatus() == Response.Status.OK.getStatusCode());
 
         } catch (Exception e) {
@@ -270,16 +281,18 @@ public class DBStorageClient implements IDBStorage {
         String sTimestamp = new Long(timestamp.getMillis()).toString();
 
         try {
-            Response response =
-                    client
+            WebTarget target = client
                             .target(url)
                             .path(encodedElementUrl)
-                            .queryParam("timestamp", sTimestamp)
+                            .queryParam("timestamp", sTimestamp);
+
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = target
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildGet()
                             .invoke();
 
-            logger.info("{} returned {}", url, response.getStatusInfo());
+            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
             return (response.getStatus() == Response.Status.OK.getStatusCode());
 
         } catch (Exception e) {
@@ -299,15 +312,17 @@ public class DBStorageClient implements IDBStorage {
         String encodedElementUrl = UriComponent.encode(key, UriComponent.Type.UNRESERVED);
 
         try {
-            Response response =
-                    client
-                        .target(url)
-                        .path(encodedElementUrl)
+            WebTarget target = client
+                            .target(url)
+                            .path(encodedElementUrl);
+
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = target
                         .request(MediaType.APPLICATION_JSON_TYPE)
                         .buildDelete()
                         .invoke();
 
-            logger.info("{} returned {}", url, response.getStatusInfo());
+            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
             return (response.getStatus() == Response.Status.OK.getStatusCode());
 
         } catch (Exception e) {
@@ -332,16 +347,18 @@ public class DBStorageClient implements IDBStorage {
         String sTimestamp = new Long(timestamp.getMillis()).toString();
 
         try {
-            Response response =
-                    client
+            WebTarget target = client
                             .target(url)
                             .path(encodedElementUrl)
-                            .queryParam("timestamp", sTimestamp)
+                            .queryParam("timestamp", sTimestamp);
+
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = target
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildDelete()
                             .invoke();
 
-            logger.info("{} returned {}", url, response.getStatusInfo());
+            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
             return (response.getStatus() == Response.Status.OK.getStatusCode());
 
         } catch (Exception e) {
@@ -355,15 +372,17 @@ public class DBStorageClient implements IDBStorage {
         String url = parameters.getServiceUrl();
 
         try {
-            Response response =
-                    client
-                        .target(url)
-                        .path("/")
+            WebTarget target = client
+                            .target(url)
+                            .path("/");
+
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = target
                         .request(MediaType.APPLICATION_JSON_TYPE)
                         .buildDelete()
                         .invoke();
 
-            logger.info("{} returned {}", url, response.getStatusInfo());
+            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
             return (response.getStatus() == Response.Status.OK.getStatusCode());
 
         } catch (Exception e) {

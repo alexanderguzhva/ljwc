@@ -213,9 +213,12 @@ public class HBaseDB implements IDBStorage {
         ////    reply: ><CellSet><Row key="MS50eHQ="><Cell column="ZDpk" timestamp="1440473677207">cXFx</Cell><Cell column="ZDpk" timestamp="1440473543471">cXVhY2s=</Cell><Cell column="ZDpk" timestamp="1440473535021">d29vZg==</Cell></Row></CellSet>
         ////  so, fromRow() needs to be changed
         try {
-            Response response = client
-                    .target(connectionSettings.getServiceUrl())
-                    .path(String.format("/%s/%s", connectionSettings.getTableName(), encodedElementUrl))
+            WebTarget target = client
+                            .target(connectionSettings.getServiceUrl())
+                            .path(connectionSettings.getTableName())
+                            .path(encodedElementUrl);
+
+            Response response = target
                     .request(MediaType.APPLICATION_JSON_TYPE)
                     .buildGet()
                     .invoke();

@@ -51,7 +51,7 @@ public class Processor {
 
 
     //
-    private boolean iterate(Identity dgClientSession) {
+    public boolean iterate() {
         //// grab a task
         LJSinglePageTask task = ljSinglePageTaskClient.acquireTask(parameters.getProcessorIdentity());
         if (task == null) {
@@ -64,100 +64,95 @@ public class Processor {
             return false;
         }
 
-        //// so, an order of operations is the following:
-        //// 1. download file and place it in db
-        //// 2. ask htmlparser to parse a file and return a list of links to be downloaded
-        //// 3. download links and store them in db
-        LJSinglePageTaskResult spResult = new LJSinglePageTaskResult(task.getTaskIdentity());
-
-
-        //// let this single grabber to process it
-        DGDownloadTask downloadTask = new DGDownloadTask();
-        downloadTask.setTaskIdentity(task.getTaskIdentity());
-        downloadTask.setUrl(task.getUrl());
-        downloadTask.setUploadServiceURL(parameters.getUploaderServiceUrl());
-        downloadTask.setReturnDataInReply(false);
-        downloadTask.setUploadDataToBase(true);
-
-        //// step 1
-        DGDownloadResult result = dgDownloadClient.download(dgClientSession, downloadTask);
-
-        boolean bSuccessToReturn = false;
-        try {
-            if (result == null) {
-                logger.info("Could not download {}", task.getUrl());
-                return false;
-            }
-
-            //// add to result
-            LJSinglePageElement elementPage = new LJSinglePageElement(task.getUrl(), LJSinglePageElementCategory.PAGE);
-            spResult.addElement(elementPage);
-
-            //// ok, step 2
-            ElementsCollection parsedElements = htmlParserClient.parse(task.getUrl());
-            if (parsedElements == null) {
-                logger.info("Could not parse elements for {}", task.getUrl());
-                return false;
-            }
-
-            //// download images
-            for (ImageElement imageElement : parsedElements.getImages()) {
-                DGDownloadTask elementDownloadTask = new DGDownloadTask();
-                elementDownloadTask.setTaskIdentity(task.getTaskIdentity());
-                elementDownloadTask.setUrl(imageElement.src);
-                elementDownloadTask.setUploadServiceURL(parameters.getUploaderServiceUrl());
-                elementDownloadTask.setReturnDataInReply(false);
-                elementDownloadTask.setUploadDataToBase(true);
-
-                DGDownloadResult localResult = dgDownloadClient.download(dgClientSession, elementDownloadTask);
-                if (localResult == null) {
-                    logger.info("Could not download {}", imageElement.src);
-                    continue;
-                }
-
-                logger.info("UploadStatus for {} is {}", imageElement.src, localResult.isUploadSuccess());
-
-                LJSinglePageElement element = new LJSinglePageElement(imageElement.src, LJSinglePageElementCategory.IMAGE);
-                spResult.addElement(element);
-            }
-
-            bSuccessToReturn = true;
-        }
-        finally {
-            //// tell the boss about the result
-            boolean bComplete = ljSinglePageTaskClient.complete(spResult);
-            if (!bComplete) {
-                logger.error("Could not tell scheduler about the result");
-            }
-        }
-
-        //// anyway, there is nothing we should do at this point.
-        ////   maybe, there will be a mechanism that adds
-        ////   several attempts.
-
-        return true;
-    }
-
-    //
-    public boolean iterate() {
-        //// todo: do not session unless there is a task to process
+        ////
         Identity dgClientSession = dgDownloadClient.createSession();
         if (dgClientSession == null) {
             logger.error("Could not create a session");
             return false;
         }
 
-        boolean bIterate = iterate(dgClientSession);
+        try {
+            //// so, an order of operations is the following:
+            //// 1. download file and place it in db
+            //// 2. ask htmlparser to parse a file and return a list of links to be downloaded
+            //// 3. download links and store them in db
+            LJSinglePageTaskResult spResult = new LJSinglePageTaskResult(task.getTaskIdentity());
 
-        if (dgClientSession != null) {
-            boolean result = dgDownloadClient.deleteSession(dgClientSession);
-            if (!result) {
-                logger.error("Could not delete a session");
-                return false;
+
+            //// let this single grabber to process it
+            DGDownloadTask downloadTask = new DGDownloadTask();
+            downloadTask.setTaskIdentity(task.getTaskIdentity());
+            downloadTask.setUrl(task.getUrl());
+            downloadTask.setUploadServiceURL(parameters.getUploaderServiceUrl());
+            downloadTask.setReturnDataInReply(false);
+            downloadTask.setUploadDataToBase(true);
+
+            //// step 1
+            DGDownloadResult result = dgDownloadClient.download(dgClientSession, downloadTask);
+
+            boolean bSuccessToReturn = false;
+            try {
+                if (result == null) {
+                    logger.info("Could not download {}", task.getUrl());
+                    return false;
+                }
+
+                //// add to result
+                LJSinglePageElement elementPage = new LJSinglePageElement(task.getUrl(), LJSinglePageElementCategory.PAGE);
+                spResult.addElement(elementPage);
+
+                //// ok, step 2
+                ElementsCollection parsedElements = htmlParserClient.parse(task.getUrl());
+                if (parsedElements == null) {
+                    logger.info("Could not parse elements for {}", task.getUrl());
+                    return false;
+                }
+
+                //// download images
+                for (ImageElement imageElement : parsedElements.getImages()) {
+                    DGDownloadTask elementDownloadTask = new DGDownloadTask();
+                    elementDownloadTask.setTaskIdentity(task.getTaskIdentity());
+                    elementDownloadTask.setUrl(imageElement.src);
+                    elementDownloadTask.setUploadServiceURL(parameters.getUploaderServiceUrl());
+                    elementDownloadTask.setReturnDataInReply(false);
+                    elementDownloadTask.setUploadDataToBase(true);
+
+                    DGDownloadResult localResult = dgDownloadClient.download(dgClientSession, elementDownloadTask);
+                    if (localResult == null) {
+                        logger.info("Could not download {}", imageElement.src);
+                        continue;
+                    }
+
+                    logger.info("UploadStatus for {} is {}", imageElement.src, localResult.isUploadSuccess());
+
+                    LJSinglePageElement element = new LJSinglePageElement(imageElement.src, LJSinglePageElementCategory.IMAGE);
+                    spResult.addElement(element);
+                }
+
+                bSuccessToReturn = true;
+            } finally {
+                //// tell the boss about the result
+                boolean bComplete = ljSinglePageTaskClient.complete(spResult);
+                if (!bComplete) {
+                    logger.error("Could not tell scheduler about the result");
+                }
+            }
+        } finally {
+            if (dgClientSession != null) {
+                boolean result = dgDownloadClient.deleteSession(dgClientSession);
+                if (!result) {
+                    logger.error("Could not delete a session");
+                    return false;
+                }
             }
         }
 
-        return bIterate;
+
+        //// anyway, there is nothing we should do at this point.
+        ////   maybe, there will be a mechanism that adds
+        ////   several attempts.
+
+        return true;
     }
 
 }

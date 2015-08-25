@@ -11,6 +11,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.client.Client;
@@ -161,6 +162,39 @@ public class HBaseDB implements IDBStorage {
         }
     }
 
+
+    //
+    private static DBStorageElement fromRow(Row row) {
+        String name = new String(row.getKey());
+        DBStorageElement element = new DBStorageElement(name);
+
+        for (Cell cell : row.getCells()) {
+            String columnName = new String(cell.getColumn());
+
+            String[] sSplit = columnName.split(":");
+            if (sSplit.length != 2) {
+                logger.warn("Strange column name {}, skipping it", columnName);
+                continue;
+            }
+
+            if (sSplit[0] == "d") {
+                element.getData().put(sSplit[1], cell.getValue());
+            } else if (sSplit[0] == "m") {
+                element.getMeta().put(sSplit[1], cell.getValue());
+            } else {
+                logger.warn("Strange column name {}, skipping row", columnName);
+                continue;
+            }
+
+            ////
+            element.setTimestamp(new DateTime(cell.getTimestamp()));
+        }
+
+        return element;
+    }
+
+
+
     @Override
     public List<DBStorageElement> read() {
         return null;
@@ -227,7 +261,40 @@ public class HBaseDB implements IDBStorage {
 
     @Override
     public DBStorageElement read(String key, DateTime timestamp) {
-        return null;
+        String encodedElementUrl = UriComponent.encode(key, UriComponent.Type.UNRESERVED);
+
+        HBaseConnectionSettings connectionSettings = settings.getConnectionSettings();
+
+        try {
+            WebTarget target = client
+                            .target(connectionSettings.getServiceUrl())
+                            .path(String.format("/%s/%s", connectionSettings.getTableName(), encodedElementUrl));
+
+            Response response = target
+                    .request(MediaType.APPLICATION_JSON_TYPE)
+                    .buildGet()
+                    .invoke();
+
+            logger.info("hbase returned {}", response.getStatusInfo());
+            if (response.getStatus() != Response.Status.OK.getStatusCode())
+                return null;
+
+            //
+            CellSet cellSet = response.readEntity(CellSet.class);
+
+            if (cellSet.getRows().size() == 0)
+                return null;
+
+            if (cellSet.getRows().size() > 1) {
+                logger.warn("Strange, too many rows {}, expected 1", cellSet.getRows().size());
+            }
+
+            return fromRow(cellSet.getRows().get(0));
+
+        } catch (Exception e) {
+            logger.error(Throwables.getStackTraceAsString(e));
+            return null;
+        }
     }
 
     @Override

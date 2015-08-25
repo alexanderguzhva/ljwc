@@ -206,6 +206,12 @@ public class HBaseDB implements IDBStorage {
 
         HBaseConnectionSettings connectionSettings = settings.getConnectionSettings();
 
+        //// todo: valid requests
+        ////  curl -X GET http://localhost:60001/ljdb/1.txt//?v=4
+        ////  curl -X GET http://localhost:60001/ljdb/1.txt/d:d,d:m/0,9999999999999?v=10
+        ////  curl -X GET http://localhost:60001/ljdb/1.txt//0,9999999999999?v=10
+        ////    reply: ><CellSet><Row key="MS50eHQ="><Cell column="ZDpk" timestamp="1440473677207">cXFx</Cell><Cell column="ZDpk" timestamp="1440473543471">cXVhY2s=</Cell><Cell column="ZDpk" timestamp="1440473535021">d29vZg==</Cell></Row></CellSet>
+        ////  so, fromRow() needs to be changed
         try {
             Response response = client
                     .target(connectionSettings.getServiceUrl())
@@ -223,31 +229,7 @@ public class HBaseDB implements IDBStorage {
 
             List<DBStorageElement> elements = new ArrayList<>();
             for (Row row : cellSet.getRows()) {
-                String name = new String(row.getKey());
-                DBStorageElement element = new DBStorageElement(name);
-
-                for (Cell cell : row.getCells()) {
-                    String columnName = new String(cell.getColumn());
-
-                    String[] sSplit = columnName.split(":");
-                    if (sSplit.length != 2) {
-                        logger.warn("Strange column name {}, skipping it", columnName);
-                        continue;
-                    }
-
-                    if (sSplit[0] == "d") {
-                        element.getData().put(sSplit[1], cell.getValue());
-                    } else if (sSplit[0] == "m") {
-                        element.getMeta().put(sSplit[1], cell.getValue());
-                    } else {
-                        logger.warn("Strange column name {}, skipping it", columnName);
-                        continue;
-                    }
-
-                    ////
-                    element.setTimestamp(new DateTime(cell.getTimestamp()));
-                }
-
+                DBStorageElement element = fromRow(row);
                 elements.add(element);
             }
 
@@ -289,6 +271,12 @@ public class HBaseDB implements IDBStorage {
                 logger.warn("Strange, too many rows {}, expected 1", cellSet.getRows().size());
             }
 
+            //// todo: valid requests
+            ////  curl -X GET http://localhost:60001/ljdb/1.txt//?v=4
+            ////  curl -X GET http://localhost:60001/ljdb/1.txt/d:d,d:m/0,9999999999999?v=10
+            ////  curl -X GET http://localhost:60001/ljdb/1.txt//0,9999999999999?v=10
+            ////    reply: ><CellSet><Row key="MS50eHQ="><Cell column="ZDpk" timestamp="1440473677207">cXFx</Cell><Cell column="ZDpk" timestamp="1440473543471">cXVhY2s=</Cell><Cell column="ZDpk" timestamp="1440473535021">d29vZg==</Cell></Row></CellSet>
+            ////  so, fromRow() needs to be changed
             return fromRow(cellSet.getRows().get(0));
 
         } catch (Exception e) {

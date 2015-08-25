@@ -37,11 +37,14 @@ public class HTMLParserClient implements IHTMLParserClient {
             WebTarget target = client
                         .target(parameters.getServiceUrl())
                         .path("/parseByData");
-            Response response =
-                    target.request()
+
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = target
+                            .request()
                             .buildPost(Entity.entity(parserData, MediaType.APPLICATION_JSON_TYPE))
                             .invoke();
 
+            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
             if (response.getStatus() != Response.Status.OK.getStatusCode())
                 return null;
 
@@ -67,11 +70,14 @@ public class HTMLParserClient implements IHTMLParserClient {
             WebTarget target = client
                     .target(parameters.getServiceUrl())
                     .path("/parseByDBURL");
-            Response response =
-                    target.request()
+
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = target
+                            .request()
                             .buildPost(Entity.entity(task, MediaType.APPLICATION_JSON_TYPE))
                             .invoke();
 
+            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
             if (response.getStatus() != Response.Status.OK.getStatusCode())
                 return null;
 

@@ -3,7 +3,7 @@ package com.gschw.ljwc.lj.ljreader.client;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Created by nop on 8/22/15.
+ * Parameters for {@link SimpleDownloader}
  */
 public class SimpleDownloaderParameters {
     private String serviceUrl;

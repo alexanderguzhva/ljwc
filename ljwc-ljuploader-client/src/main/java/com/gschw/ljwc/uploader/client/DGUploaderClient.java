@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.client.Client;
@@ -34,15 +35,17 @@ public class DGUploaderClient implements IDGUploaderClient {
         String url = uploadServiceURL;
 
         try {
-            Response response =
-                    client
+            WebTarget target = client
                             .target(url)
-                            .path("/")
+                            .path("/");
+
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = target
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildPost(Entity.entity(uploadTask, MediaType.APPLICATION_JSON_TYPE))
                             .invoke();
 
-            logger.info("{} returned {}", url, response.getStatusInfo());
+            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
             return (response.getStatus() == Response.Status.OK.getStatusCode());
 
         } catch (Exception e) {

@@ -36,16 +36,18 @@ public abstract class LJTaskClient<T, U> implements ILJTaskClient<T, U>{
         String url = parameters.getServiceUrl();
 
         try {
-            Response response =
-                    client
+            WebTarget target = client
                             .target(url)
                             .path("/generator")
-                            .queryParam("clientIdentity", clientIdentity)
+                            .queryParam("clientIdentity", clientIdentity);
+
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = target
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildGet()
                             .invoke();
 
-            logger.info("{} returned {}", url, response.getStatusInfo());
+            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
             if (response.getStatus() != Response.Status.OK.getStatusCode())
                 return null;
 
@@ -64,15 +66,18 @@ public abstract class LJTaskClient<T, U> implements ILJTaskClient<T, U>{
         String url = parameters.getServiceUrl();
 
         try {
-            Response response =
-                    client
+
+            WebTarget target = client
                             .target(url)
-                            .path("/urls")
+                            .path("/urls");
+
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = target
                             .request(MediaType.APPLICATION_JSON_TYPE)
                             .buildPost(Entity.entity(result, MediaType.APPLICATION_JSON_TYPE))
                             .invoke();
 
-            logger.info("{} returned {}", url, response.getStatusInfo());
+            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
             if (response.getStatus() != Response.Status.OK.getStatusCode())
                 return false;
 
@@ -94,12 +99,13 @@ public abstract class LJTaskClient<T, U> implements ILJTaskClient<T, U>{
             if (timeoutInMsec != null)
                 target = target.queryParam("timeout", timeoutInMsec);
 
+            logger.debug("Calling {}", target.getUri().toString());
             Response response = target
                     .request(MediaType.APPLICATION_JSON_TYPE)
                     .buildPost(Entity.entity(task, MediaType.APPLICATION_JSON_TYPE))
                     .invoke();
 
-            logger.info("{} returned {}", url, response.getStatusInfo());
+            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
             if (response.getStatus() != Response.Status.OK.getStatusCode())
                 return null;
 

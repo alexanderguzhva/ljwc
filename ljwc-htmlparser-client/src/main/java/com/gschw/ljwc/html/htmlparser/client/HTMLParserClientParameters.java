@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
 /**
- * Created by hadoop on 8/19/15.
+ * Parameters for {@link HTMLParserClient}
  */
 public class HTMLParserClientParameters {
     @URL

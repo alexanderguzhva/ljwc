@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.URL;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Created by nop on 7/12/15.
+ * Parameters for {@link DGDownloadTaskClient}
  */
 public class DGDownloadTaskClientParameters {
     public DGDownloadTaskClientParameters() {

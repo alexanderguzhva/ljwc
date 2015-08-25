@@ -140,6 +140,7 @@ public class Processor {
 
     //
     public boolean iterate() {
+        //// todo: do not session unless there is a task to process
         Identity dgClientSession = dgDownloadClient.createSession();
         if (dgClientSession == null) {
             logger.error("Could not create a session");

@@ -1,5 +1,6 @@
 package com.gschw.ljwc.storage.hbasebridge.core;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -164,9 +165,13 @@ public class HBaseDB implements IDBStorage {
 
 
     //
-    private static DBStorageElement fromRow(Row row) {
-        String name = new String(row.getKey());
-        DBStorageElement element = new DBStorageElement(name);
+    private static List<DBStorageElement> fromRow(Row row) {
+        String rowName = new String(row.getKey());
+
+        Map<Long, DBStorageElement> elements =
+                new HashMap<>();
+        //List<DBStorageElement> elements = new Ar
+        //        new DBStorageElement(name);
 
         for (Cell cell : row.getCells()) {
             String columnName = new String(cell.getColumn());
@@ -178,19 +183,32 @@ public class HBaseDB implements IDBStorage {
             }
 
             if (sSplit[0] == "d") {
+                Long ts = new Long(cell.getTimestamp());
+                DBStorageElement element = elements.get(ts);
+                if (element == null) {
+                    element = new DBStorageElement(rowName);
+                    element.setTimestamp(new DateTime(cell.getTimestamp()));
+                    elements.put(ts, element);
+                }
+
                 element.getData().put(sSplit[1], cell.getValue());
             } else if (sSplit[0] == "m") {
+                Long ts = new Long(cell.getTimestamp());
+                DBStorageElement element = elements.get(ts);
+                if (element == null) {
+                    element = new DBStorageElement(rowName);
+                    element.setTimestamp(new DateTime(cell.getTimestamp()));
+                    elements.put(ts, element);
+                }
+
                 element.getMeta().put(sSplit[1], cell.getValue());
             } else {
-                logger.warn("Strange column name {}, skipping row", columnName);
+                logger.warn("Strange column name {}, skipping it", columnName);
                 continue;
             }
-
-            ////
-            element.setTimestamp(new DateTime(cell.getTimestamp()));
         }
 
-        return element;
+        return new ArrayList<>(elements.values());
     }
 
 
@@ -232,8 +250,7 @@ public class HBaseDB implements IDBStorage {
 
             List<DBStorageElement> elements = new ArrayList<>();
             for (Row row : cellSet.getRows()) {
-                DBStorageElement element = fromRow(row);
-                elements.add(element);
+                elements.addAll(fromRow(row));
             }
 
             return elements;
@@ -253,7 +270,9 @@ public class HBaseDB implements IDBStorage {
         try {
             WebTarget target = client
                             .target(connectionSettings.getServiceUrl())
-                            .path(String.format("/%s/%s", connectionSettings.getTableName(), encodedElementUrl));
+                            .path(connectionSettings.getTableName())
+                            .path(encodedElementUrl);
+                            //.path(String.format("/%s/%s", connectionSettings.getTableName(), encodedElementUrl));
 
             Response response = target
                     .request(MediaType.APPLICATION_JSON_TYPE)
@@ -271,7 +290,7 @@ public class HBaseDB implements IDBStorage {
                 return null;
 
             if (cellSet.getRows().size() > 1) {
-                logger.warn("Strange, too many rows {}, expected 1", cellSet.getRows().size());
+                logger.warn("Strange, too many rows ({}), expected 1", cellSet.getRows().size());
             }
 
             //// todo: valid requests
@@ -280,8 +299,14 @@ public class HBaseDB implements IDBStorage {
             ////  curl -X GET http://localhost:60001/ljdb/1.txt//0,9999999999999?v=10
             ////    reply: ><CellSet><Row key="MS50eHQ="><Cell column="ZDpk" timestamp="1440473677207">cXFx</Cell><Cell column="ZDpk" timestamp="1440473543471">cXVhY2s=</Cell><Cell column="ZDpk" timestamp="1440473535021">d29vZg==</Cell></Row></CellSet>
             ////  so, fromRow() needs to be changed
-            return fromRow(cellSet.getRows().get(0));
+            List<DBStorageElement> elements = fromRow(cellSet.getRows().get(0));
+            if (elements.size() == 0)
+                return null;
+            if (elements.size() > 1) {
+                logger.warn("Strange, fromRow returned too many rows ({}), expected 1", elements.size());
+            }
 
+            return elements.get(0);
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return null;

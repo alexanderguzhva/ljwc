@@ -33,7 +33,7 @@ public class Processor {
         logger.info("Let us iterate");
         LJCalendarTask task = calendarTaskClient.acquireTask(parameters.getProcessorIdentity());
         if (task == null) {
-            logger.error("Could not get a task to process");
+            logger.info("Could not get a task to process");
             return false;
         }
 

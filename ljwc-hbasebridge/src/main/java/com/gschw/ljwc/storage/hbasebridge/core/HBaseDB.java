@@ -263,16 +263,21 @@ public class HBaseDB implements IDBStorage {
 
     @Override
     public DBStorageElement read(String key, DateTime timestamp) {
+        return null;
+    }
+
+    @Override
+    public DBStorageElement readLast(String key) {
         String encodedElementUrl = UriComponent.encode(key, UriComponent.Type.UNRESERVED);
 
         HBaseConnectionSettings connectionSettings = settings.getConnectionSettings();
 
         try {
             WebTarget target = client
-                            .target(connectionSettings.getServiceUrl())
-                            .path(connectionSettings.getTableName())
-                            .path(encodedElementUrl);
-                            //.path(String.format("/%s/%s", connectionSettings.getTableName(), encodedElementUrl));
+                    .target(connectionSettings.getServiceUrl())
+                    .path(connectionSettings.getTableName())
+                    .path(encodedElementUrl);
+            //.path(String.format("/%s/%s", connectionSettings.getTableName(), encodedElementUrl));
 
             Response response = target
                     .request(MediaType.APPLICATION_JSON_TYPE)
@@ -311,11 +316,6 @@ public class HBaseDB implements IDBStorage {
             logger.error(Throwables.getStackTraceAsString(e));
             return null;
         }
-    }
-
-    @Override
-    public DBStorageElement readLast(String key) {
-        return null;
     }
 
     @Override

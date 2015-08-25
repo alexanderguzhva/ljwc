@@ -99,7 +99,11 @@ public class DBResource implements IDBStorageResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response readLast(@PathParam("key") @NotBlank String key) {
-        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
+        DBStorageElement element = hbaseDB.readLast(key);
+        if (element == null)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        return Response.ok().entity(element).build();
     }
 
     //boolean exists(String key);

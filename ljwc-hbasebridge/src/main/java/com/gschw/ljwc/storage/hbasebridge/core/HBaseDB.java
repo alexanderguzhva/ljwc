@@ -127,7 +127,7 @@ public class HBaseDB implements IDBStorage {
                 continue;
             }
 
-            if (sSplit[0] == "d") {
+            if (sSplit[0].equals("d")) {
                 Long ts = new Long(cell.getTimestamp());
                 DBStorageElement element = elements.get(ts);
                 if (element == null) {
@@ -137,7 +137,7 @@ public class HBaseDB implements IDBStorage {
                 }
 
                 element.getData().put(sSplit[1], cell.getValue());
-            } else if (sSplit[0] == "m") {
+            } else if (sSplit[0].equals("m")) {
                 Long ts = new Long(cell.getTimestamp());
                 DBStorageElement element = elements.get(ts);
                 if (element == null) {

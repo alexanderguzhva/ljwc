@@ -23,6 +23,7 @@ public class DWConfiguration extends Configuration {
 
 
     //
+    @Valid
     @NotNull
     private HBaseDBSettings hbaseDBSettings;
 

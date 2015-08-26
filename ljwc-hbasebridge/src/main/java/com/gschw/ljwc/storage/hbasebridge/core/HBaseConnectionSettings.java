@@ -1,11 +1,14 @@
 package com.gschw.ljwc.storage.hbasebridge.core;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 
 /**
  * Created by nop on 6/24/15.
  */
 public class HBaseConnectionSettings {
+    @URL
     private String serviceUrl;
 
     @JsonProperty("serviceUrl")
@@ -20,6 +23,7 @@ public class HBaseConnectionSettings {
 
 
     //
+    @NotBlank
     private String tableName;
 
     @JsonProperty("tableName")
@@ -31,6 +35,7 @@ public class HBaseConnectionSettings {
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
+
 
 
     //

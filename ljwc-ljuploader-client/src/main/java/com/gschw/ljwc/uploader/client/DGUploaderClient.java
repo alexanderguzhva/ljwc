@@ -40,14 +40,19 @@ public class DGUploaderClient implements IDGUploaderClient {
                             .path("/");
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target
-                            .request(MediaType.APPLICATION_JSON_TYPE)
-                            .buildPost(Entity.entity(uploadTask, MediaType.APPLICATION_JSON_TYPE))
-                            .invoke();
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildPost(Entity.entity(uploadTask, MediaType.APPLICATION_JSON_TYPE))
+                        .invoke();
 
-            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
-            return (response.getStatus() == Response.Status.OK.getStatusCode());
-
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                return (response.getStatus() == Response.Status.OK.getStatusCode());
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return false;

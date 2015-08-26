@@ -42,17 +42,23 @@ public abstract class LJTaskClient<T, U> implements ILJTaskClient<T, U>{
                             .queryParam("clientIdentity", clientIdentity);
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target
-                            .request(MediaType.APPLICATION_JSON_TYPE)
-                            .buildGet()
-                            .invoke();
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildGet()
+                        .invoke();
 
-            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
-            if (response.getStatus() != Response.Status.OK.getStatusCode())
-                return null;
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return null;
 
-            T task = response.readEntity(tClass);
-            return task;
+                T task = response.readEntity(tClass);
+                return task;
+            } finally {
+                if (response != null)
+                    response.close();
+            }
 
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
@@ -72,17 +78,22 @@ public abstract class LJTaskClient<T, U> implements ILJTaskClient<T, U>{
                             .path("/urls");
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target
-                            .request(MediaType.APPLICATION_JSON_TYPE)
-                            .buildPost(Entity.entity(result, MediaType.APPLICATION_JSON_TYPE))
-                            .invoke();
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildPost(Entity.entity(result, MediaType.APPLICATION_JSON_TYPE))
+                        .invoke();
 
-            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
-            if (response.getStatus() != Response.Status.OK.getStatusCode())
-                return false;
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return false;
 
-            return true;
-
+                return true;
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return false;
@@ -100,18 +111,23 @@ public abstract class LJTaskClient<T, U> implements ILJTaskClient<T, U>{
                 target = target.queryParam("timeout", timeoutInMsec);
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target
-                    .request(MediaType.APPLICATION_JSON_TYPE)
-                    .buildPost(Entity.entity(task, MediaType.APPLICATION_JSON_TYPE))
-                    .invoke();
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildPost(Entity.entity(task, MediaType.APPLICATION_JSON_TYPE))
+                        .invoke();
 
-            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
-            if (response.getStatus() != Response.Status.OK.getStatusCode())
-                return null;
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return null;
 
-            U result = response.readEntity(uClass);
-            return result;
-
+                U result = response.readEntity(uClass);
+                return result;
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return null;

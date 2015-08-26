@@ -43,7 +43,7 @@ public class GrabbersKeeper {
                  identity = identityGenerator.generate();
             } while (sessions.containsKey(identity));
 
-            GrabberSession grabberSession = GrabberSession.createSession(grabberParameters);
+            //GrabberSession grabberSession = GrabberSession.createSession(grabberParameters);
             Grabber grabber = new Grabber(grabberParameters);
 
             sessions.put(identity, grabber);
@@ -58,9 +58,15 @@ public class GrabbersKeeper {
     }
 
     public boolean deleteSession(Identity identity) {
+        Grabber grabber;
         synchronized (locker) {
-            return (sessions.remove(identity) != null);
+            grabber = sessions.remove(identity);
         }
+
+        if (grabber != null)
+            grabber.close();
+
+        return (grabber != null);
     }
 
     public void clearSessions() {

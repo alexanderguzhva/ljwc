@@ -48,14 +48,6 @@ public class Grabber {
     }
 
     //
-    public Grabber(GrabberParameters parameters, GrabberSession grabberSession) {
-        this.httpClient = grabberSession.getHttpClient();
-        this.cookieStore = grabberSession.getCookieStore();
-        this.httpContext = grabberSession.getHttpContext();
-        this.parameters = parameters;
-    }
-
-    //
     public GrabberResult grab(String uri) {
         HttpGet httpGet = new HttpGet(uri);
         HttpResponse httpResponse = null;
@@ -99,6 +91,13 @@ public class Grabber {
             return null;
         } finally {
             HttpClientUtils.closeQuietly(httpResponse);
+        }
+    }
+
+    public void close() {
+        if (httpClient != null) {
+            HttpClientUtils.closeQuietly(httpClient);
+            httpClient = null;
         }
     }
 }

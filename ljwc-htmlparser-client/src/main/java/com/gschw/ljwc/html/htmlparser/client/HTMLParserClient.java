@@ -39,20 +39,26 @@ public class HTMLParserClient implements IHTMLParserClient {
                         .path("/parseByData");
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target
-                            .request()
-                            .buildPost(Entity.entity(parserData, MediaType.APPLICATION_JSON_TYPE))
-                            .invoke();
+            Response response = null;
+            try {
+                response = target
+                        .request()
+                        .buildPost(Entity.entity(parserData, MediaType.APPLICATION_JSON_TYPE))
+                        .invoke();
 
-            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
-            if (response.getStatus() != Response.Status.OK.getStatusCode())
-                return null;
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return null;
 
-            HTMLParseResultByData result = response.readEntity(HTMLParseResultByData.class);
-            if (result == null)
-                return null;
+                HTMLParseResultByData result = response.readEntity(HTMLParseResultByData.class);
+                if (result == null)
+                    return null;
 
-            return result.getElements();
+                return result.getElements();
+            } finally {
+                if (response != null)
+                    response.close();;
+            }
         }
         catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
@@ -72,20 +78,26 @@ public class HTMLParserClient implements IHTMLParserClient {
                     .path("/parseByDBURL");
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target
-                            .request()
-                            .buildPost(Entity.entity(task, MediaType.APPLICATION_JSON_TYPE))
-                            .invoke();
+            Response response = null;
+            try {
+                response = target
+                        .request()
+                        .buildPost(Entity.entity(task, MediaType.APPLICATION_JSON_TYPE))
+                        .invoke();
 
-            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
-            if (response.getStatus() != Response.Status.OK.getStatusCode())
-                return null;
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return null;
 
-            HTMLParseResultByDBURL result = response.readEntity(HTMLParseResultByDBURL.class);
-            if (result == null)
-                return null;
+                HTMLParseResultByDBURL result = response.readEntity(HTMLParseResultByDBURL.class);
+                if (result == null)
+                    return null;
 
-            return result.getElements();
+                return result.getElements();
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         }
         catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));

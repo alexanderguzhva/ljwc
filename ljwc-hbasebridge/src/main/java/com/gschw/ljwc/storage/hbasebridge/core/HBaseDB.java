@@ -92,16 +92,22 @@ public class HBaseDB implements IDBStorage {
                             .path("fake");
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target.request(MediaType.APPLICATION_JSON_TYPE)
-                    .buildPost(Entity.entity(cellSet, MediaType.APPLICATION_JSON_TYPE))
-                    .invoke();
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildPost(Entity.entity(cellSet, MediaType.APPLICATION_JSON_TYPE))
+                        .invoke();
 
-            logger.debug("hbase returned {}", response.getStatusInfo());
-            if (response.getStatus() != Response.Status.OK.getStatusCode())
-                return false;
+                logger.debug("hbase returned {}", response.getStatusInfo());
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return false;
 
-            return true;
-
+                return true;
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         } catch(Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return false;
@@ -182,23 +188,35 @@ public class HBaseDB implements IDBStorage {
                             .path(encodedElementUrl);
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target
-                    .request(MediaType.APPLICATION_JSON_TYPE)
-                    .buildGet()
-                    .invoke();
 
-            logger.debug("hbase returned {}", response.getStatusInfo());
-            if (response.getStatus() != Response.Status.OK.getStatusCode())
+            CellSet cellSet = null;
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildGet()
+                        .invoke();
+
+                logger.debug("hbase returned {}", response.getStatusInfo());
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return null;
+
+                //
+                cellSet = response.readEntity(CellSet.class);
+            } finally {
+                if (response != null)
+                    response.close();
+            }
+
+            ////
+            if (cellSet == null)
                 return null;
 
-            //
-            CellSet cellSet = response.readEntity(CellSet.class);
-
+            ////
             List<DBStorageElement> elements = new ArrayList<>();
             for (Row row : cellSet.getRows()) {
                 elements.addAll(fromRow(row));
             }
-
             return elements;
 
         } catch(Exception e) {
@@ -223,21 +241,33 @@ public class HBaseDB implements IDBStorage {
                     .target(connectionSettings.getServiceUrl())
                     .path(connectionSettings.getTableName())
                     .path(encodedElementUrl);
-            //.path(String.format("/%s/%s", connectionSettings.getTableName(), encodedElementUrl));
             logger.debug("Calling {}", target.getUri().toString());
 
-            Response response = target
-                    .request(MediaType.APPLICATION_JSON_TYPE)
-                    .buildGet()
-                    .invoke();
+            CellSet cellSet = null;
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildGet()
+                        .invoke();
 
-            logger.debug("hbase returned {}", response.getStatusInfo());
-            if (response.getStatus() != Response.Status.OK.getStatusCode())
+                logger.debug("hbase returned {}", response.getStatusInfo());
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return null;
+
+                //
+                cellSet = response.readEntity(CellSet.class);
+            } finally {
+                if (response != null)
+                    response.close();
+            }
+
+
+            ////
+            if (cellSet == null)
                 return null;
 
-            //
-            CellSet cellSet = response.readEntity(CellSet.class);
-
+            ////
             if (cellSet.getRows().size() == 0)
                 return null;
 
@@ -259,6 +289,7 @@ public class HBaseDB implements IDBStorage {
             }
 
             return elements.get(0);
+
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return null;

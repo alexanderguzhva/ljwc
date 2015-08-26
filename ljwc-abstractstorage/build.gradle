@@ -19,9 +19,9 @@ dependencies {
     compile 'ch.qos.logback:logback-core:1.1.2'
     compile 'ch.qos.logback:logback-classic:1.1.2'
 
-    compile 'io.dropwizard:dropwizard-core:0.8.1'
-    compile 'io.dropwizard:dropwizard-client:0.8.1'
-    compile 'io.dropwizard:dropwizard-testing:0.8.1'
+    compile 'io.dropwizard:dropwizard-core:0.8.4'
+    compile 'io.dropwizard:dropwizard-client:0.8.4'
+    compile 'io.dropwizard:dropwizard-testing:0.8.4'
 }
 
 test {

@@ -1,26 +1,19 @@
-group 'com.gschw'
-version '0.01'
-
 apply plugin: 'java'
 apply plugin: 'application'
 
 sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile group: 'junit', name: 'junit', version: "$junitVersion"
 
     compile project(':ljwc-auth')
     compile project(':ljwc-datagrabber-client')
     compile project(':ljwc-ljscheduler-client')
 
-    compile 'io.dropwizard:dropwizard-core:0.8.4'
-    compile 'io.dropwizard:dropwizard-client:0.8.4'
+    compile group: 'io.dropwizard', name: 'dropwizard-core', version: "$dropwizardVersion"
+    compile group: 'io.dropwizard', name: 'dropwizard-client', version: "$dropwizardVersion"
 
-    compile 'org.jsoup:jsoup:1.8.2'
+    compile group: 'org.jsoup', name: 'jsoup', version: "$jsoupVersion"
 }
 
 mainClassName = 'com.gschw.ljwc.lj.ljcalendaragent.Main'

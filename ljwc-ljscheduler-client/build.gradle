@@ -1,27 +1,14 @@
-group 'com.gschw'
-version '0.01'
-
 apply plugin: 'java'
 
 sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    testCompile 'org.testng:testng:6.9.4'
+    testCompile group: 'org.testng', name: 'testng', version: "$testngVersion"
 
     compile project(':ljwc-datagrabber-client')
 
-    compile 'ch.qos.logback:logback-core:1.1.2'
-    compile 'ch.qos.logback:logback-classic:1.1.2'
-
-    compile 'com.google.guava:guava:18.0'
-
-    compile 'io.dropwizard:dropwizard-core:0.8.4'
-    compile 'io.dropwizard:dropwizard-client:0.8.4'
-
+    compile group: 'io.dropwizard', name: 'dropwizard-core', version: "$dropwizardVersion"
+    compile group: 'io.dropwizard', name: 'dropwizard-client', version: "$dropwizardVersion"
 }
 
 

@@ -11,7 +11,8 @@ subprojects {
         junitVersion = '4.12'
         testngVersion = '6.9.4'
         jodatimeVersion = '2.7'
-    }
+        jsoupVersion = '1.8.3'
+   }
 
     repositories {
         mavenCentral()

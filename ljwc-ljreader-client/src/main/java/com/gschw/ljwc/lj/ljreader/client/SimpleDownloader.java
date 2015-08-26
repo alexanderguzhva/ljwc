@@ -33,16 +33,22 @@ public class SimpleDownloader {
             WebTarget target = client
                     .target(parameters.getServiceUrl())
                     .path(encodedElementUrl);
-            Response response = target.request().get();
 
-            if (response.getStatus() != Response.Status.OK.getStatusCode())
-                return null;
+            Response response = null;
+            try {
+                response = target.request().get();
 
-            ////
-            try (InputStream inputStream = response.readEntity(InputStream.class)) {
-                return ByteStreams.toByteArray(inputStream);
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return null;
+
+                ////
+                try (InputStream inputStream = response.readEntity(InputStream.class)) {
+                    return ByteStreams.toByteArray(inputStream);
+                }
+            } finally {
+                if (response != null)
+                    response.close();
             }
-
         } catch(Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return null;

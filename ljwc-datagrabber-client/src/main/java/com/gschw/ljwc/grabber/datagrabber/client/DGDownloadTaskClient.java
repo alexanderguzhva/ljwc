@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -39,22 +40,29 @@ public class DGDownloadTaskClient implements IDGDownloadTaskClient {
         String encodedElementUrl = UriComponent.encode(sessionIdentity.toString(), UriComponent.Type.UNRESERVED);
 
         try {
-            Response response =
-                    client
+            WebTarget target = client
                             .target(url)
                             .path("session")
                             .path(encodedElementUrl)
-                            .path("download")
-                            .request(MediaType.APPLICATION_JSON_TYPE)
-                            .buildPost(Entity.entity(dgDownloadTask, MediaType.APPLICATION_JSON_TYPE))
-                            .invoke();
+                            .path("download");
 
-            logger.info("{} returned {}", url, response.getStatusInfo());
-            if (response.getStatus() != Response.Status.OK.getStatusCode())
-                return null;
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildPost(Entity.entity(dgDownloadTask, MediaType.APPLICATION_JSON_TYPE))
+                        .invoke();
 
-            return response.readEntity(DGDownloadResult.class);
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return null;
 
+                return response.readEntity(DGDownloadResult.class);
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return null;
@@ -69,20 +77,27 @@ public class DGDownloadTaskClient implements IDGDownloadTaskClient {
         String url = parameters.getServiceUrl();
 
         try {
-            Response response =
-                    client
+            WebTarget target = client
                             .target(url)
-                            .path("/sessiongenerator")
-                            .request(MediaType.APPLICATION_JSON_TYPE)
-                            .buildGet()
-                            .invoke();
+                            .path("/sessiongenerator");
 
-            logger.info("{} returned {}", url, response.getStatusInfo());
-            if (response.getStatus() != Response.Status.OK.getStatusCode())
-                return null;
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildGet()
+                        .invoke();
 
-            return response.readEntity(Identity.class);
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return null;
 
+                return response.readEntity(Identity.class);
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return null;
@@ -100,18 +115,25 @@ public class DGDownloadTaskClient implements IDGDownloadTaskClient {
         String encodedElementUrl = UriComponent.encode(sessionIdentity.toString(), UriComponent.Type.UNRESERVED);
 
         try {
-            Response response =
-                    client
+            WebTarget target = client
                             .target(url)
                             .path("session")
-                            .path(encodedElementUrl)
-                            .request(MediaType.APPLICATION_JSON_TYPE)
-                            .buildDelete()
-                            .invoke();
+                            .path(encodedElementUrl);
 
-            logger.info("{} returned {}", url, response.getStatusInfo());
-            return (response.getStatus() == Response.Status.OK.getStatusCode());
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildDelete()
+                        .invoke();
 
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                return (response.getStatus() == Response.Status.OK.getStatusCode());
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return false;

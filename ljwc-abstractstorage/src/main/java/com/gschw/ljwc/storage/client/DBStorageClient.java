@@ -66,14 +66,19 @@ public class DBStorageClient implements IDBStorage {
                             .path("/");
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target
-                            .request(MediaType.APPLICATION_JSON_TYPE)
-                            .buildPost(Entity.entity(elementsCollection, MediaType.APPLICATION_JSON_TYPE))
-                    .invoke();
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildPost(Entity.entity(elementsCollection, MediaType.APPLICATION_JSON_TYPE))
+                        .invoke();
 
-            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
-            return (response.getStatus() == Response.Status.OK.getStatusCode());
-
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                return (response.getStatus() == Response.Status.OK.getStatusCode());
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return false;
@@ -92,22 +97,27 @@ public class DBStorageClient implements IDBStorage {
                     .path("/");
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target
-                            .request(MediaType.APPLICATION_JSON_TYPE)
-                            .buildGet()
-                    .invoke();
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildGet()
+                        .invoke();
 
-            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
-            if (response.getStatus() != Response.Status.OK.getStatusCode())
-                return null;
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return null;
 
-            ////
-            DBStorageElementsCollection elements = response.readEntity(DBStorageElementsCollection.class);
-            if (elements == null)
-                return null;
+                ////
+                DBStorageElementsCollection elements = response.readEntity(DBStorageElementsCollection.class);
+                if (elements == null)
+                    return null;
 
-            return elements.getElements();
-
+                return elements.getElements();
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return null;
@@ -133,22 +143,27 @@ public class DBStorageClient implements IDBStorage {
                             .path("element");
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target
-                    .request(MediaType.APPLICATION_JSON_TYPE)
-                    .buildGet()
-                    .invoke();
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildGet()
+                        .invoke();
 
-            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
-            if (response.getStatus() != Response.Status.OK.getStatusCode())
-                return null;
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return null;
 
-            ////
-            DBStorageElementsCollection elements = response.readEntity(DBStorageElementsCollection.class);
-            if (elements == null)
-                return null;
+                ////
+                DBStorageElementsCollection elements = response.readEntity(DBStorageElementsCollection.class);
+                if (elements == null)
+                    return null;
 
-            return elements.getElements();
-
+                return elements.getElements();
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return null;
@@ -169,8 +184,7 @@ public class DBStorageClient implements IDBStorage {
         String encodedElementUrl = UriComponent.encode(key, UriComponent.Type.UNRESERVED);
 
         try {
-            WebTarget target =
-                    client
+            WebTarget target = client
                             .target(url)
                             .path(encodedElementUrl)
                             .path("element");
@@ -178,19 +192,24 @@ public class DBStorageClient implements IDBStorage {
                 target = target.queryParam("timestamp", new Long(timestamp.getMillis()).toString());
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target
-                    .request(MediaType.APPLICATION_JSON_TYPE)
-                    .buildGet()
-                    .invoke();
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildGet()
+                        .invoke();
 
-            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
-            if (response.getStatus() != Response.Status.OK.getStatusCode())
-                return null;
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return null;
 
-            ////
-            DBStorageElement element = response.readEntity(DBStorageElement.class);
-            return element;
-
+                ////
+                DBStorageElement element = response.readEntity(DBStorageElement.class);
+                return element;
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return null;
@@ -218,19 +237,24 @@ public class DBStorageClient implements IDBStorage {
                             .path("lastelement");
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target
-                            .request(MediaType.APPLICATION_JSON_TYPE)
-                            .buildGet()
-                            .invoke();
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildGet()
+                        .invoke();
 
-            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
-            if (response.getStatus() != Response.Status.OK.getStatusCode())
-                return null;
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return null;
 
-            ////
-            DBStorageElement element = response.readEntity(DBStorageElement.class);
-            return element;
-
+                ////
+                DBStorageElement element = response.readEntity(DBStorageElement.class);
+                return element;
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return null;
@@ -253,14 +277,19 @@ public class DBStorageClient implements IDBStorage {
                     .path(encodedElementUrl);
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target
-                            .request(MediaType.APPLICATION_JSON_TYPE)
-                            .buildGet()
-                            .invoke();
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildGet()
+                        .invoke();
 
-            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
-            return (response.getStatus() == Response.Status.OK.getStatusCode());
-
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                return (response.getStatus() == Response.Status.OK.getStatusCode());
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return false;
@@ -287,14 +316,19 @@ public class DBStorageClient implements IDBStorage {
                             .queryParam("timestamp", sTimestamp);
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target
-                            .request(MediaType.APPLICATION_JSON_TYPE)
-                            .buildGet()
-                            .invoke();
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildGet()
+                        .invoke();
 
-            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
-            return (response.getStatus() == Response.Status.OK.getStatusCode());
-
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                return (response.getStatus() == Response.Status.OK.getStatusCode());
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return false;
@@ -317,14 +351,19 @@ public class DBStorageClient implements IDBStorage {
                             .path(encodedElementUrl);
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target
+            Response response = null;
+            try {
+                response = target
                         .request(MediaType.APPLICATION_JSON_TYPE)
                         .buildDelete()
                         .invoke();
 
-            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
-            return (response.getStatus() == Response.Status.OK.getStatusCode());
-
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                return (response.getStatus() == Response.Status.OK.getStatusCode());
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return false;
@@ -353,14 +392,19 @@ public class DBStorageClient implements IDBStorage {
                             .queryParam("timestamp", sTimestamp);
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target
-                            .request(MediaType.APPLICATION_JSON_TYPE)
-                            .buildDelete()
-                            .invoke();
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildDelete()
+                        .invoke();
 
-            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
-            return (response.getStatus() == Response.Status.OK.getStatusCode());
-
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                return (response.getStatus() == Response.Status.OK.getStatusCode());
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return false;
@@ -377,14 +421,19 @@ public class DBStorageClient implements IDBStorage {
                             .path("/");
 
             logger.debug("Calling {}", target.getUri().toString());
-            Response response = target
+            Response response = null;
+            try {
+                response = target
                         .request(MediaType.APPLICATION_JSON_TYPE)
                         .buildDelete()
                         .invoke();
 
-            logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
-            return (response.getStatus() == Response.Status.OK.getStatusCode());
-
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                return (response.getStatus() == Response.Status.OK.getStatusCode());
+            } finally {
+                if (response != null)
+                    response.close();
+            }
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return false;

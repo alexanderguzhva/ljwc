@@ -7,6 +7,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.HttpClientUtils;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.protocol.BasicHttpContext;
@@ -61,6 +62,31 @@ public class Grabber {
 
         try {
             httpResponse = httpClient.execute(httpGet, httpContext);
+
+            ////
+            HttpEntity httpEntity = httpResponse.getEntity();
+            if (httpEntity == null)
+                return null;
+
+            //// content
+            try {
+                try (InputStream inputStream = httpEntity.getContent()) {
+
+                    ////
+                    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+                        byte[] buffer = new byte[65536];
+                        int len;
+                        while ((len = inputStream.read(buffer)) > -1)
+                            baos.write(buffer, 0, len);
+                        baos.flush();
+
+                        return new GrabberResult(uri, baos.toByteArray());
+                    }
+                }
+            } catch (IOException e) {
+                logger.error(Throwables.getStackTraceAsString(e));
+                return null;
+            }
         }
         catch(org.apache.http.conn.ConnectTimeoutException e) {
             logger.error(Throwables.getStackTraceAsString(e));
@@ -71,31 +97,8 @@ public class Grabber {
         } catch (IOException e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return null;
-        }
-
-        ////
-        HttpEntity httpEntity = httpResponse.getEntity();
-        if (httpEntity == null)
-            return null;
-
-        //// content
-        try {
-            try (InputStream inputStream = httpEntity.getContent()) {
-
-                ////
-                try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-                    byte[] buffer = new byte[65536];
-                    int len;
-                    while ((len = inputStream.read(buffer)) > -1)
-                        baos.write(buffer, 0, len);
-                    baos.flush();
-
-                    return new GrabberResult(uri, baos.toByteArray());
-                }
-            }
-        } catch (IOException e) {
-            logger.error(Throwables.getStackTraceAsString(e));
-            return null;
+        } finally {
+            HttpClientUtils.closeQuietly(httpResponse);
         }
     }
 }

@@ -26,5 +26,5 @@ gradle-app.setting
 
 ### intellij idea
 .idea/uiDesigner.xml
-.iml
+*.iml
 

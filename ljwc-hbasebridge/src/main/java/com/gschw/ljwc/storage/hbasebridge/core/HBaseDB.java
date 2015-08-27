@@ -70,9 +70,21 @@ public class HBaseDB implements IDBStorage {
             //// add meta
             for (Map.Entry<String, byte[]> entry : element.getMeta().entrySet()) {
                 String cellName = String.format("m:%s", entry.getKey());
-                Cell cell = new Cell(cellName.getBytes(),
+                Cell cell = new Cell(
+                        cellName.getBytes(),
                         element.getTimestamp().getMillis(),
                         entry.getValue());
+
+                row.addCell(cell);
+            }
+
+            //// add system element that will be used to check the existence of the row
+            {
+                String cellName = String.format("%s:x", settings.getSystemDataSettings().getSystemColumnFamilyName());
+                Cell cell = new Cell(
+                        cellName.getBytes(),
+                        Constants.LATEST_TIMESTAMP,
+                        "1".getBytes());
 
                 row.addCell(cell);
             }
@@ -241,8 +253,8 @@ public class HBaseDB implements IDBStorage {
                     .target(connectionSettings.getServiceUrl())
                     .path(connectionSettings.getTableName())
                     .path(encodedElementUrl);
-            logger.debug("Calling {}", target.getUri().toString());
 
+            logger.debug("Calling {}", target.getUri().toString());
             CellSet cellSet = null;
             Response response = null;
             try {
@@ -298,6 +310,70 @@ public class HBaseDB implements IDBStorage {
 
     @Override
     public boolean exists(String key) {
+        String encodedElementUrl = UriComponent.encode(key, UriComponent.Type.UNRESERVED);
+
+        HBaseConnectionSettings connectionSettings = settings.getConnectionSettings();
+
+        try {
+            WebTarget target = client
+                    .target(connectionSettings.getServiceUrl())
+                    .path(connectionSettings.getTableName())
+                    .path(encodedElementUrl)
+                    .path(String.format("%s:x", settings.getSystemDataSettings().getSystemColumnFamilyName()));
+
+            logger.debug("Calling {}", target.getUri().toString());
+
+            CellSet cellSet = null;
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildGet()
+                        .invoke();
+
+                logger.debug("hbase returned {}", response.getStatusInfo());
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return false;
+
+                //
+                cellSet = response.readEntity(CellSet.class);
+            } finally {
+                if (response != null)
+                    response.close();
+            }
+
+            ////
+            String requiredValue = String.format("%s:x", settings.getSystemDataSettings().getSystemColumnFamilyName());
+            Row row = cellSet.getRows().get(0);
+            for (Cell cell : row.getCells()) {
+                if (cell.getColumn() == null || cell.getColumn().length == 0)
+                    continue;
+
+                String columnName = new String(cell.getColumn());
+                if (columnName == null)
+                    continue;
+
+                ////
+                if (!columnName.equals(requiredValue))
+                    continue;
+
+                ////
+                if (cell.getValue() == null)
+                    continue;
+
+                String v = new String(cell.getValue());
+                if (!v.equals("1"))
+                    continue;
+
+                return true;
+            }
+
+
+        } catch (Exception e) {
+            logger.error(Throwables.getStackTraceAsString(e));
+            return false;
+        }
+
         return false;
     }
 

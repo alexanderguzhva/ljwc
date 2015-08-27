@@ -11,6 +11,8 @@ import com.gschw.ljwc.lj.ljagent.core.ProcessorParameters;
 import com.gschw.ljwc.lj.ljagent.managed.ProcessorManager;
 import com.gschw.ljwc.lj.ljagent.managed.ProcessorManagerParameters;
 import com.gschw.ljwc.lj.ljagent.resources.ControllerResource;
+import com.gschw.ljwc.lj.ljreader.client.SimpleDownloader;
+import com.gschw.ljwc.lj.ljreader.client.SimpleDownloaderParameters;
 import com.gschw.ljwc.lj.ljscheduler.client.ILJSinglePageTaskClient;
 import com.gschw.ljwc.lj.ljscheduler.client.LJSinglePageTaskClient;
 import com.gschw.ljwc.lj.ljscheduler.client.LJTaskClientParameters;
@@ -75,12 +77,18 @@ public class DWApplication extends Application<DWConfiguration> {
         IHTMLParserClient htmlParserClient =
                 new HTMLParserClient(client, htmlParserClientParameters);
 
+        SimpleDownloaderParameters simpleDownloaderParameters =
+                configuration.getSimpleDownloaderParameters();
+        SimpleDownloader simpleDownloader =
+                new SimpleDownloader(client, simpleDownloaderParameters);
+
         final ProcessorParameters processorParameters =
                 configuration.getProcessorParameters();
         Processor processor = new Processor(
                 dgDownloadTaskClient,
                 ljSinglePageTaskClient,
                 htmlParserClient,
+                simpleDownloader,
                 processorParameters);
 
 

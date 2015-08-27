@@ -5,9 +5,11 @@ import com.gschw.ljwc.grabber.datagrabber.client.DGDownloadTaskClientParameters;
 import com.gschw.ljwc.html.htmlparser.client.HTMLParserClientParameters;
 import com.gschw.ljwc.lj.ljagent.core.ProcessorParameters;
 import com.gschw.ljwc.lj.ljagent.managed.ProcessorManagerParameters;
+import com.gschw.ljwc.lj.ljreader.client.SimpleDownloaderParameters;
 import com.gschw.ljwc.lj.ljscheduler.client.LJTaskClientParameters;
 import io.dropwizard.Configuration;
 import io.dropwizard.client.JerseyClientConfiguration;
+import org.hibernate.validator.constraints.URL;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -27,6 +29,7 @@ public class DWConfiguration extends Configuration {
 
 
     //
+    @Valid
     @NotNull
     private ProcessorParameters processorParameters;
 
@@ -42,6 +45,8 @@ public class DWConfiguration extends Configuration {
 
 
     //
+    @Valid
+    @NotNull
     private DGDownloadTaskClientParameters downloadTaskClientParameters;
 
     @JsonProperty("downloadTaskClientParameters")
@@ -56,6 +61,7 @@ public class DWConfiguration extends Configuration {
 
 
     //
+    @Valid
     @NotNull
     private LJTaskClientParameters ljSinglePageTaskClientParameters;
 
@@ -86,6 +92,7 @@ public class DWConfiguration extends Configuration {
 
 
     //
+    @Valid
     @NotNull
     private ProcessorManagerParameters processorManagerParameters;
 
@@ -99,4 +106,19 @@ public class DWConfiguration extends Configuration {
         this.processorManagerParameters = processorManagerParameters;
     }
 
+
+    //
+    @Valid
+    @NotNull
+    private SimpleDownloaderParameters simpleDownloaderParameters;
+
+    @JsonProperty("simpleDownloaderParameters")
+    public SimpleDownloaderParameters getSimpleDownloaderParameters() {
+        return simpleDownloaderParameters;
+    }
+
+    @JsonProperty("simpleDownloaderParameters")
+    public void setSimpleDownloaderParameters(SimpleDownloaderParameters simpleDownloaderParameters) {
+        this.simpleDownloaderParameters = simpleDownloaderParameters;
+    }
 }

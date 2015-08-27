@@ -8,12 +8,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class SimpleDownloaderParameters {
     private String serviceUrl;
 
-    @JsonProperty
+    @JsonProperty("serviceUrl")
     public String getServiceUrl() {
         return serviceUrl;
     }
 
-    @JsonProperty
+    @JsonProperty("serviceUrl")
     public void setServiceUrl(String serviceUrl) {
         this.serviceUrl = serviceUrl;
     }

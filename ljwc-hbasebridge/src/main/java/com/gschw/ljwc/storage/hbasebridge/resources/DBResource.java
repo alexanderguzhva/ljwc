@@ -116,7 +116,15 @@ public class DBResource implements IDBStorageResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response exists(@PathParam("key") @NotBlank String key, @QueryParam("timestamp") String timestamp) {
-        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
+        if (timestamp == null) {
+            boolean b = hbaseDB.exists(key);
+            if (!b)
+                return Response.status(Response.Status.NOT_FOUND).build();
+
+            return Response.ok().build();
+        } else {
+            return Response.status(Response.Status.NOT_IMPLEMENTED).build();
+        }
     }
 
 

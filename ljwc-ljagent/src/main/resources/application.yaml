@@ -23,3 +23,6 @@ htmlParserClientParameters:
 processorManagerParameters:
     shutdownTimeoutMsec: 5000
     queueTimerRateMsec: 2000
+
+simpleDownloaderParameters:
+    serviceUrl: "http://localhost:11090/"

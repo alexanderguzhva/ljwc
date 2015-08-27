@@ -24,21 +24,6 @@ public class HBaseDBSettings {
     }
 
     //
-    @Valid
-    @NotNull
-    private HBaseSystemDataSettings systemDataSettings;
-
-    @JsonProperty("systemDataSettings")
-    public HBaseSystemDataSettings getSystemDataSettings() {
-        return systemDataSettings;
-    }
-
-    @JsonProperty("systemDataSettings")
-    public void setSystemDataSettings(HBaseSystemDataSettings systemDataSettings) {
-        this.systemDataSettings = systemDataSettings;
-    }
-
-    //
     public HBaseDBSettings() {
     }
 }

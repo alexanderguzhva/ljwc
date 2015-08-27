@@ -54,4 +54,31 @@ public class SimpleDownloader {
             return null;
         }
     }
+
+
+    public boolean check(String url) {
+        try {
+            String encodedElementUrl = UriComponent.encode(url, UriComponent.Type.UNRESERVED);
+
+            WebTarget target = client
+                    .target(parameters.getServiceUrl())
+                    .path(encodedElementUrl);
+
+            Response response = null;
+            try {
+                response = target.request().head();
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return false;
+
+                return true;
+            } finally {
+                if (response != null)
+                    response.close();
+            }
+        } catch(Exception e) {
+            logger.error(Throwables.getStackTraceAsString(e));
+            return false;
+        }
+    }
+
 }

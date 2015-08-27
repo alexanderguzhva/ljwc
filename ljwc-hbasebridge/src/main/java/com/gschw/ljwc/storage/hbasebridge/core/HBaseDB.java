@@ -78,17 +78,6 @@ public class HBaseDB implements IDBStorage {
                 row.addCell(cell);
             }
 
-            //// add system element that will be used to check the existence of the row
-            {
-                String cellName = String.format("%s:x", settings.getSystemDataSettings().getSystemColumnFamilyName());
-                Cell cell = new Cell(
-                        cellName.getBytes(),
-                        Constants.LATEST_TIMESTAMP,
-                        "1".getBytes());
-
-                row.addCell(cell);
-            }
-
             ////
             cellSet.addRow(row);
         }
@@ -301,7 +290,6 @@ public class HBaseDB implements IDBStorage {
             }
 
             return elements.get(0);
-
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return null;
@@ -318,63 +306,29 @@ public class HBaseDB implements IDBStorage {
             WebTarget target = client
                     .target(connectionSettings.getServiceUrl())
                     .path(connectionSettings.getTableName())
-                    .path(encodedElementUrl)
-                    .path(String.format("%s:x", settings.getSystemDataSettings().getSystemColumnFamilyName()));
+                    .path(encodedElementUrl);
 
             logger.debug("Calling {}", target.getUri().toString());
 
-            CellSet cellSet = null;
             Response response = null;
             try {
                 response = target
                         .request(MediaType.APPLICATION_JSON_TYPE)
-                        .buildGet()
-                        .invoke();
+                        .head();
 
                 logger.debug("hbase returned {}", response.getStatusInfo());
                 if (response.getStatus() != Response.Status.OK.getStatusCode())
                     return false;
 
-                //
-                cellSet = response.readEntity(CellSet.class);
+                return true;
             } finally {
                 if (response != null)
                     response.close();
             }
-
-            ////
-            String requiredValue = String.format("%s:x", settings.getSystemDataSettings().getSystemColumnFamilyName());
-            Row row = cellSet.getRows().get(0);
-            for (Cell cell : row.getCells()) {
-                if (cell.getColumn() == null || cell.getColumn().length == 0)
-                    continue;
-
-                String columnName = new String(cell.getColumn());
-                if (columnName == null)
-                    continue;
-
-                ////
-                if (!columnName.equals(requiredValue))
-                    continue;
-
-                ////
-                if (cell.getValue() == null)
-                    continue;
-
-                String v = new String(cell.getValue());
-                if (!v.equals("1"))
-                    continue;
-
-                return true;
-            }
-
-
         } catch (Exception e) {
             logger.error(Throwables.getStackTraceAsString(e));
             return false;
         }
-
-        return false;
     }
 
     @Override

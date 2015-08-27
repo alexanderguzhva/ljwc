@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.HEAD;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
@@ -28,7 +29,7 @@ public class PortalResource {
     @GET
     @Path("{filename}")
     public Response doGet(@PathParam("filename") @NotBlank String filename) {
-        logger.info("Retrieving {}", filename);
+        logger.debug("Retrieving {}", filename);
 
         DBStorageElement element = dbStorageClient.readLast(filename);
         if (element == null)
@@ -44,4 +45,17 @@ public class PortalResource {
                         String.format("attachment; filename = %s", filename))
                 .build();
     }
+
+    @HEAD
+    @Path("{filename}")
+    public Response doCheck(@PathParam("filename") @NotBlank String filename) {
+        logger.debug("Checking {}", filename);
+
+        boolean b = dbStorageClient.exists(filename);
+        if (!b)
+            return Response.status(Response.Status.NOT_FOUND).build();
+
+        return Response.ok().build();
+    }
+
 }

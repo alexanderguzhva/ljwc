@@ -1,0 +1,44 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile gradleApi()
+    compile 'com.bmuschko:gradle-docker-plugin:2.5.2'
+}
+
+
+//apply plugin: 'com.bmuschko.docker-remote-api'
+
+//task createDockerfile(type: Dockerfile) {
+//    destFile = project.file("$buildDir/docker/Dockerfile")
+//    from 'gschw/busybox-java'
+//    maintainer 'aguzhva'
+//    exposePort 11010, 11011, 19010
+//    addFile "${project.name}-${project.version}.tar", "/"
+//    entryPoint "/${project.name}-${project.version}/bin/${project.name}","server", "/${project.name}-${project.version}/config/application.yaml"
+//}
+//
+//task copyDistributionToDocker(type: Copy) {
+//    from "$distsDir/${project.name}-${project.version}.tar"
+//    into "$buildDir/docker"
+//}
+//
+//task buildDockerImage(type: DockerBuildImage) {
+//    dependsOn createDockerfile
+//    dependsOn copyDistributionToDocker
+//    inputDir = createDockerfile.destFile.parentFile
+//    tag = "gschw/${project.name}-${project.version}"
+//}
+//
+//
+//class GreetingTask extends DefaultTask {
+//    @TaskAction
+//    def greet() {
+//        println 'hello from GreetingTask'
+//    }
+//}

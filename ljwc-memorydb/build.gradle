@@ -3,15 +3,15 @@ apply plugin: 'application'
 
 sourceCompatibility = 1.8
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'com.bmuschko:gradle-docker-plugin:2.5.2'
-    }
-}
+//buildscript {
+//    repositories {
+//        jcenter()
+//    }
+//
+//    dependencies {
+//        classpath 'com.bmuschko:gradle-docker-plugin:2.5.2'
+//    }
+//}
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: "$junitVersion"
@@ -43,28 +43,35 @@ applicationDistribution.from('src/main/resources') {
 }
 
 
-apply plugin: 'com.bmuschko.docker-remote-api'
+//apply plugin: 'com.bmuschko.docker-remote-api'
+//
+//import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+//import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+//
+//task createDockerfile(type: Dockerfile) {
+//    destFile = project.file("$buildDir/docker/Dockerfile")
+//    from 'gschw/busybox-java'
+//    maintainer 'aguzhva'
+//    exposePort 11010, 11011, 19010
+//    addFile "${project.name}-${project.version}.tar", "/"
+//    entryPoint "/${project.name}-${project.version}/bin/${project.name}","server", "/${project.name}-${project.version}/config/application.yaml"
+//}
+//
+//task copyDistributionToDocker(type: Copy) {
+//    from "$distsDir/${project.name}-${project.version}.tar"
+//    into "$buildDir/docker"
+//}
+//
+//task buildDockerImage(type: DockerBuildImage) {
+//    dependsOn createDockerfile
+//    dependsOn copyDistributionToDocker
+//    inputDir = createDockerfile.destFile.parentFile
+//    tag = "gschw/${project.name}-${project.version}"
+//}
+//
 
-import com.bmuschko.gradle.docker.tasks.image.Dockerfile
-import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+task hello2(type: com.gschw.ljwc.GreetingTask)
 
-task createDockerfile(type: Dockerfile) {
-    destFile = project.file("$buildDir/docker/Dockerfile")
-    from 'gschw/busybox-java'
-    maintainer 'aguzhva'
+task fooDocker(type: com.gschw.ljwc.LJWCCreateDockerfile) {
     exposePort 11010, 11011, 19010
-    addFile "${project.name}-${project.version}.tar", "/"
-    entryPoint "/${project.name}-${project.version}/bin/${project.name}","server", "/${project.name}-${project.version}/config/application.yaml"
-}
-
-task copyDistributionToDocker(type: Copy) {
-    from "$distsDir/${project.name}-${project.version}.tar"
-    into "$buildDir/docker"
-}
-
-task buildDockerImage(type: DockerBuildImage) {
-    dependsOn createDockerfile
-    dependsOn copyDistributionToDocker
-    inputDir = createDockerfile.destFile.parentFile
-    tag = "gschw/${project.name}-${project.version}"
 }

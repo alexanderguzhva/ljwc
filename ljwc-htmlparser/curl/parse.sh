@@ -1,0 +1,1 @@
+curl -X POST -H "Content-Type: application/json" -d '{"url": "http://karleev.livejournal.com/215598.html"}' http://localhost:11020/parseByDBURL

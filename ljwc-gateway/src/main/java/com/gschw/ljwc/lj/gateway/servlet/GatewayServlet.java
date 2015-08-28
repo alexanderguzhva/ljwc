@@ -54,7 +54,7 @@ public class GatewayServlet extends HttpServlet {
         {
             //// quick and dirty
             String html = new String(data);
-            html = html.replaceAll("http", "/http");
+            html = html.replaceAll("http", parameters.getRootUrl() + "http");
             data = html.getBytes();
         }
 

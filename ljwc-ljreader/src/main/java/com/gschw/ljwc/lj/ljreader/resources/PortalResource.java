@@ -29,16 +29,21 @@ public class PortalResource {
     @GET
     @Path("{filename}")
     public Response doGet(@PathParam("filename") @NotBlank String filename) {
-        logger.debug("Retrieving {}", filename);
+        logger.info("Retrieving {}", filename);
 
         DBStorageElement element = dbStorageClient.readLast(filename);
-        if (element == null)
+        if (element == null) {
+            logger.info("{} was not found", filename);
             return Response.noContent().build();
+        }
 
         byte[] data = element.getData().get("d");
-        if (data == null)
+        if (data == null) {
+            logger.info("{} has no column with data", filename);
             return Response.noContent().build();
+        }
 
+        logger.info("{} is good, {} bytes", filename, data.length);
         return Response
                 .ok(data, MediaType.APPLICATION_OCTET_STREAM_TYPE)
                 .header("content-disposition",

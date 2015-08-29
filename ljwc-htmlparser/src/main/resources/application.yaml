@@ -20,18 +20,20 @@ betterHTMLParserParameters:
           body: "div.entry-content"
           comments: "div#comments.entry-wrap.entry-comments"
           description: "crustgroup"
-        - name: ""
-          body: ""
-          comments: ""
+        - name: "html.html-s2-no-adaptive"
+          body: "div.asset-body"
+          comments: "div.comments-inner"
           description: "karleev"
+        - name: "html.html-s2-no-adaptive"
+          body: "div.entryText.s2-entrytext"
+          comments: "div.comments-wrapper"
+          description: "botalex"
+        - name: "html-adaptive"
+          body: "div.j-e-text"
+          comments: "div#comments.j-l-comments"
+          description: "enview"
+        - name: "html-s2-no-adaptive"
+          body: "div.entry-content"
+          comments: ""
+          description: "humus"
 
-#          .b-singlepost-body
-#
-#afranius.livejournal.com
-#yersub.livejournal.com
-#    <html id="no-js" class="html-schemius html-adaptive" lang="en">
-#    content = doc.select("article.b-singlepost-body");
-#    content = doc.select("div.comments")
-#
-#driver.findElement(By.xpath("//article[contains(@class,' b-singlepost-body entry-content e-content ')]"));
-#driver.findElement(By.xpath("//article[@class=' b-singlepost-body entry-content e-content ']"));

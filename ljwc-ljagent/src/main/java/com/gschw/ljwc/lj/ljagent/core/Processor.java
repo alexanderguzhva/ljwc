@@ -5,6 +5,7 @@ import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadTask;
 import com.gschw.ljwc.grabber.datagrabber.api.DGDownloadResult;
 import com.gschw.ljwc.grabber.datagrabber.client.IDGDownloadTaskClient;
 import com.gschw.ljwc.html.htmlparser.api.ElementsCollection;
+import com.gschw.ljwc.html.htmlparser.api.ElementsSet;
 import com.gschw.ljwc.html.htmlparser.api.HTMLParseResultByDBURL;
 import com.gschw.ljwc.html.htmlparser.api.ImageElement;
 import com.gschw.ljwc.html.htmlparser.client.IHTMLParserClient;
@@ -101,10 +102,13 @@ public class Processor {
                     return true;
                 }
 
-                for (ImageElement imageElement : parsedElements.getImages()) {
+                ElementsSet set = new ElementsSet();
+                set.addElementsCollection(parsedElements);
+
+                for (String elementUrl : set.imageUrls) {
                     DGDownloadTask elementDownloadTask = new DGDownloadTask();
                     elementDownloadTask.setTaskIdentity(task.getTaskIdentity());
-                    elementDownloadTask.setUrl(imageElement.src);
+                    elementDownloadTask.setUrl(elementUrl);
                     elementDownloadTask.setUploadServiceURL(parameters.getUploaderServiceUrl());
                     elementDownloadTask.setReturnDataInReply(false);
                     elementDownloadTask.setUploadDataToBase(true);

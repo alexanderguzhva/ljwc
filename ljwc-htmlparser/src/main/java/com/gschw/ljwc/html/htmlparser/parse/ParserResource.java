@@ -27,9 +27,13 @@ public class ParserResource {
 
     private SimpleDownloader downloader;
 
-    public ParserResource(SimpleDownloader downloader) {
+    private BetterHTMLParser parser;
+
+    public ParserResource(SimpleDownloader downloader, BetterHTMLParser parser) {
         this.downloader = downloader;
+        this.parser = parser;
     }
+
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -45,9 +49,11 @@ public class ParserResource {
         }
 
         ////
-        ElementsCollection elementsCollection = BetterHTMLParser.Process(document);
-        if (elementsCollection == null)
+        ElementsCollection elementsCollection = parser.Process(document);
+        if (elementsCollection == null) {
+            logger.warn("Could not parse data, no matching style defined");
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
 
         //
         HTMLParseResultByData result = new HTMLParseResultByData();
@@ -80,9 +86,11 @@ public class ParserResource {
         }
 
         ////
-        ElementsCollection elementsCollection = BetterHTMLParser.Process(document);
-        if (elementsCollection == null)
+        ElementsCollection elementsCollection = parser.Process(document);
+        if (elementsCollection == null) {
+            logger.warn("Could not parse {}, no matching style defined", url);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
 
         //
         HTMLParseResultByDBURL result = new HTMLParseResultByDBURL();

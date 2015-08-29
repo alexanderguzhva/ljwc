@@ -3,6 +3,7 @@ package com.gschw.ljwc.html.htmlparser.api;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -31,20 +32,37 @@ public class ElementsCollection {
 
 
     public void addImage(ImageElement image) {
-        images.add(image);
+        this.images.add(image);
+    }
+
+    public void addImages(Collection<ImageElement> images) {
+        this.images.addAll(images);
     }
 
     public void addImport(ImportElement importElement) {
-        imports.add(importElement);
+        this.imports.add(importElement);
+    }
+
+    public void addImports(Collection<ImportElement> imports) {
+        this.imports.addAll(imports);
     }
 
     public void addLink(LinkElement linkElement) {
-        links.add(linkElement);
+        this.links.add(linkElement);
+    }
+
+    public void addLinks(Collection<LinkElement> links) {
+        this.links.addAll(links);
     }
 
     public void addMedia(MediaElement mediaElement) {
-        medias.add(mediaElement);
+        this.medias.add(mediaElement);
     }
+
+    public void addMedias(Collection<MediaElement> medias) {
+        this.medias.addAll(medias);
+    }
+
 
 
     public List<ImageElement> getImages() {

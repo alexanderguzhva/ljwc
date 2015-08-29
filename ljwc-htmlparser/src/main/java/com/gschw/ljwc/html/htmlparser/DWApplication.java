@@ -1,5 +1,7 @@
 package com.gschw.ljwc.html.htmlparser;
 
+import com.gschw.ljwc.html.htmlparser.core.BetterHTMLParser;
+import com.gschw.ljwc.html.htmlparser.core.BetterHTMLParserParameters;
 import com.gschw.ljwc.lj.ljreader.client.SimpleDownloader;
 import com.gschw.ljwc.lj.ljreader.client.SimpleDownloaderParameters;
 import com.gschw.ljwc.html.htmlparser.parse.ParserResource;
@@ -54,7 +56,11 @@ public class DWApplication extends Application<DWConfiguration> {
         SimpleDownloader simpleDownloader =
                 new SimpleDownloader(client, simpleDownloaderParameters);
 
-        ParserResource parserResource = new ParserResource(simpleDownloader);
+        BetterHTMLParserParameters betterHTMLParserParameters =
+                configuration.getBetterHTMLParserParameters();
+        BetterHTMLParser betterHTMLParser = new BetterHTMLParser(betterHTMLParserParameters);
+        ParserResource parserResource = new ParserResource(simpleDownloader, betterHTMLParser);
+
         environment.jersey().register(parserResource);
     }
 

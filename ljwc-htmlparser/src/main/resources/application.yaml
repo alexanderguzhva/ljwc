@@ -8,3 +8,30 @@ server:
 
 simpleDownloaderParameters:
     serviceUrl: http://localhost:11090/
+
+
+betterHTMLParserParameters:
+    styles:
+        - name: "html.html-schemius.html-adaptive"
+          body: "article.b-singlepost-body.entry-content.e-content"
+          comments: "div#comments.b-grove.b-grove-hover"
+          description: "yer-sub"
+        - name: "html.html-s2-no-adaptive"
+          body: "div.entry-content"
+          comments: "div#comments.entry-wrap.entry-comments"
+          description: "crustgroup"
+        - name: ""
+          body: ""
+          comments: ""
+          description: "karleev"
+
+#          .b-singlepost-body
+#
+#afranius.livejournal.com
+#yersub.livejournal.com
+#    <html id="no-js" class="html-schemius html-adaptive" lang="en">
+#    content = doc.select("article.b-singlepost-body");
+#    content = doc.select("div.comments")
+#
+#driver.findElement(By.xpath("//article[contains(@class,' b-singlepost-body entry-content e-content ')]"));
+#driver.findElement(By.xpath("//article[@class=' b-singlepost-body entry-content e-content ']"));

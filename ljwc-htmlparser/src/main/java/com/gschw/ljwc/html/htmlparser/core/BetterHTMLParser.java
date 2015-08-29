@@ -157,32 +157,36 @@ public class BetterHTMLParser {
             if (rootElements == null || rootElements.size() == 0)
                 continue;
 
-            ////
-            bParsed = true;
 
             //// find body (main post)
             if (ljStyle.getBody() != null && (!ljStyle.getBody().isEmpty())) {
+
                 Elements mainPostElements = rootElements.select(ljStyle.getBody());
                 if (mainPostElements != null && mainPostElements.size() > 0) {
+                    ////
+                    bParsed = true;
+
                     //// process them
                     extractElements(mainPostElements, outputElements);
+
+                    //// process comments
+                    if (ljStyle.getComments() != null && (!ljStyle.getComments().isEmpty())) {
+                        Elements commentsElements = rootElements.select(ljStyle.getComments());
+                        if (commentsElements != null && commentsElements.size() > 0) {
+                            extractElements(commentsElements, outputElements);
+                        }
+                    } else {
+                        logger.info("No comments for {}", ljStyle.getDescription());
+                    }
                 }
             } else {
                 logger.info("No body for {}", ljStyle.getDescription());
             }
 
-            //// process comments
-            if (ljStyle.getComments() != null && (!ljStyle.getComments().isEmpty())) {
-                Elements commentsElements = rootElements.select(ljStyle.getComments());
-                if (commentsElements != null && commentsElements.size() > 0) {
-                    extractElements(commentsElements, outputElements);
-                }
-            } else {
-                logger.info("No comments for {}", ljStyle.getDescription());
-            }
 
             //// no more parsing
-            break;
+            if (bParsed)
+                break;
         }
 
         if (!bParsed) {

@@ -31,10 +31,24 @@ public class ProcessorManagerParameters {
         this.queueTimerRateMsec = queueTimerRateMsec;
     }
 
-    //
 
+    //
+    private int numberOfProcesorQueues;
+
+    @JsonProperty("numberOfProcesorQueues")
+    public int getNumberOfProcesorQueues() {
+        return numberOfProcesorQueues;
+    }
+
+    @JsonProperty("numberOfProcesorQueues")
+    public void setNumberOfProcesorQueues(int numberOfProcesorQueues) {
+        this.numberOfProcesorQueues = numberOfProcesorQueues;
+    }
+
+    //
     public ProcessorManagerParameters() {
         this.shutdownTimeoutMsec = 5000;
         this.queueTimerRateMsec = 2000;
+        this.numberOfProcesorQueues = 1;
     }
 }

@@ -7,6 +7,7 @@ import com.gschw.ljwc.html.htmlparser.client.HTMLParserClient;
 import com.gschw.ljwc.html.htmlparser.client.HTMLParserClientParameters;
 import com.gschw.ljwc.html.htmlparser.client.IHTMLParserClient;
 import com.gschw.ljwc.lj.ljagent.core.Processor;
+import com.gschw.ljwc.lj.ljagent.core.ProcessorFactory;
 import com.gschw.ljwc.lj.ljagent.core.ProcessorParameters;
 import com.gschw.ljwc.lj.ljagent.managed.ProcessorManager;
 import com.gschw.ljwc.lj.ljagent.managed.ProcessorManagerParameters;
@@ -53,44 +54,41 @@ public class DWApplication extends Application<DWConfiguration> {
     @Override
     public void run(DWConfiguration configuration,
                     Environment environment) {
-        final Client client = new JerseyClientBuilder(environment)
-                .using(configuration.getJerseyClientConfiguration())
-                .build(getName());
-
-        client.property(ClientProperties.CONNECT_TIMEOUT, 10000);
-        client.property(ClientProperties.READ_TIMEOUT, 10000);
+        JerseyClientBuilder jerseyClientBuilder = new JerseyClientBuilder(environment)
+                .using(configuration.getJerseyClientConfiguration());
 
 
-        ////
-        DGDownloadTaskClientParameters dgDownloadTaskClientParameters =
-                configuration.getDownloadTaskClientParameters();
-        IDGDownloadTaskClient dgDownloadTaskClient =
-                new DGDownloadTaskClient(client, dgDownloadTaskClientParameters);
-
-        LJTaskClientParameters ljSinglePageTaskClientParameters =
-                configuration.getLjSinglePageTaskClientParameters();
-        ILJSinglePageTaskClient ljSinglePageTaskClient =
-                new LJSinglePageTaskClient(client, ljSinglePageTaskClientParameters);
-
-        HTMLParserClientParameters htmlParserClientParameters =
-                configuration.getHtmlParserClientParameters();
-        IHTMLParserClient htmlParserClient =
-                new HTMLParserClient(client, htmlParserClientParameters);
-
-        SimpleDownloaderParameters simpleDownloaderParameters =
-                configuration.getSimpleDownloaderParameters();
-        SimpleDownloader simpleDownloader =
-                new SimpleDownloader(client, simpleDownloaderParameters);
+////
+//        DGDownloadTaskClientParameters dgDownloadTaskClientParameters =
+//                configuration.getDownloadTaskClientParameters();
+//        IDGDownloadTaskClient dgDownloadTaskClient =
+//                new DGDownloadTaskClient(client, dgDownloadTaskClientParameters);
+//
+//        LJTaskClientParameters ljSinglePageTaskClientParameters =
+//                configuration.getLjSinglePageTaskClientParameters();
+//        ILJSinglePageTaskClient ljSinglePageTaskClient =
+//                new LJSinglePageTaskClient(client, ljSinglePageTaskClientParameters);
+//
+//        HTMLParserClientParameters htmlParserClientParameters =
+//                configuration.getHtmlParserClientParameters();
+//        IHTMLParserClient htmlParserClient =
+//                new HTMLParserClient(client, htmlParserClientParameters);
+//
+//        SimpleDownloaderParameters simpleDownloaderParameters =
+//                configuration.getSimpleDownloaderParameters();
+//        SimpleDownloader simpleDownloader =
+//                new SimpleDownloader(client, simpleDownloaderParameters);
 
         final ProcessorParameters processorParameters =
                 configuration.getProcessorParameters();
-        Processor processor = new Processor(
-                dgDownloadTaskClient,
-                ljSinglePageTaskClient,
-                htmlParserClient,
-                simpleDownloader,
-                processorParameters);
-
+        ProcessorFactory processorFactory = new ProcessorFactory(
+                configuration.getDownloadTaskClientParameters(),
+                configuration.getLjSinglePageTaskClientParameters(),
+                configuration.getHtmlParserClientParameters(),
+                configuration.getSimpleDownloaderParameters(),
+                processorParameters,
+                jerseyClientBuilder,
+                getName());
 
 //        ControllerResource controllerResource =
 //                new ControllerResource(processor);
@@ -99,7 +97,7 @@ public class DWApplication extends Application<DWConfiguration> {
         ProcessorManagerParameters processorManagerParameters =
                 configuration.getProcessorManagerParameters();
         ProcessorManager processorManager =
-                new ProcessorManager(processor, processorManagerParameters);
+                new ProcessorManager(processorFactory, processorManagerParameters);
 
         environment.lifecycle().manage(processorManager);
 

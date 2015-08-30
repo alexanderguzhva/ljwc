@@ -1,6 +1,7 @@
 package com.gschw.ljwc.lj.ljagent.managed;
 
 import com.gschw.ljwc.lj.ljagent.core.Processor;
+import com.gschw.ljwc.lj.ljagent.core.ProcessorFactory;
 import io.dropwizard.lifecycle.Managed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,26 +19,30 @@ public class ProcessorManager implements Managed {
 
     private ScheduledExecutorService executorService;
 
-    private Processor processor;
+    private ProcessorFactory processorFactory;
 
     private ProcessorManagerParameters parameters;
 
-    public ProcessorManager(Processor processor, ProcessorManagerParameters parameters) {
-        this.processor = processor;
+    public ProcessorManager(ProcessorFactory processorFactory, ProcessorManagerParameters parameters) {
+        this.processorFactory = processorFactory;
         this.parameters = parameters;
     }
 
     @Override
     public void start() throws Exception {
-        executorService = Executors.newScheduledThreadPool(1);
+        int n = parameters.getNumberOfProcesorQueues();
+        executorService = Executors.newScheduledThreadPool(n);
 
-        Runnable rIterate = () -> processor.iterate();
-        final ScheduledFuture<?> iterateFuture =
-                executorService.scheduleWithFixedDelay(
-                        rIterate,
-                        parameters.getQueueTimerRateMsec(),
-                        parameters.getQueueTimerRateMsec(),
-                        TimeUnit.MILLISECONDS);
+        for (int i = 0; i < n; i++) {
+            Processor processor = processorFactory.createProcessor();
+            Runnable rIterate = () -> processor.iterate();
+            final ScheduledFuture<?> iterateFuture =
+                    executorService.scheduleWithFixedDelay(
+                            rIterate,
+                            parameters.getQueueTimerRateMsec(),
+                            parameters.getQueueTimerRateMsec(),
+                            TimeUnit.MILLISECONDS);
+        }
     }
 
     @Override

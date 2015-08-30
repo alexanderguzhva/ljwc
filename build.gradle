@@ -17,9 +17,8 @@ subprojects {
 }
 
 
-allprojects {
-    task hello(type: com.gschw.ljwc.GreetingTask)
-
-}
+//allprojects {
+//    task hello(type: com.gschw.ljwc.GreetingTask)
+//}
 
 

@@ -68,7 +68,6 @@ task fooDocker(type: com.gschw.ljwc.LJWCCreateDockerfile) {
 }
 
 task barDocker(type: com.gschw.ljwc.LJWCCopyDistributionToDocker) {
-
 }
 
 task buildDockerImage(type: DockerBuildImage) {

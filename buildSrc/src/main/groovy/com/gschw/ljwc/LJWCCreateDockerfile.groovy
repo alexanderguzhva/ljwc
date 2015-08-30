@@ -29,10 +29,10 @@ class LJWCCopyDistributionToDocker extends Copy {
 }
 
 
-
-class GreetingTask extends DefaultTask {
-    @TaskAction
-    def greet() {
-        println 'hello from GreetingTask'
-    }
-}
+//
+//class GreetingTask extends DefaultTask {
+//    @TaskAction
+//    def greet() {
+//        println 'hello from GreetingTask'
+//    }
+//}

@@ -43,11 +43,12 @@ applicationDistribution.from('src/main/resources') {
 }
 
 
-//apply plugin: 'com.bmuschko.docker-remote-api'
-//
-//import com.bmuschko.gradle.docker.tasks.image.Dockerfile
-//import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
-//
+
+apply plugin: 'com.bmuschko.docker-remote-api'
+
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+
 //task createDockerfile(type: Dockerfile) {
 //    destFile = project.file("$buildDir/docker/Dockerfile")
 //    from 'gschw/busybox-java'
@@ -61,17 +62,20 @@ applicationDistribution.from('src/main/resources') {
 //    from "$distsDir/${project.name}-${project.version}.tar"
 //    into "$buildDir/docker"
 //}
-//
-//task buildDockerImage(type: DockerBuildImage) {
-//    dependsOn createDockerfile
-//    dependsOn copyDistributionToDocker
-//    inputDir = createDockerfile.destFile.parentFile
-//    tag = "gschw/${project.name}-${project.version}"
-//}
-//
-
-task hello2(type: com.gschw.ljwc.GreetingTask)
 
 task fooDocker(type: com.gschw.ljwc.LJWCCreateDockerfile) {
     exposePort 11010, 11011, 19010
 }
+
+task barDocker(type: com.gschw.ljwc.LJWCCopyDistributionToDocker) {
+
+}
+
+task buildDockerImage(type: DockerBuildImage) {
+    dependsOn fooDocker
+    dependsOn barDocker
+    inputDir = fooDocker.destFile.parentFile
+    tag = "gschw/${project.name}-${project.version}"
+}
+
+

@@ -20,6 +20,6 @@ test {
 }
 
 applicationDistribution.from('src/main/resources') {
-    include 'application.yaml'
+    include 'application*.yaml'
     into 'config'
 }

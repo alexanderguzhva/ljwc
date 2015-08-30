@@ -48,7 +48,7 @@ public class ProcessorManagerParameters {
     //
     public ProcessorManagerParameters() {
         this.shutdownTimeoutMsec = 5000;
-        this.queueTimerRateMsec = 2000;
+        this.queueTimerRateMsec = 1000;
         this.numberOfProcesorQueues = 1;
     }
 }

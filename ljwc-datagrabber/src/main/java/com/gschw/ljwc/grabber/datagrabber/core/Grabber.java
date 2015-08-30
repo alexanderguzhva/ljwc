@@ -90,7 +90,8 @@ public class Grabber {
             logger.error(Throwables.getStackTraceAsString(e));
             return null;
         } finally {
-            HttpClientUtils.closeQuietly(httpResponse);
+            if (httpResponse != null)
+                HttpClientUtils.closeQuietly(httpResponse);
         }
     }
 

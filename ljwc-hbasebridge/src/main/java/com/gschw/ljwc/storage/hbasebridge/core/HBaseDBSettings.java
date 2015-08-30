@@ -6,7 +6,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- * Created by nop on 6/24/15.
+ * Settings for {@link HBaseDB}
  */
 public class HBaseDBSettings {
     @Valid

@@ -12,7 +12,8 @@ import javax.ws.rs.core.Response;
 import java.io.InputStream;
 
 /**
- * Created by nop on 8/22/15.
+ * Simple class that can either download a file (by executing GET request), or
+ *   check whether the file exist (by executing a HEAD request)
  */
 public class SimpleDownloader {
     private static Logger logger = LoggerFactory.getLogger(SimpleDownloader.class);

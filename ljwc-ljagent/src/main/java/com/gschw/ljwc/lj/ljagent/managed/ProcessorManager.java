@@ -12,7 +12,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by nop on 8/22/15.
+ * Managed wrapper for {@link Processor}. Also, serves as scheduler for processors.
  */
 public class ProcessorManager implements Managed {
     private static Logger logger = LoggerFactory.getLogger(ProcessorManager.class);

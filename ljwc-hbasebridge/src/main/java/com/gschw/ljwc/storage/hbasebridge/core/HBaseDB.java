@@ -21,7 +21,7 @@ import javax.ws.rs.client.Entity;
 import java.util.Map;
 
 /**
- * Created by nop on 6/24/15.
+ * Tasks to HBase REST server.
  */
 public class HBaseDB implements IDBStorage {
     private static Logger logger = LoggerFactory.getLogger(HBaseDB.class);

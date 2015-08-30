@@ -3,7 +3,7 @@ package com.gschw.ljwc.lj.ljagent.managed;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Created by nop on 8/22/15.
+ * Parameters for {@link ProcessorManager}
  */
 public class ProcessorManagerParameters {
     private int shutdownTimeoutMsec;

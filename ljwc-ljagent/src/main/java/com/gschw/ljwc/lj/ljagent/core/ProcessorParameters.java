@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import com.gschw.ljwc.auth.Identity;
 
 /**
- * Created by nop on 7/15/15.
+ * Parameters for {@link Processor}
  */
 public class ProcessorParameters {
     @URL

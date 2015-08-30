@@ -1,7 +1,7 @@
 package com.gschw.ljwc.uploader.client;
 
 /**
- * Created by nop on 7/12/15.
+ * Parameters for {@link DGUploaderClient}
  */
 public class DGUploaderClientParameters {
     public DGUploaderClientParameters() {

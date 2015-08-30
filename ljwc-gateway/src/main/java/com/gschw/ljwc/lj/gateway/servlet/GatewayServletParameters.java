@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
 /**
- * Created by nop on 8/22/15.
+ * Parameters for {@link GatewayServlet}
  */
 public class GatewayServletParameters {
 

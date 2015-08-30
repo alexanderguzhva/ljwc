@@ -17,7 +17,7 @@ import org.glassfish.jersey.client.ClientProperties;
 import javax.ws.rs.client.Client;
 
 /**
- * Created by nop on 8/30/15.
+ * Factory for {@link Processor}
  */
 public class ProcessorFactory {
     private DGDownloadTaskClientParameters dgDownloadTaskClientParameters;

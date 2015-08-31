@@ -140,6 +140,39 @@ public abstract class LJTaskClient<T, U> implements ILJTaskClient<T, U>{
     @Override
     public abstract U download(T task);
 
+    @Override
+    public boolean enqueue(T task) {
+        String url = parameters.getServiceUrl();
+
+        try {
+            WebTarget target = client
+                    .target(url)
+                    .path("/download")
+                    .queryParam("timeout", -1);
+
+            logger.debug("Calling {}", target.getUri().toString());
+            Response response = null;
+            try {
+                response = target
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .buildPost(Entity.entity(task, MediaType.APPLICATION_JSON_TYPE))
+                        .invoke();
+
+                logger.debug("{} returned {}", target.getUri().toString(), response.getStatusInfo());
+                if (response.getStatus() != Response.Status.OK.getStatusCode())
+                    return false;
+
+                return true;
+            } finally {
+                if (response != null)
+                    response.close();
+            }
+        } catch (Exception e) {
+            logger.error(Throwables.getStackTraceAsString(e));
+            return false;
+        }
+    }
+
     protected U download(T task, long timeoutInMsec, Class<U> uClass) {
         return download(task, new Long(timeoutInMsec), uClass);
     }

@@ -42,22 +42,33 @@ public class X {
             logger.info("Found {} in {}", element.getUrl(), rootPage);
         }
 
-        //// going one by one
+//        //// going one by one
+//        for (LJCalendarTaskResultElement element : result.getElements()) {
+//            logger.info("Processing {}", element.getUrl());
+//
+//            Identity spIdentity = identityGenerator.generate();
+//            LJSinglePageTask spTask = new LJSinglePageTask(spIdentity, element.getUrl());
+//            LJSinglePageTaskResult spResult = singlePageTaskClient.download(spTask);
+//            if (spResult == null) {
+//                logger.info("Could not process {}", element.getUrl());
+//                continue;
+//            }
+//
+//            for (LJSinglePageElement spElement : spResult.getElements()) {
+//                logger.info("Downloaded {}, {}", spElement.getUrl(), spElement.getCategory().toStringValue());
+//            }
+//        }
+        //// enqueueing all
         for (LJCalendarTaskResultElement element : result.getElements()) {
-            logger.info("Processing {}", element.getUrl());
+            logger.info("Enqueueing {}", element.getUrl());
 
             Identity spIdentity = identityGenerator.generate();
             LJSinglePageTask spTask = new LJSinglePageTask(spIdentity, element.getUrl());
-            LJSinglePageTaskResult spResult = singlePageTaskClient.download(spTask);
-            if (spResult == null) {
-                logger.info("Could not process {}", element.getUrl());
+            boolean dResult = singlePageTaskClient.enqueue(spTask);
+            if (!dResult) {
+                logger.info("Could not enqueue {}", element.getUrl());
                 continue;
-            }
-
-            for (LJSinglePageElement spElement : spResult.getElements()) {
-                logger.info("Downloaded {}, {}", spElement.getUrl(), spElement.getCategory().toStringValue());
             }
         }
     }
-
 }

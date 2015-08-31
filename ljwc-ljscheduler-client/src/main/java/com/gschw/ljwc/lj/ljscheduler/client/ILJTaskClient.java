@@ -10,4 +10,5 @@ public interface ILJTaskClient<T, U> {
     boolean complete(U result);
     U download(T task, long timeoutInMsec);
     U download(T task);
+    boolean enqueue(T task);
 }

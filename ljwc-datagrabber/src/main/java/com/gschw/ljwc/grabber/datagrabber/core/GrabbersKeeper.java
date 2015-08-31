@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Manages {@link Grabber}-s and {@link GrabberSession}-s.
+ * Manages {@link Grabber}-s.
  */
 public class GrabbersKeeper {
     private final Object locker = new Object();

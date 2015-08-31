@@ -1,7 +1,7 @@
 package com.gschw.ljwc.grabber.datagrabber.core;
 
 /**
- * Created by nop on 5/16/15.
+ * This is being produced by {@link Grabber} as a result of a request.
  */
 
 public class GrabberResult {

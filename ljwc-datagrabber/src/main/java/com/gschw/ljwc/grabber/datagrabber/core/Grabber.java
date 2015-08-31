@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Downloads data.
+ * Downloads data. Pre-allocates cookie-store, HTTP-context object and HTTP-client object.
  */
 public class Grabber {
     private static Logger logger = LoggerFactory.getLogger(Grabber.class);

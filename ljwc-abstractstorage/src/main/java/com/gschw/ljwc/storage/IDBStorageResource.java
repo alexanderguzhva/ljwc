@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 /**
- * Created by hadoop on 7/9/15.
+ * A simple interface for a remote REST-based server for talking with {@link IDBStorage}.
  */
 public interface IDBStorageResource {
 

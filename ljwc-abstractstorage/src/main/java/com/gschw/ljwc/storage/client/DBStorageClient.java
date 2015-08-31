@@ -24,7 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by nop on 7/10/15.
+ * Standard remote REST-based implementation for {@link IDBStorage}.
+ * This class expects to talk to a REST server that implements {@link IDBStorageResource}.
  */
 public class DBStorageClient implements IDBStorage {
     private static Logger logger = LoggerFactory.getLogger(DBStorageClient.class);

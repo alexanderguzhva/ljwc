@@ -58,18 +58,22 @@ public class LJSinglePageResource implements ILJSinglePageTaskResource {
     public Response download(@NotNull LJSinglePageTask task, @QueryParam("timeout") Long timeout) {
         logger.info("Going to process {}", task.getUrl());
 
-        if (timeout == null) {
+        if (timeout == null || timeout == 0) {
             LJSinglePageTaskResult result = singlePageKeeper.download(task);
             if (result == null)
                 return Response.status(Response.Status.BAD_REQUEST).build();
 
             return Response.ok().entity(result).build();
-        } else {
+        } else if (timeout > 0) {
             LJSinglePageTaskResult result = singlePageKeeper.download(task, timeout);
             if (result == null)
                 return Response.status(Response.Status.BAD_REQUEST).build();
 
             return Response.ok().entity(result).build();
+        } else {
+            //// timeout < 0
+            singlePageKeeper.enqueue(task);
+            return Response.ok().build();
         }
     }
 }

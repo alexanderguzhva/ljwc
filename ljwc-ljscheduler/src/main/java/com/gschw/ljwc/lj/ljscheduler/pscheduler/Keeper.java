@@ -107,7 +107,7 @@ public abstract class Keeper<
 
     protected abstract void processCompletedElement(U result);
 
-    private U internalDownload(T task, Long timeoutInMsec) {
+    private TasksSupp<T, U> internalEnqueue(T task) {
         TasksSupp<T, U> supp;
 
         synchronized (locker) {
@@ -123,6 +123,12 @@ public abstract class Keeper<
                 tasksQueue.add(taskIdentity);
             }
         }
+
+        return supp;
+    }
+
+    private U internalDownload(T task, Long timeoutInMsec) {
+        TasksSupp<T, U> supp = internalEnqueue(task);
 
         ////
         try {
@@ -143,6 +149,10 @@ public abstract class Keeper<
 
     public U download(T task) {
         return internalDownload(task, null);
+    }
+
+    public void enqueue(T task) {
+        internalEnqueue(task);
     }
 
 }

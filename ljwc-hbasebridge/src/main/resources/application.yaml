@@ -6,6 +6,27 @@ server:
         - type: http
           port: 11361
 
+#logging:
+#    appenders:
+#        - type: syslog
+#          host: localhost
+#          port: 514
+#          facility: local0
+#          threshold: ALL
+#          stackTracePrefix: \t
+#        - type: console
+#          target: stdout
+#        - type: logstash-tcp
+#          host: localhost
+#          port: 5100
+#          fieldNames:
+#            message: msg
+#            timestamp: log_date
+#          includeCallerInfo: true
+#          includeContext: true
+#          includeCallerData: true
+#          bufferSize: 4096
+
 hbaseDBSettings:
     connectionSettings:
         serviceUrl: "http://localhost:60001/"

@@ -20,3 +20,27 @@ applicationDistribution.from('src/main/resources') {
     include 'application*.yaml'
     into 'config'
 }
+
+
+
+apply plugin: 'com.bmuschko.docker-remote-api'
+
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+
+
+task dockerCreateDockerfile(type: com.gschw.ljwc.LJWCCreateDockerfile) {
+    exposePort 11090, 11091, 19090
+}
+
+task dockerCopyDistributionToDocker(type: com.gschw.ljwc.LJWCCopyDistributionToDocker) {
+}
+
+task dockerBuildDockerImage(type: DockerBuildImage) {
+    dependsOn dockerCreateDockerfile
+    dependsOn dockerCopyDistributionToDocker
+    inputDir = dockerCreateDockerfile.destFile.parentFile
+    tag = "gschw/${project.name}:${project.version}"
+}
+
+

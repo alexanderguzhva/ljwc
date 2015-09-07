@@ -1,6 +1,6 @@
 # Setting up local docker
 ## Installing docker
-Check docker site, somewhy ubuntu 14.04 does not provide the recent version, while fedora does.
+Check docker site, ubuntu did not provide me with the recent version, while fedora did.
 
 ## HTTPS
 Followed [instructions](https://docs.docker.com/articles/https/) from an official site. Used my hostname as CN.
@@ -11,25 +11,25 @@ Also, check that it is possible to connect from the different machine to this on
 
 # Installing private registry
 ## Downloading one
-Downloaded as a [manual](https://docs.docker.com/registry/deploying/) says
+Downloaded as a [manual](https://github.com/docker/distribution/blob/master/docs/deploying.md) says
 ``` sh
 docker pull registry:2
 ```
 
 ## Self-signed certificate
-Generated self-signed certificate (check [here](https://docs.docker.com/registry/insecure/))
+Generated self-signed certificate (check [here](https://github.com/docker/distribution/blob/master/docs/insecure.md))
 
 Copied domain.* to /etc/docker/certs.d/registry/
 
 ## HTTP password
-Generated an HTTP-password as [manual](https://docs.docker.com/registry/deploying/) says.
+Generated an HTTP-password as [manual](https://github.com/docker/distribution/blob/master/docs/deploying.md) says.
 
 Copied htpasswd to /opt/docker-registry/auth/
 
 ## Starting an image
 Installed docker-compose ([manual](https://docs.docker.com/compose/install/))
 
-There is something missing in [manual](https://docs.docker.com/registry/deploying/): REGISTRY_AUTH option.
+Ok, followed further instruction from the [manual](https://github.com/docker/distribution/blob/master/docs/deploying.md)
 So, my docker-compose.yml looks like this
 ```
 registry:

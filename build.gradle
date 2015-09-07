@@ -16,9 +16,8 @@ subprojects {
     }
 }
 
+ext.dockerRegProps = new Properties()
+dockerRegProps.load(new FileInputStream("$projectDir/dockerRegistry.properties"))
 
-//allprojects {
-//    task hello(type: com.gschw.ljwc.GreetingTask)
-//}
 
 

@@ -8,7 +8,7 @@ repositories {
 
 dependencies {
     compile gradleApi()
-    compile 'com.bmuschko:gradle-docker-plugin:2.5.2'
+    compile 'com.bmuschko:gradle-docker-plugin:2.6'
 }
 
 

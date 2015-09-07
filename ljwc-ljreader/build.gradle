@@ -41,6 +41,7 @@ task dockerBuildDockerImage(type: DockerBuildImage) {
     dependsOn dockerCopyDistributionToDocker
     inputDir = dockerCreateDockerfile.destFile.parentFile
     tag = "gschw/${project.name}:${project.version}"
+
 }
 
 

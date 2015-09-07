@@ -21,8 +21,10 @@ applicationDistribution.from('src/main/resources') {
 
 apply plugin: 'com.bmuschko.docker-remote-api'
 
+import com.bmuschko.gradle.docker.*
 import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
 
 
 task dockerCreateDockerfile(type: com.gschw.ljwc.LJWCCreateDockerfile) {
@@ -32,10 +34,25 @@ task dockerCreateDockerfile(type: com.gschw.ljwc.LJWCCreateDockerfile) {
 task dockerCopyDistributionToDocker(type: com.gschw.ljwc.LJWCCopyDistributionToDocker) {
 }
 
-task dockerBuildDockerImage(type: DockerBuildImage) {
+task dockerBuildLocalDockerImage(type: DockerBuildImage) {
     dependsOn dockerCreateDockerfile
     dependsOn dockerCopyDistributionToDocker
     inputDir = dockerCreateDockerfile.destFile.parentFile
     tag = "gschw/${project.name}:${project.version}"
+    url = "unix:///var/run/docker.sock"
 }
 
+task dockerBuildRemoteDockerImage(type: DockerBuildImage) {
+    dependsOn dockerCreateDockerfile
+    dependsOn dockerCopyDistributionToDocker
+    inputDir = dockerCreateDockerfile.destFile.parentFile
+    tag = "${dockerRegProps['remoteDockerRegistry']}/gschw/${project.name}:${project.version}"
+    url = "unix:///var/run/docker.sock"
+}
+
+task dockerPushRemote(type: DockerPushImage) {
+    registryCredentials = new DockerRegistryCredentials(username: "${dockerRegProps['username']}", password: "${dockerRegProps['password']}", url: "${dockerRegProps['remoteDockerRegistry']}", email: "${dockerRegProps['email']}")
+    tag = "${project.version}"
+    imageName = "${dockerRegProps['remoteDockerRegistry']}/gschw/${project.name}"
+    url = "unix:///var/run/docker.sock"
+}

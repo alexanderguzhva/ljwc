@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ljwchbasebridgesvc
+  labels:
+    name: ljwchbasebridgesvc
+spec:
+  ports:
+  - port: 11360
+    protocol: TCP
+    name: rest
+  selector:
+    name: ljwchbasebridgepod
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: ljwchbasebridgerc
+  labels:
+    name: ljwchbasebridgerc
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: ljwchbasebridgepod
+    spec:
+      imagePullSecrets:
+      - name: myregistrykey
+      containers:
+      - name: ljwchbasebridgerngname
+        image: linux-xp13:55000/gschw/ljwc-hbasebridge:0.01
+        ports:
+        - containerPort: 11360
+          protocol: TCP
+

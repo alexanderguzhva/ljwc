@@ -7,4 +7,6 @@ server:
           port: 11091
 
 dbStorageClientParameters:
-    serviceUrl: "http://localhost:11360/"
+#    serviceUrl: "http://localhost:11360/"
+    serviceUrl: "http://${LJWC_HBASEBRIDGE_SVC_SERVICE_HOST}:${LJWC_HBASEBRIDGE_SVC_SERVICE_PORT_REST}/"
+

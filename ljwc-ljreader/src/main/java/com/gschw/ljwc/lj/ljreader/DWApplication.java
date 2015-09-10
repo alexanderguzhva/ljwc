@@ -47,13 +47,14 @@ public class DWApplication extends Application<DWConfiguration> {
         client.property(ClientProperties.CONNECT_TIMEOUT, 10000);
         client.property(ClientProperties.READ_TIMEOUT, 10000);
 
-        ////v
+        ////
         DBStorageClientParameters storageClientParameters =
                 configuration.getDbStorageClientParameters();
         DBStorageClient storageClient = new DBStorageClient(client, storageClientParameters);
 
-        PortalResource portal = new PortalResource(storageClient);
+        logger.info("storageClientParameters.serviceUrl: {}", storageClientParameters.getServiceUrl());
 
+        PortalResource portal = new PortalResource(storageClient);
         environment.jersey().register(portal);
     }
 }

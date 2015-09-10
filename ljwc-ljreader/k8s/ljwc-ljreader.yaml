@@ -1,37 +1,37 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ljwc-hbasebridge-svc
+  name: ljwc-ljreader-svc
   labels:
-    name: ljwc-hbasebridge-svc
+    name: ljwc-ljreader-svc
 spec:
   ports:
-  - port: 11360
+  - port: 11090
     protocol: TCP
     name: rest
   selector:
-    name: ljwc-hbasebridge-pod
+    name: ljwc-ljreader-pod
 ---
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: ljwc-hbasebridge-rc
+  name: ljwc-ljreader-rc
   labels:
-    name: ljwc-hbasebridge-rc
+    name: ljwc-ljreader-rc
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        name: ljwc-hbasebridge-pod
+        name: ljwc-ljreader-pod
     spec:
       imagePullSecrets:
       - name: docker-registrycredentials-secret
       containers:
-      - name: ljwc-hbasebridge-rng-name
-        image: linux-xp13:55000/gschw/ljwc-hbasebridge:0.01
+      - name: ljwc-ljreader-rng-name
+        image: linux-xp13:55000/gschw/ljwc-ljreader:0.01
         imagePullPolicy: Always
         ports:
-        - containerPort: 11360
+        - containerPort: 11090
           protocol: TCP
 

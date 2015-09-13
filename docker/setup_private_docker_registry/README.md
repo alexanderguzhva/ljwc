@@ -32,6 +32,15 @@ Run
 docker-compose up -d
 ```
 
+# Saving login credentials
+/etc/docker/certs.d/registry/registry.ca needs to be copied to /etc/docker/certs.d/linux-xp13.vpn:55000/ca.crt and /etc/docker/certs.d/linux-xp13:55000/ca.crt on every local, remote and virtual machine
+
+Run
+```sh
+docker login linux-xp13.vpn:55000
+```
+
+As a result, ~/.docker/config.json will be produced
 
 
 

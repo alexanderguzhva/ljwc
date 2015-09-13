@@ -1,3 +1,13 @@
+# Set up local Docker
+see setup_docker_tls/
+
+# Set up registry
+see setup_private_docker_registry/
+
+
+
+#
+
 # Setting up local docker
 ## Installing docker
 Check docker site, ubuntu did not provide me with the recent version, while fedora did.

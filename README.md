@@ -10,8 +10,8 @@ This is a test project that downloads LiveJournal blogs in a fully distributed m
 4. (+) set up tls-enabled private docker registry v2
 5. (+) add tasks to gradle build scripts in ljwc that allow to create and push docker images to private docker regsitry.
 6. (*) create a vpn using openvpn
-- (-) set up DNS
-- (-) wlo1 on linux-xp13 provides no IP when this laptop is outside of WiFi network. This is wrong! There should be an IP available for openvpn bridging tests.
+  1. (-) set up DNS
+  2. (-) wlo1 on linux-xp13 provides no IP when this laptop is outside of WiFi network. This is wrong! There should be an IP available for openvpn bridging tests.
 7. (+) create one\several virtual machines using vagrant on every laptop of mine.
 - (-) Try to create one master and several minions on linux-xp13, just to make sure that it works fine.
 - (-) VMs should have public_network attached to opevpn

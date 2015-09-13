@@ -3,4 +3,4 @@
 
 - runme.sh generates certificates
 - runme_copy_certs.sh copies certificates to /etc/...
-- docker_opts contains additional command line arguments for docker daemon
+- docker_opts contains additional command line arguments for docker daemon. In case of Ubuntu 14.04, one needs to add arguments to /etc/default/docker

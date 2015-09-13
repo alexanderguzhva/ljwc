@@ -1,4 +1,7 @@
 FROM progrium/busybox
+
+# let us keep the original maintainer because this guy wrote this Dockerfile.
+#   I just added bash.
 MAINTAINER Jean Blanchard <jean@blanchard.io>
 
 # Install cURL and bash

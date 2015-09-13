@@ -1,0 +1,1 @@
+DOCKER_OPTS="--tlsverify --tlscacert=/etc/docker/certs.d/ca.pem --tlscert=/etc/docker/certs.d/server-cert.pem --tlskey=/etc/docker/certs.d/server-key.pem -H=0.0.0.0:2376 -H unix:///var/run/docker.sock"

@@ -123,7 +123,7 @@ Vagrant.configure("2") do |config|
 #      ip = "172.17.8.#{i+10}"
 #      config.vm.network :private_network, ip: ip
 #      config.vm.network "public_network", bridge: "wlan1", ip: "192.168.1.10"
-      config.vm.network "public_network", bridge: "wlan1", nictype: "82545EM", ip: "192.168.1.26", :mac => "5A1122330011"
+      config.vm.network "public_network", bridge: "wlo1", nictype: "82545EM", ip: "192.168.1.26", :mac => "5A1122330011"
 
       config.vm.provider :virtualbox do |vb|
         vb.gui = vm_gui

@@ -1,0 +1,27 @@
+#cloud-config
+
+coreos:
+  fleet:
+    public-ip: $public_ipv4
+  flannel:
+    interface: $public_ipv4
+    etcd_endpoints: http://core-linux-xp13-01:4001
+  units:
+    - name: flanneld.service
+      command: start
+    - name: fleet.service
+      command: start
+    - name: docker-tcp.socket
+      command: start
+      enable: true
+      content: |
+        [Unit]
+        Description=Docker Socket for the API
+
+        [Socket]
+        ListenStream=2375
+        Service=docker.service
+        BindIPv6Only=both
+
+        [Install]
+        WantedBy=sockets.target

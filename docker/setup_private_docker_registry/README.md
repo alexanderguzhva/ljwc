@@ -42,6 +42,37 @@ docker login linux-xp13.vpn:55000
 
 As a result, ~/.docker/config.json will be produced
 
+Next, .dockercfg needs to be produced. Somewhy, k8s wants old formats.
+So, ~/.docker/config.json looks like this:
+```
+{
+    "auths": {
+        "https://linux-xp13:55000": {
+            "auth": "somebase64",
+            "email": "foo@bar.com"
+        },
+        "linux-xp13.vpn:55000": {
+            "auth": "somebase64",
+            "email": "foo@bar.com"
+        }
+    }
+}
+```
+
+It needs to be converted into ~/.dockercfg:
+```
+{
+    "https://linux-xp13:55000": {
+        "auth": "somebase64",
+        "email": "foo@bar.com"
+    },
+    "linux-xp13.vpn:55000": {
+        "auth": "somebase64",
+        "email": "foo@bar.com"
+    }
+}
+```
+
 
 
 

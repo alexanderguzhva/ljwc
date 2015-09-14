@@ -18,12 +18,15 @@ This is a test project that downloads LiveJournal blogs in a fully distributed m
   2. (-) wlo1 on linux-xp13 provides no IP when this laptop is outside of WiFi network. This is wrong! There should be an IP available for openvpn bridging tests.
     * Todo later, right now I'm using tun instead of tap.
 7. (+) create one\several virtual machines using vagrant on every laptop of mine.
-  * (-) Try to create one master and several minions on linux-xp13, just to make sure that it works fine.
+  * (+) Try to create one master and several minions on linux-xp13, just to make sure that it works fine.
   * (-) VMs should have public_network attached to opevpn
-    * Todo later
+    * Todo later. Wlan network does not allow this easily.
   * (+) VMs should have CoreOS installed
-8. connect dockers for every VM using flannel
-  * (-) GET RID OF FKING FIREwALL on Fedora OS (linux-c56a) !!!!!! At this time it blocks all incoming connections until an outcoming appears. This screws inter-pings from CoreOS docker busybox
+8. (*) connect dockers for every VM using flannel
+  * (-) all nodes should have access to docker private registry
+    * only some nodes have one.
+  * There are still some issues available with firewall (openvpn)
+  * (-) Deal with firewall !!!!!! At this time some firewall blocks all incoming connections until an outcoming appears. This screws inter-pings from CoreOS docker busybox
 9. (-) Install kubernetes on every VM
   1. (-) Set up kubernetes DNS.
   2. (-) Make sure that kubernetes works
